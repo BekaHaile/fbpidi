@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           '/homePage': (BuildContext context) => HomePage(),
         },
         onGenerateRoute: (RouteSettings settings) {
-          final requests = settings.arguments;
+          // final requests = settings.arguments;
 
           switch (settings.name) {
             // case '/phoneNo':
