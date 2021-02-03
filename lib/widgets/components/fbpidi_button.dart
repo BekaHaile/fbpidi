@@ -18,8 +18,32 @@ class FbpidiButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: onPressed,
+    double width = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        width: width * ratio,
+        height: 60.0,
+        child: SizedBox.expand(
+          child: RaisedButton(
+            key: Key('raised'),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(13.0),
+            ),
+            onPressed: onPressed,
+            child: Text(
+              label,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            color: Theme.of(context).buttonColor,
+            padding: padding,
+            disabledColor: Theme.of(context).disabledColor,
+          ),
+        ),
+      ),
     );
   }
 }

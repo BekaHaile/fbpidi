@@ -1,3 +1,4 @@
+import 'package:fbpidi/widgets/components/fbpidi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,10 +12,13 @@ class _HomePageState extends State<HomePage> {
   String dropdownValue = "One";
   final TextEditingController _controller = new TextEditingController();
   var items = [
-    'Working a lot harder',
-    'Being a lot smarter',
-    'Being a self-starter',
-    'Placed in charge of trading charter'
+    'All Categories',
+    'Hotels',
+    'Restuarant',
+    'Events',
+    'Cinema',
+    'Gym',
+    'Shop & Store',
   ];
 
   @override
@@ -84,11 +88,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SliverFixedExtentList(
-            itemExtent: MediaQuery.of(context).size.height * 0.8,
+            itemExtent: MediaQuery.of(context).size.height * 0.9,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -247,17 +251,35 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      RaisedButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
+                      FbpidiButton(
+                        label: "Search Now",
+                        ratio: 0.8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: 60.0,
+                          child: SizedBox.expand(
+                            child: RaisedButton(
+                              key: Key('raised'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(13.0),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "Search Now",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              color: Theme.of(context).highlightColor,
+                              disabledColor: Theme.of(context).disabledColor,
+                            ),
+                          ),
                         ),
-                        color: Theme.of(context).highlightColor,
-                        child: Text(
-                          "Search Now",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -265,11 +287,90 @@ class _HomePageState extends State<HomePage> {
               childCount: 1,
             ),
           ),
+          SliverFixedExtentList(
+              itemExtent: MediaQuery.of(context).size.height * 2.9,
+              delegate:
+                  SliverChildBuilderDelegate((BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 90),
+                      child: Text(
+                        "Latest Products",
+                        style: TextStyle(fontSize: 35),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 30, left: 15, right: 15, bottom: 90),
+                      child: Text(
+                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE.",
+                        style: TextStyle(fontSize: 22),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Container(
+                      height: 1200,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromRGBO(44, 52, 155, 1),
+                            Color.fromRGBO(76, 45, 141, 1),
+                            Color.fromRGBO(97, 39, 131, 1),
+                          ],
+                        ),
+                      ),
+                      child: Column(children: [
+                        createCard(Icons.copy_outlined, "Total Products", "0"),
+                        createCard(
+                            FontAwesomeIcons.rocket, "Total Suppliers", "0"),
+                        createCard(Icons.people, "Total Manufacturers", "0"),
+                        createCard(
+                            FontAwesomeIcons.smile, "Happy Customers", "0"),
+                      ]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 90),
+                      child: Text(
+                        "Latest Manufacturers",
+                        style: TextStyle(fontSize: 35),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 30, left: 15, right: 15),
+                      child: Text(
+                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE.",
+                        style: TextStyle(fontSize: 22),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 90),
+                      child: Text(
+                        "Latest News",
+                        style: TextStyle(fontSize: 35),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 30, left: 15, right: 15, bottom: 90),
+                      child: Text(
+                        "Click the news you want to see in detail.",
+                        style: TextStyle(fontSize: 22),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                );
+              }, childCount: 1)),
         ]),
       ),
     );
   }
 
+  //Builds the top icon app-bar
   Widget iconAppBar(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -358,6 +459,51 @@ class _HomePageState extends State<HomePage> {
           color: Colors.grey,
         ),
       ],
+    );
+  }
+
+  Widget createCard(icon, name, count) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 40),
+      child: Container(
+        color: Color.fromRGBO(0, 0, 0, .2),
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 250,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 64,
+              width: 64,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  shape: BoxShape.circle),
+              child: Icon(
+                icon,
+                color: Colors.white,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(name,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(count,
+                  style: TextStyle(
+                    fontSize: 23,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

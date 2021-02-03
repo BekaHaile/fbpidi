@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.white,
           highlightColor: Color.fromRGBO(253, 130, 14, 1),
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          buttonColor: Color.fromRGBO(253, 130, 14, 1),
+          disabledColor: Color.fromRGBO(253, 130, 14, 0.3),
         ),
         home: HomePage(),
         routes: {
