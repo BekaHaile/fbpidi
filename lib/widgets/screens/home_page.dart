@@ -1,6 +1,7 @@
 import 'package:fbpidi/widgets/components/fbpidi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,6 +21,10 @@ class _HomePageState extends State<HomePage> {
     'Gym',
     'Shop & Store',
   ];
+
+  final ScrollController _scrollController = ScrollController();
+
+  final dataKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SafeArea(
-        child: CustomScrollView(slivers: <Widget>[
+        child:
+            CustomScrollView(controller: _scrollController, slivers: <Widget>[
           SliverFixedExtentList(
             itemExtent: 50.0,
             delegate: SliverChildBuilderDelegate(
@@ -251,10 +257,10 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      FbpidiButton(
-                        label: "Search Now",
-                        ratio: 0.8,
-                      ),
+                      // FbpidiButton(
+                      //   label: "Search Now",
+                      //   ratio: 0.8,
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
@@ -288,27 +294,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SliverFixedExtentList(
-              itemExtent: MediaQuery.of(context).size.height * 2.9,
+              itemExtent: MediaQuery.of(context).size.height * 5.9,
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 return Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 90),
-                      child: Text(
-                        "Latest Products",
-                        style: TextStyle(fontSize: 35),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 30, left: 15, right: 15, bottom: 90),
-                      child: Text(
-                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE.",
-                        style: TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    titleAndBodyText("Latest Products",
+                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE."),
                     Container(
                       height: 1200,
                       width: MediaQuery.of(context).size.width,
@@ -331,42 +323,59 @@ class _HomePageState extends State<HomePage> {
                             FontAwesomeIcons.smile, "Happy Customers", "0"),
                       ]),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 90),
-                      child: Text(
-                        "Latest Manufacturers",
-                        style: TextStyle(fontSize: 35),
+                    titleAndBodyText("Latest Manufacturers",
+                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE."),
+                    Container(
+                      color: Color.fromRGBO(247, 247, 251, 1),
+                      child: Column(
+                        children: [
+                          titleAndBodyText("How It Works?",
+                              "Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula"),
+                          whiteCardWithIcon(
+                              FontAwesomeIcons.clipboardList,
+                              "Register",
+                              "You can register and get Unlimited Functionalities"),
+                          whiteCardWithIcon(
+                              FontAwesomeIcons.userShield,
+                              "Create Account",
+                              "You Can Create Account and Get Unlimited Functionalities"),
+                          whiteCardWithIcon(
+                              FontAwesomeIcons.clipboardCheck,
+                              "Add Products",
+                              "You Can Add your Products and comunicate with buyers"),
+                          whiteCardWithIcon(
+                              FontAwesomeIcons.handHoldingUsd,
+                              "Get Earnings",
+                              "You can register, add products,buy products and get Your earnings"),
+                          Container(
+                            height: 50,
+                          )
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 30, left: 15, right: 15),
-                      child: Text(
-                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE.",
-                        style: TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 90),
-                      child: Text(
-                        "Latest News",
-                        style: TextStyle(fontSize: 35),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 30, left: 15, right: 15, bottom: 90),
-                      child: Text(
-                        "Click the news you want to see in detail.",
-                        style: TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    titleAndBodyText("Latest Suppliers",
+                        "Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula"),
+                    subscribeCard(),
                   ],
                 );
               }, childCount: 1)),
         ]),
       ),
+      floatingActionButton: FloatingActionButton(
+          elevation: 0.0,
+          child: Transform.rotate(
+              angle: -45 * math.pi / 180,
+              child: Icon(
+                FontAwesomeIcons.rocket,
+                size: 25,
+              )),
+          backgroundColor: Theme.of(context).buttonColor,
+          onPressed: () {
+            _scrollController.animateTo(
+                _scrollController.position.minScrollExtent,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn);
+          }),
     );
   }
 
@@ -453,11 +462,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 1,
-          color: Colors.grey,
-        ),
       ],
     );
   }
@@ -504,6 +508,149 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget titleAndBodyText(title, body) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 60),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 35),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 30, left: 15, right: 15, bottom: 70),
+          child: Text(
+            body,
+            style: TextStyle(fontSize: 22),
+            textAlign: TextAlign.center,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget whiteCardWithIcon(icon, name, content) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 40),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 154,
+            width: 154,
+            decoration:
+                BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+            child: Icon(
+              icon,
+              color: Color.fromRGBO(63, 69, 161, 1),
+              size: 65,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(name,
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Colors.black,
+                )),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(
+              content,
+              style: TextStyle(
+                fontSize: 19,
+                color: Colors.black45,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget subscribeCard() {
+    return Container(
+      height: 400,
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromRGBO(44, 52, 155, 1),
+            Color.fromRGBO(76, 45, 141, 1),
+            Color.fromRGBO(97, 39, 131, 1),
+          ],
+        ),
+      ),
+      child: Column(children: [
+        Padding(
+          padding: EdgeInsets.only(top: 60),
+          child: Text(
+            "Subscribe",
+            style: TextStyle(fontSize: 35, color: Colors.white),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 30, left: 15, right: 15, bottom: 30),
+          child: Text(
+            "It is a long established fact that a reader will be distracted by the readable.",
+            style: TextStyle(fontSize: 22, color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.55,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(3.0),
+                      ),
+                    ),
+                    filled: true,
+                    hintStyle:
+                        TextStyle(color: Colors.grey[500], fontSize: 18.0),
+                    hintText: "Enter Your Email",
+                    fillColor: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: 60.0,
+                child: SizedBox.expand(
+                  child: RaisedButton(
+                    key: Key('raised'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(3.0),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Subscribe",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    color: Theme.of(context).highlightColor,
+                    disabledColor: Theme.of(context).disabledColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 }
