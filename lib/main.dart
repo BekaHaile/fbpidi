@@ -1,4 +1,5 @@
-import 'package:fbpidi/widgets/screens/Registration/signUp.dart';
+import 'package:fbpidi/widgets/screens/credential/login.dart';
+import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/products.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           '/homePage': (BuildContext context) => HomePage(),
           '/products': (BuildContext context) => ProductsPage(),
           '/signUp': (BuildContext context) => SignUp(),
+          '/login': (BuildContext context) => LoginPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           // final requests = settings.arguments;

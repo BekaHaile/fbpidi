@@ -39,19 +39,24 @@ class SignUp extends StatelessWidget {
                             ),
                           ),
                         ),
-                        RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: "Already have an account? ",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black)),
-                            TextSpan(
-                                text: "SIGNIN",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(44, 52, 155, 1),
-                                )),
-                          ]),
+                        InkWell(
+                          child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Already have an account? ",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black)),
+                              TextSpan(
+                                  text: "SIGNIN",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromRGBO(44, 52, 155, 1),
+                                  )),
+                            ]),
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/login");
+                          },
                         ),
                         Text("OR",
                             style: TextStyle(

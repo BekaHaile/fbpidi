@@ -421,10 +421,15 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.05,
                     ),
-                    child: FaIcon(
-                      FontAwesomeIcons.signInAlt,
-                      color: Theme.of(context).highlightColor,
-                      size: 20.0,
+                    child: InkWell(
+                      child: FaIcon(
+                        FontAwesomeIcons.signInAlt,
+                        color: Theme.of(context).highlightColor,
+                        size: 20.0,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, "/login");
+                      },
                     ),
                   ),
                   Padding(
