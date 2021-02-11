@@ -46,90 +46,13 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                     setState(() {
                       _currentSelected = index;
                     });
+                    if (index == 4) Navigator.pushNamed(context, "/products");
                   },
                 ),
               );
             },
           ),
         ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'Home',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           changeColor(0);
-        //         },
-        //       ),
-        //     ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'About Us',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           // changeColor(1);
-        //         },
-        //       ),
-        //     ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'Manufacturers',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           changeColor(2);
-        //         },
-        //       ),
-        //     ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'Suppliers',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           changeColor(3);
-        //         },
-        //       ),
-        //     ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'Products',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           changeColor(4);
-        //         },
-        //       ),
-        //     ),
-        //     Container(
-        //       color: _currentSelected == index ? Colors.deepPurple : Colors.white,
-        //       child: ListTile(
-        //         selectedTileColor: Theme.of(context).highlightColor,
-        //         title: Text(
-        //           'Collaborations',
-        //           style: TextStyle(fontSize: 18),
-        //         ),
-        //         onTap: () {
-        //           changeColor(5);
-        //         },
-        //       ),
-        //     ),
       ],
     );
   }

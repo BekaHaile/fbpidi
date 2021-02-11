@@ -1,3 +1,5 @@
+import 'package:fbpidi/widgets/screens/Registration/signUp.dart';
+import 'package:fbpidi/widgets/screens/products.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         routes: {
           '/homePage': (BuildContext context) => HomePage(),
+          '/products': (BuildContext context) => ProductsPage(),
+          '/signUp': (BuildContext context) => SignUp(),
         },
         onGenerateRoute: (RouteSettings settings) {
           // final requests = settings.arguments;

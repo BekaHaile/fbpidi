@@ -1,4 +1,3 @@
-import 'package:fbpidi/widgets/components/fbpidi_button.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -408,10 +407,15 @@ class _HomePageState extends State<HomePage> {
               ),
               Row(
                 children: [
-                  FaIcon(
-                    FontAwesomeIcons.userAlt,
-                    color: Theme.of(context).highlightColor,
-                    size: 20.0,
+                  InkWell(
+                    child: FaIcon(
+                      FontAwesomeIcons.userAlt,
+                      color: Theme.of(context).highlightColor,
+                      size: 20.0,
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/signUp");
+                    },
                   ),
                   Padding(
                     padding: EdgeInsets.only(
