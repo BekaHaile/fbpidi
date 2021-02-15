@@ -1,3 +1,4 @@
+import 'package:fbpidi/widgets/screens/all_categories.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/homeMenu.dart';
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: Color.fromRGBO(235, 240, 243, 1),
           primaryColor: Color.fromRGBO(16, 70, 176, 1),
-          highlightColor: Color.fromRGBO(253, 130, 14, 1),
+          highlightColor: Color.fromRGBO(16, 70, 176, 0.7),
+          // highlightColor: Color.fromRGBO(253, 130, 14, 1),
           visualDensity: VisualDensity.adaptivePlatformDensity,
           buttonColor: Color.fromRGBO(253, 130, 14, 1),
           disabledColor: Color.fromRGBO(253, 130, 14, 0.3),
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
           '/products': (BuildContext context) => ProductsPage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
+          '/allCategories': (BuildContext context) => AllCategories(),
         },
         onGenerateRoute: (RouteSettings settings) {
           // final requests = settings.arguments;

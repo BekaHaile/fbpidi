@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FbpidiDrawer extends StatefulWidget {
+  final String selected;
+  FbpidiDrawer(this.selected);
   @override
   _FbpidiDrawerState createState() => _FbpidiDrawerState();
 }
@@ -95,13 +97,17 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
   }
 
   Widget _buildRow(IconData icon, String title) {
-    final TextStyle tStyle = TextStyle(color: Colors.black87, fontSize: 17.0);
+    bool selected = false;
+    if (widget.selected == title) selected = true;
+    final TextStyle tStyle = TextStyle(
+        color: selected ? Colors.white : Colors.black87, fontSize: 17.0);
     return Container(
+      color: selected ? Theme.of(context).primaryColor : Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Row(children: [
         Icon(
           icon,
-          color: active,
+          color: selected ? Colors.white : active,
         ),
         SizedBox(width: 15.0),
         Text(

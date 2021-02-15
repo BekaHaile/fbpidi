@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer()),
+      drawer: Drawer(child: FbpidiDrawer("Home")),
       appBar: AppBar(
         title: Container(
           width: MediaQuery.of(context).size.width * 0.7,
@@ -77,7 +77,9 @@ class _HomePageState extends State<HomePage> {
         ),
         itemBuilder: (_, int index) {
           return GestureDetector(
-            onTap: () => print(categories[index]),
+            onTap: () {
+              if (index == 0) Navigator.pushNamed(context, "/allCategories");
+            },
             child: Column(
               children: <Widget>[
                 CircleAvatar(
