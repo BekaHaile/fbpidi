@@ -1,7 +1,6 @@
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,558 +8,320 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<bool> isSelected = List.generate(3, (index) => false);
-  String dropdownValue = "One";
-  final TextEditingController _controller = new TextEditingController();
-  var items = [
+  final List<String> categories = [
     'All Categories',
-    'Hotels',
-    'Restuarant',
-    'Events',
-    'Cinema',
-    'Gym',
-    'Shop & Store',
+    'Request for Quotation',
+    'New User Guide',
   ];
-
-  final ScrollController _scrollController = ScrollController();
-
-  final dataKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(child: FbpidiDrawer()),
-      body: SafeArea(
-        child:
-            CustomScrollView(controller: _scrollController, slivers: <Widget>[
-          SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return iconAppBar(context);
-              },
-              childCount: 1,
-            ),
-          ),
-          SliverAppBar(
-            expandedHeight: 70.0,
-            pinned: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Image.asset(
-                    "assets/frontpages/images/brand/logo2.png",
-                    height: 60.0,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.05,
-                    right: MediaQuery.of(context).size.width * 0.04,
-                  ),
-                  child: FaIcon(
-                    FontAwesomeIcons.plusCircle,
-                    color: Theme.of(context).highlightColor,
-                    size: 20.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SliverFixedExtentList(
-            itemExtent: MediaQuery.of(context).size.height * 0.9,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(44, 52, 155, 1),
-                        Color.fromRGBO(76, 45, 141, 1),
-                        Color.fromRGBO(97, 39, 131, 1),
-                      ],
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                          'Welcome To The Biggest Business Directory',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 45,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                        child: Text(
-                          'It is a long established fact that a reader will be distracted by the readable.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      ToggleButtons(
-                        children: <Widget>[
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Products",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 21.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Container(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Company",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 21.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Tender",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 21.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int buttonIndex = 0;
-                                buttonIndex < isSelected.length;
-                                buttonIndex++) {
-                              if (buttonIndex == index) {
-                                isSelected[buttonIndex] = true;
-                              } else {
-                                isSelected[buttonIndex] = false;
-                              }
-                            }
-                          });
-                        },
-                        isSelected: isSelected,
-                        renderBorder: false,
-                        selectedColor: Color.fromRGBO(0, 0, 0, .2),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: TextField(
-                            decoration: new InputDecoration(
-                              border: new OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  const Radius.circular(5.0),
-                                ),
-                              ),
-                              filled: true,
-                              hintStyle: new TextStyle(
-                                  color: Colors.grey[500], fontSize: 18.0),
-                              hintText: "Enter Your Keywords",
-                              fillColor: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Row(
-                          children: <Widget>[
-                            new Expanded(
-                                child: new TextField(
-                              controller: _controller,
-                              decoration: new InputDecoration(
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(5.0),
-                                  ),
-                                ),
-                                filled: true,
-                                hintStyle: new TextStyle(
-                                    color: Colors.black, fontSize: 18.0),
-                                hintText: "Select Category",
-                                fillColor: Colors.white,
-                              ),
-                            )),
-
-                            //drop down to be edited
-                            Container(
-                              color: Colors.white,
-                              height: 60,
-                              child: PopupMenuButton<String>(
-                                color: Colors.white,
-                                icon: const Icon(Icons.arrow_drop_down),
-                                onSelected: (String value) {
-                                  _controller.text = value;
-                                },
-                                itemBuilder: (BuildContext context) {
-                                  return items.map<PopupMenuItem<String>>(
-                                      (String value) {
-                                    return new PopupMenuItem(
-                                        child: new Text(value), value: value);
-                                  }).toList();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // FbpidiButton(
-                      //   label: "Search Now",
-                      //   ratio: 0.8,
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: 60.0,
-                          child: SizedBox.expand(
-                            child: RaisedButton(
-                              key: Key('raised'),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(13.0),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                "Search Now",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              color: Theme.of(context).highlightColor,
-                              disabledColor: Theme.of(context).disabledColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              childCount: 1,
-            ),
-          ),
-          SliverFixedExtentList(
-              itemExtent: MediaQuery.of(context).size.height * 5.9,
-              delegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                return Column(
-                  children: [
-                    titleAndBodyText("Latest Products",
-                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE."),
-                    Container(
-                      height: 1200,
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(44, 52, 155, 1),
-                            Color.fromRGBO(76, 45, 141, 1),
-                            Color.fromRGBO(97, 39, 131, 1),
-                          ],
-                        ),
-                      ),
-                      child: Column(children: [
-                        createCard(Icons.copy_outlined, "Total Products", "0"),
-                        createCard(
-                            FontAwesomeIcons.rocket, "Total Suppliers", "0"),
-                        createCard(Icons.people, "Total Manufacturers", "0"),
-                        createCard(
-                            FontAwesomeIcons.smile, "Happy Customers", "0"),
-                      ]),
-                    ),
-                    titleAndBodyText("Latest Manufacturers",
-                        "The Language Server Protocol (LSP) defines the protocol used between an editor or IDE."),
-                    Container(
-                      color: Color.fromRGBO(247, 247, 251, 1),
-                      child: Column(
-                        children: [
-                          titleAndBodyText("How It Works?",
-                              "Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula"),
-                          whiteCardWithIcon(
-                              FontAwesomeIcons.clipboardList,
-                              "Register",
-                              "You can register and get Unlimited Functionalities"),
-                          whiteCardWithIcon(
-                              FontAwesomeIcons.userShield,
-                              "Create Account",
-                              "You Can Create Account and Get Unlimited Functionalities"),
-                          whiteCardWithIcon(
-                              FontAwesomeIcons.clipboardCheck,
-                              "Add Products",
-                              "You Can Add your Products and comunicate with buyers"),
-                          whiteCardWithIcon(
-                              FontAwesomeIcons.handHoldingUsd,
-                              "Get Earnings",
-                              "You can register, add products,buy products and get Your earnings"),
-                          Container(
-                            height: 50,
-                          )
-                        ],
-                      ),
-                    ),
-                    titleAndBodyText("Latest Suppliers",
-                        "Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula"),
-                    subscribeCard(),
-                  ],
-                );
-              }, childCount: 1)),
-        ]),
-      ),
-      floatingActionButton: FloatingActionButton(
-          elevation: 0.0,
-          child: Transform.rotate(
-              angle: -45 * math.pi / 180,
-              child: Icon(
-                FontAwesomeIcons.rocket,
-                size: 25,
-              )),
-          backgroundColor: Theme.of(context).buttonColor,
-          onPressed: () {
-            _scrollController.animateTo(
-                _scrollController.position.minScrollExtent,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.fastOutSlowIn);
-          }),
-    );
-  }
-
-  //Builds the top icon app-bar
-  Widget iconAppBar(context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.05),
-                    child: FaIcon(
-                      FontAwesomeIcons.facebookF,
-                      color: Theme.of(context).highlightColor,
-                      size: 23.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.05),
-                    child: FaIcon(
-                      FontAwesomeIcons.twitter,
-                      color: Theme.of(context).highlightColor,
-                      size: 23.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.05),
-                    child: FaIcon(
-                      FontAwesomeIcons.linkedinIn,
-                      color: Theme.of(context).highlightColor,
-                      size: 23.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.05),
-                    child: FaIcon(
-                      FontAwesomeIcons.googlePlusG,
-                      color: Theme.of(context).highlightColor,
-                      size: 23.0,
-                    ),
-                  ),
-                ],
+      appBar: AppBar(
+        title: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          height: 47,
+          child: TextField(
+            autocorrect: true,
+            decoration: InputDecoration(
+              hintText: 'Search Products/Company',
+              prefixIcon: Icon(Icons.search),
+              hintStyle:
+                  TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
-              Row(
-                children: [
-                  InkWell(
-                    child: FaIcon(
-                      FontAwesomeIcons.userAlt,
-                      color: Theme.of(context).highlightColor,
-                      size: 20.0,
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, "/signUp");
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05,
-                    ),
-                    child: InkWell(
-                      child: FaIcon(
-                        FontAwesomeIcons.signInAlt,
-                        color: Theme.of(context).highlightColor,
-                        size: 20.0,
-                      ),
-                      onTap: () {
-                        Navigator.pushNamed(context, "/login");
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.05,
-                      right: MediaQuery.of(context).size.width * 0.04,
-                    ),
-                    child: FaIcon(
-                      FontAwesomeIcons.globe,
-                      color: Theme.of(context).highlightColor,
-                      size: 20.0,
-                    ),
-                  ),
-                ],
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
-            ],
+            ),
           ),
         ),
-      ],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              FontAwesomeIcons.comments,
+              size: 27,
+            ),
+          ),
+        ],
+      ),
+      body: SafeArea(
+          child: ListView(
+        children: [
+          _buildCategoriesGrid(),
+          _buildHorizontalList("Companies", Color.fromRGBO(203, 217, 230, 1)),
+          _buildHorizontalList(
+              "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
+          _buildHorizontalList("Researches", Color.fromRGBO(217, 226, 241, 1)),
+          _buildProductList(),
+          _buildBottomCards(),
+        ],
+      )),
     );
   }
 
-  Widget createCard(icon, name, count) {
+  Widget _buildCategoriesGrid() {
+    return Container(
+      height: 120.0,
+      child: GridView.builder(
+        padding: EdgeInsets.all(10.0),
+        scrollDirection: Axis.horizontal,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          mainAxisSpacing: 25.0,
+        ),
+        itemBuilder: (_, int index) {
+          return GestureDetector(
+            onTap: () => print(categories[index]),
+            child: Column(
+              children: <Widget>[
+                CircleAvatar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    maxRadius: 30.0,
+                    child: buildIcon(index)),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text(
+                  categories[index % categories.length],
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          );
+        },
+        itemCount: categories.length,
+      ),
+    );
+  }
+
+  Widget buildIcon(index) {
+    if (index == 0)
+      return Icon(
+        Icons.list,
+        color: Colors.white,
+        size: 33,
+      );
+    else if (index == 1)
+      return Icon(
+        FontAwesomeIcons.registered,
+        color: Colors.white,
+        size: 33,
+      );
+    else
+      return Icon(
+        FontAwesomeIcons.flag,
+        color: Colors.white,
+        size: 33,
+      );
+  }
+
+  Widget _buildHorizontalList(title, color) {
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 40),
+      padding: const EdgeInsets.all(3.0),
       child: Container(
-        color: Color.fromRGBO(0, 0, 0, .2),
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 250,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: color,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 64,
-              width: 64,
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 0.15),
-                  shape: BoxShape.circle),
-              child: Icon(
-                icon,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      print("hello");
+                    },
+                    child: Text("More"),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(name,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
+            Container(
+              height: 135,
+              padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
+              child: GridView.builder(
+                physics: ScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    mainAxisSpacing: 5.0,
+                    childAspectRatio: 1.1),
+                itemBuilder: (_, int index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            width: 105,
+                            height: 105,
+                            child: FittedBox(
+                              child: Image.network(
+                                title == "Investment Opportunities"
+                                    ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
+                                    : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                              ),
+                              fit: BoxFit.fill,
+                            ),
+                          )),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  );
+                },
+                itemCount: 9,
+              ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(count,
-                  style: TextStyle(
-                    fontSize: 23,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            )
           ],
         ),
       ),
     );
   }
 
-  Widget titleAndBodyText(title, body) {
+  Widget _buildProductList() {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 60),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 35),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Row(
+            children: <Widget>[
+              Text(
+                "Products",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  print("hello");
+                },
+                child: Text("More"),
+              ),
+            ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 30, left: 15, right: 15, bottom: 70),
-          child: Text(
-            body,
-            style: TextStyle(fontSize: 22),
-            textAlign: TextAlign.center,
+        Container(
+          height: 1730,
+          padding: EdgeInsets.symmetric(vertical: 1.0),
+          child: GridView.builder(
+            physics: ScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 5.0,
+                childAspectRatio: 0.58),
+            itemBuilder: (_, int index) {
+              return Card(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Image.network(
+                        "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                        height: 150,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Container(
+                        color: Colors.grey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            'Product Category',
+                            softWrap: true,
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0, right: 5),
+                      child: Text(
+                        'Tomato Paste for Benin 2200g Tomato Paste ...',
+                        style: TextStyle(
+                          fontSize: 17.0,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.network(
+                                "https://media.istockphoto.com/photos/oil-refinery-chemical-petrochemical-plant-picture-id932140864?k=6&m=932140864&s=612x612&w=0&h=UujqNqhSsXBOHMd2x-X3YmkMOBLv7g1FZCCr52rC6b4=",
+                                height: 20,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  'Manufacturer Company',
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 11),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Phone Number',
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 11),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        'Product Category',
+                        softWrap: true,
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            itemCount: 10,
           ),
-        )
+        ),
       ],
     );
   }
 
-  Widget whiteCardWithIcon(icon, name, content) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 40),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 154,
-            width: 154,
-            decoration:
-                BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: Icon(
-              icon,
-              color: Color.fromRGBO(63, 69, 161, 1),
-              size: 65,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text(name,
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.black,
-                )),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text(
-              content,
-              style: TextStyle(
-                fontSize: 19,
-                color: Colors.black45,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget subscribeCard() {
+  Widget _buildBottomCards() {
     return Container(
       height: 400,
       width: MediaQuery.of(context).size.width,
@@ -574,69 +335,67 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      child: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(top: 60),
-          child: Text(
-            "Subscribe",
-            style: TextStyle(fontSize: 35, color: Colors.white),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 30, left: 15, right: 15, bottom: 30),
-          child: Text(
-            "It is a long established fact that a reader will be distracted by the readable.",
-            style: TextStyle(fontSize: 22, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
+      child: Column(
+        children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            createCard(Icons.copy_outlined, "Total Viewers", "1"),
+            createCard(FontAwesomeIcons.rocket, "Total Products", "0"),
+          ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.55,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(3.0),
-                      ),
-                    ),
-                    filled: true,
-                    hintStyle:
-                        TextStyle(color: Colors.grey[500], fontSize: 18.0),
-                    hintText: "Enter Your Email",
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: 60.0,
-                child: SizedBox.expand(
-                  child: RaisedButton(
-                    key: Key('raised'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(3.0),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Subscribe",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    color: Theme.of(context).highlightColor,
-                    disabledColor: Theme.of(context).disabledColor,
-                  ),
-                ),
-              ),
+              createCard(Icons.people, "Total Companies", "0"),
+              createCard(FontAwesomeIcons.smile, "Happy Customers", "0"),
             ],
-          ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget createCard(icon, name, count) {
+    return Padding(
+      padding: EdgeInsets.only(left: 5, top: 40),
+      child: Container(
+        color: Color.fromRGBO(0, 0, 0, .2),
+        width: MediaQuery.of(context).size.width * 0.45,
+        height: 150,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 34,
+              width: 34,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  shape: BoxShape.circle),
+              child: Icon(
+                icon,
+                color: Colors.white,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(name,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(count,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            )
+          ],
         ),
-      ]),
+      ),
     );
   }
 }
