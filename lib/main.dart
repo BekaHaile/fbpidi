@@ -31,17 +31,16 @@ class MyApp extends StatelessWidget {
           '/products': (BuildContext context) => ProductsPage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
-          '/allCategories': (BuildContext context) => AllCategories(),
         },
         onGenerateRoute: (RouteSettings settings) {
-          // final requests = settings.arguments;
+          final requests = settings.arguments;
 
           switch (settings.name) {
-            // case '/phoneNo':
-            //   return MaterialPageRoute(
-            //       builder: (_) => PhoneNo(
-            //             type: requests,
-            //           ));
+            case '/allCategories':
+              return MaterialPageRoute(
+                  builder: (_) => AllCategories(
+                        requests,
+                      ));
             default:
               return null;
           }

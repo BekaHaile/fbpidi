@@ -78,7 +78,9 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (_, int index) {
           return GestureDetector(
             onTap: () {
-              if (index == 0) Navigator.pushNamed(context, "/allCategories");
+              if (index == 0)
+                Navigator.pushNamed(context, "/allCategories",
+                    arguments: {"type": "all"});
             },
             child: Column(
               children: <Widget>[
@@ -151,42 +153,46 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Container(
-              height: 135,
-              padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 20),
-              child: GridView.builder(
-                physics: ScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    mainAxisSpacing: 5.0,
-                    childAspectRatio: 1.1),
-                itemBuilder: (_, int index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            width: 105,
-                            height: 105,
-                            child: FittedBox(
-                              child: Image.network(
-                                title == "Investment Opportunities"
-                                    ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
-                                    : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          )),
-                      SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  );
-                },
-                itemCount: 9,
-              ),
+            Row(
+              children: [
+                Icon(FontAwesomeIcons.chevronCircleLeft),
+                Expanded(
+                  child: Container(
+                    height: 135,
+                    child: GridView.builder(
+                      physics: ScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          mainAxisSpacing: 5.0,
+                          childAspectRatio: 1.1),
+                      itemBuilder: (_, int index) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                  width: 105,
+                                  height: 110,
+                                  child: FittedBox(
+                                    child: Image.network(
+                                      title == "Investment Opportunities"
+                                          ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
+                                          : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                                    ),
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
+                          ],
+                        );
+                      },
+                      itemCount: 9,
+                    ),
+                  ),
+                ),
+                Icon(FontAwesomeIcons.chevronCircleRight),
+              ],
             ),
           ],
         ),
