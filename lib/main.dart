@@ -2,7 +2,7 @@ import 'package:fbpidi/widgets/screens/all_categories.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/homeMenu.dart';
-import 'package:fbpidi/widgets/screens/products.dart';
+import 'package:fbpidi/widgets/screens/productsPage.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
