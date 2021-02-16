@@ -103,6 +103,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
         color: selected ? Colors.white : Colors.black87, fontSize: 17.0);
     return InkWell(
       onTap: () {
+        Navigator.pop(context);
         Navigator.pushNamed(context, "/products");
       },
       child: Container(
