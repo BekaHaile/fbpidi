@@ -1,8 +1,12 @@
+import 'package:fbpidi/widgets/screens/manufacturerList.dart';
 import 'package:fbpidi/widgets/screens/productList.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductsPage extends StatelessWidget {
+  final data;
+  ProductsPage(this.data);
+
   final Color primaryColor = Color(0xffFD6592);
   final Color secondaryColor = Color(0xff324558);
 
@@ -34,7 +38,7 @@ class ProductsPage extends StatelessWidget {
                   border: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: 'Sub category name',
+                  hintText: data["isSubcategory"] ? data["name"] : "Products",
                   prefixIcon: Icon(Icons.search),
                   hintStyle: TextStyle(color: Colors.black, fontSize: 18),
                   filled: true,
@@ -51,7 +55,13 @@ class ProductsPage extends StatelessWidget {
                 ),
               ),
             ),
-            leading: Icon(FontAwesomeIcons.chevronLeft),
+            leading: IconButton(
+              icon: Icon(FontAwesomeIcons.chevronLeft),
+              color: Colors.black54,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(40),
               child: Row(
@@ -119,8 +129,17 @@ class ProductsPage extends StatelessWidget {
                   ProductsList("list"),
                 ],
               )),
-              Container(
-                child: Text("Tab 2"),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("All 20,022+ Suppliers"),
+                    ),
+                    ManufacturerList()
+                  ],
+                ),
               ),
             ],
           ),

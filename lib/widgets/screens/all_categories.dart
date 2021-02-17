@@ -62,8 +62,12 @@ class AllCategories extends StatelessWidget {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 20.0);
     return FlatButton(
       onPressed: () {
-        Navigator.pushNamed(context, "/allCategories",
-            arguments: {"type": "sub"});
+        if (type["type"] == "sub")
+          Navigator.pushNamed(context, "/products",
+              arguments: {"isSubcategory": true, "name": title});
+        else
+          Navigator.pushNamed(context, "/allCategories",
+              arguments: {"type": "sub"});
       },
       child: Container(
         child: Row(children: [

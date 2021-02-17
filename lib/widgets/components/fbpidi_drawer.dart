@@ -104,7 +104,8 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
-        Navigator.pushNamed(context, "/products");
+        Navigator.pushNamed(context, "/products",
+            arguments: {"isSubcategory": false});
       },
       child: Container(
         color: selected ? Theme.of(context).primaryColor : Colors.white,

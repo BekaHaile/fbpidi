@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
         home: Home(),
         routes: {
           '/homePage': (BuildContext context) => HomePage(),
-          '/products': (BuildContext context) => ProductsPage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
         },
@@ -39,6 +38,11 @@ class MyApp extends StatelessWidget {
             case '/allCategories':
               return MaterialPageRoute(
                   builder: (_) => AllCategories(
+                        requests,
+                      ));
+            case '/products':
+              return MaterialPageRoute(
+                  builder: (_) => ProductsPage(
                         requests,
                       ));
             default:
