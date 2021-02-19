@@ -2,7 +2,7 @@ import 'package:fbpidi/widgets/screens/all_categories.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/homeMenu.dart';
-import 'package:fbpidi/widgets/screens/products.dart';
+import 'package:fbpidi/widgets/screens/productsPage.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -28,20 +28,23 @@ class MyApp extends StatelessWidget {
         home: Home(),
         routes: {
           '/homePage': (BuildContext context) => HomePage(),
-          '/products': (BuildContext context) => ProductsPage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
-          '/allCategories': (BuildContext context) => AllCategories(),
         },
         onGenerateRoute: (RouteSettings settings) {
-          // final requests = settings.arguments;
+          final requests = settings.arguments;
 
           switch (settings.name) {
-            // case '/phoneNo':
-            //   return MaterialPageRoute(
-            //       builder: (_) => PhoneNo(
-            //             type: requests,
-            //           ));
+            case '/allCategories':
+              return MaterialPageRoute(
+                  builder: (_) => AllCategories(
+                        requests,
+                      ));
+            case '/products':
+              return MaterialPageRoute(
+                  builder: (_) => ProductsPage(
+                        requests,
+                      ));
             default:
               return null;
           }

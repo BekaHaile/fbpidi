@@ -101,20 +101,27 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     if (widget.selected == title) selected = true;
     final TextStyle tStyle = TextStyle(
         color: selected ? Colors.white : Colors.black87, fontSize: 17.0);
-    return Container(
-      color: selected ? Theme.of(context).primaryColor : Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
-      child: Row(children: [
-        Icon(
-          icon,
-          color: selected ? Colors.white : active,
-        ),
-        SizedBox(width: 15.0),
-        Text(
-          title,
-          style: tStyle,
-        ),
-      ]),
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, "/products",
+            arguments: {"isSubcategory": false});
+      },
+      child: Container(
+        color: selected ? Theme.of(context).primaryColor : Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        child: Row(children: [
+          Icon(
+            icon,
+            color: selected ? Colors.white : active,
+          ),
+          SizedBox(width: 15.0),
+          Text(
+            title,
+            style: tStyle,
+          ),
+        ]),
+      ),
     );
   }
 }

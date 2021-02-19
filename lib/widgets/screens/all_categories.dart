@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AllCategories extends StatelessWidget {
+  final type;
+  AllCategories(this.type);
   final Color active = Color.fromRGBO(115, 115, 115, 1);
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,8 @@ class AllCategories extends StatelessWidget {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categories"),
+        title:
+            type["type"] == "all" ? Text("Categories") : Text("Sub Categories"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,12 +22,12 @@ class AllCategories extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "All Categories",
+              type["type"] == "all" ? "All Categories" : "All Sub Categories",
               style: TextStyle(fontSize: 17),
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.84,
+            height: MediaQuery.of(context).size.height * 0.8,
             color: Colors.white,
             child: ListView.builder(
                 itemCount: list.length,
@@ -59,7 +62,12 @@ class AllCategories extends StatelessWidget {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 20.0);
     return FlatButton(
       onPressed: () {
-        Navigator.pushNamed(context, "/allCategories");
+        if (type["type"] == "sub")
+          Navigator.pushNamed(context, "/products",
+              arguments: {"isSubcategory": true, "name": title});
+        else
+          Navigator.pushNamed(context, "/allCategories",
+              arguments: {"type": "sub"});
       },
       child: Container(
         child: Row(children: [
