@@ -3,7 +3,7 @@ import 'package:fbpidi/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class API {
+class CompanyAndProductAPI {
   //Get list of companies
   Future<List<Company>> getCompanies(type, productCategory) async {
     //type can be manufacturer or supplier
