@@ -1,3 +1,5 @@
+import 'package:fbpidi/models/product.dart';
+import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:flutter/material.dart';
 
 class AllCategories extends StatelessWidget {
@@ -26,23 +28,33 @@ class AllCategories extends StatelessWidget {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            color: Colors.white,
-            child: ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      _buildRow(
-                        "https://img.icons8.com/ios/452/corn.png",
-                        list[index],
-                        context,
-                      ),
-                      _buildDivider()
-                    ],
-                  );
-                }),
+          FutureBuilder<List<Product>>(
+            future: CompanyAndProductAPI().getProductsByMainCategory("main"),
+            builder: (BuildContext context, snapshot) {
+              // _fetchLanguage(context);
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              else {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  color: Colors.white,
+                  child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            _buildRow(
+                              "https://img.icons8.com/ios/452/corn.png",
+                              list[index],
+                              context,
+                            ),
+                            _buildDivider()
+                          ],
+                        );
+                      }),
+                );
+              }
+            },
           ),
         ],
       ),

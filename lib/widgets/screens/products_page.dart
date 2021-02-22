@@ -1,5 +1,5 @@
-import 'package:fbpidi/widgets/screens/manufacturerList.dart';
-import 'package:fbpidi/widgets/screens/productList.dart';
+import 'package:fbpidi/widgets/screens/manufacturer_list.dart';
+import 'package:fbpidi/widgets/screens/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
