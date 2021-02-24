@@ -1,3 +1,4 @@
+import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
@@ -128,9 +129,50 @@ class CollaborationsApi {
   notifyForEvent(id, email, notifyIn) async {
     var response = await http.post(
         Uri.encodeFull(
-            "http://127.0.0.2:8000/client/collaborations/event_notify/22/"), //uri of api
+            "http://127.0.0.1:8000/client/collaborations/event_notify/22/"), //uri of api
         headers: {"Accept": "application/json"},
         body: {"email": email, "notify_in": notifyIn});
+
+    return response.body;
+  }
+
+  //Get list of blogs
+  Future<List<Blog>> getBlogs() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://127.0.0.1:8000/client/collaborations/blog-list/"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(data); //Response from the api
+    List<Blog> blogs = List<Blog>();
+    data["blogs"].forEach((blog) {
+      blogs.add(Blog.fromMap(blog));
+    });
+    return blogs;
+  }
+
+  //Get blog detail
+  Future<Blog> getBlogDetail(id) async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://127.0.0.1:8000/client/collaborations/blog-details/?id=$id"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(data); //Response from the api
+    Blog blog = Blog.fromMap(data["blog"]);
+    //todo: return comments for the blog using a map<String, dynamic> and combining with the blog
+    return blog;
+  }
+
+  //Comment on a blog
+  commentOnBlog(id, content) async {
+    var response = await http.post(
+        Uri.encodeFull(
+            " http://127.0.0.1:8000/client/collaborations/blog-comment/ "), //uri of api
+        headers: {"Accept": "application/json"},
+        body: {"id": id, "content": content});
 
     return response.body;
   }
