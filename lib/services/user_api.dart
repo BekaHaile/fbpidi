@@ -44,7 +44,7 @@ class UserApi {
     return response.body;
   }
 
-  //user registration
+  //user login
   userLogin(username, password) async {
     Map<dynamic, String> data = {
       "username": username,
