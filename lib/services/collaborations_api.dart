@@ -1,6 +1,5 @@
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
-import 'package:fbpidi/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
