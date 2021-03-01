@@ -1,4 +1,6 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
+import 'package:fbpidi/widgets/screens/collaborations/blog.dart';
+import 'package:fbpidi/widgets/screens/collaborations/forums.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
           '/homePage': (BuildContext context) => HomePage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
+          '/blogs': (BuildContext context) => Blog(),
+          '/forums': (BuildContext context) => Forum(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
