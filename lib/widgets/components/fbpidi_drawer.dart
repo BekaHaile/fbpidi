@@ -117,6 +117,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             context,
             "/forums",
           );
+        else if (title == "News")
+          Navigator.pushNamed(
+            context,
+            "/news",
+          );
       },
       child: Container(
         color: selected ? Theme.of(context).primaryColor : Colors.white,
