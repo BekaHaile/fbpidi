@@ -1,5 +1,5 @@
-import 'package:fbpidi/models/product.dart';
-import 'package:fbpidi/services/company_and_product_api.dart';
+// import 'package:fbpidi/models/product.dart';
+// import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -1,3 +1,4 @@
+import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,7 +13,12 @@ class Blog extends StatelessWidget {
         child: Center(
             child: Padding(
           padding: const EdgeInsets.only(top: 18.0),
-          child: _buildBlogList(context),
+          child: Column(
+            children: [
+              FbpidiSearch(),
+              _buildBlogList(context),
+            ],
+          ),
         )),
       ),
     );
