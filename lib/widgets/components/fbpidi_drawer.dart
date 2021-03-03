@@ -122,6 +122,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             context,
             "/news",
           );
+        else if (title == "Polls")
+          Navigator.pushNamed(
+            context,
+            "/polls",
+          );
       },
       child: Container(
         color: selected ? Theme.of(context).primaryColor : Colors.white,
