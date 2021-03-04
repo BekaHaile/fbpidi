@@ -142,6 +142,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             context,
             "/events",
           );
+        else if (title == "Projects")
+          Navigator.pushNamed(
+            context,
+            "/projects",
+          );
       },
       child: Container(
         color: selected ? Theme.of(context).primaryColor : Colors.white,
