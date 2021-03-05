@@ -63,7 +63,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 _buildRow(
                     FontAwesomeIcons.utensils, "Investment Opportunities"),
                 _buildRow(FontAwesomeIcons.projectDiagram, "Projects"),
-                _buildRow(FontAwesomeIcons.researchgate, "Researchs"),
+                _buildRow(FontAwesomeIcons.researchgate, "Researches"),
                 _buildRow(FontAwesomeIcons.vaadin, "Vacancies"),
                 _buildRow(FontAwesomeIcons.chartLine, "Tenders"),
                 _buildDivider(),
@@ -146,6 +146,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           Navigator.pushNamed(
             context,
             "/projects",
+          );
+        else if (title == "Researches")
+          Navigator.pushNamed(
+            context,
+            "/researches",
           );
       },
       child: Container(
