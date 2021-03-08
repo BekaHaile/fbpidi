@@ -1,10 +1,10 @@
-import 'package:fbpidi/models/company.dart';
+// import 'package:fbpidi/models/company.dart';
 
 class Product {
   String id;
-  Category category;
-  Company company;
-  List<String> moreImages;
+  String category;
+  String company;
+  // List<String> moreImages;
   String name;
   String nameAm;
   String description;
@@ -18,7 +18,7 @@ class Product {
     this.id,
     this.category,
     this.company,
-    this.moreImages,
+    // this.moreImages,
     this.name,
     this.nameAm,
     this.description,
@@ -30,18 +30,20 @@ class Product {
   });
 
   Product.fromMap(Map<dynamic, dynamic> map) {
-    id = map["id"];
-    category = Category.fromMap(map["category"]);
-    company = Company.fromMap(map["company"]);
-    moreImages = map["moreImages"];
-    name = map["name"];
-    nameAm = map["nameAm"];
-    description = map["description"];
-    descriptionAm = map["descriptionAm"];
-    discount = map["discount"];
-    image = map["image"];
-    timestamp = map["timestamp"];
-    user = map["user"];
+    id = map["id"].toString();
+    category = map["category"].toString();
+    // Category.fromMap(map["category"]);
+    company = map["company"].toString();
+    // Company.fromMap(map["company"]);
+    // moreImages = map["moreImages"];
+    name = map["name"].toString();
+    nameAm = map["nameAm"].toString();
+    description = map["description"].toString();
+    descriptionAm = map["descriptionAm"].toString();
+    discount = map["discount"].toString();
+    image = map["image"].toString();
+    timestamp = map["timestamp"].toString();
+    user = map["user"].toString();
   }
 }
 
@@ -69,14 +71,14 @@ class Category {
   });
 
   Category.fromMap(Map<dynamic, dynamic> map) {
-    id = map["id"];
-    subCategoryName = map["sub_category_name"];
-    subCategoryNameAm = map["sub_category_name_am"];
-    description = map["description"];
-    descriptionAm = map["description_am"];
-    image = map["image"];
-    timestamp = map["timestamp"];
-    user = map["user"];
-    categoryName = map["category_name"];
+    id = map["id"].toString();
+    subCategoryName = map["sub_category_name"].toString();
+    subCategoryNameAm = map["sub_category_name_am"].toString();
+    description = map["description"].toString();
+    descriptionAm = map["description_am"].toString();
+    image = map["image"].toString();
+    timestamp = map["timestamp"].toString();
+    user = map["user"].toString();
+    categoryName = map["category_name"].toString();
   }
 }
