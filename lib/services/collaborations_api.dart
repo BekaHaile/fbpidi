@@ -3,6 +3,7 @@ import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
+import 'package:fbpidi/models/research.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -23,6 +24,22 @@ class CollaborationsApi {
       projects.add(Project.fromMap(project));
     });
     return projects;
+  }
+
+  //Get all projects
+  Future<List<Research>> getResearches() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/research_list/"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    Map<dynamic, dynamic> data = jsonDecode(response.body);
+    print(data); //Response from the api
+    List<Research> researches = List<Research>();
+    data['researchs'].forEach((research) {
+      researches.add(Research.fromMap(research));
+    });
+    return researches;
   }
 
   //Get all polls

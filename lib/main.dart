@@ -8,7 +8,7 @@ import 'package:fbpidi/widgets/screens/collaborations/projects.dart';
 import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
-import 'package:fbpidi/widgets/screens/company_and_product/companyList.dart';
+import 'package:fbpidi/widgets/screens/company_and_product/company_list.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/product.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';

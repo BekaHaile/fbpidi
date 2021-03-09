@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
+import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -248,7 +249,8 @@ class _CompanyState extends State<CompanyPage> {
                                   padding: const EdgeInsets.only(
                                       left: 20.0, top: 5, bottom: 20),
                                   child: Text(
-                                    companies[index].detail,
+                                    RemoveTag().removeAllHtmlTags(
+                                        companies[index].detail),
                                     style: TextStyle(
                                       color: Colors.black87,
                                       fontSize: 20,

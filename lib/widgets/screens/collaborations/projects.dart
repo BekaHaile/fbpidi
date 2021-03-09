@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
 
 class Projects extends StatelessWidget {
@@ -191,7 +192,8 @@ class Projects extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             Text(
-                                              projects[index].description,
+                                              RemoveTag().removeAllHtmlTags(
+                                                  projects[index].description),
                                               style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 20,
