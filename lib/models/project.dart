@@ -25,16 +25,16 @@ class Project {
   });
 
   Project.fromMap(Map<dynamic, dynamic> map) {
-    id = map["id"];
-    categoryName = map["category_name"];
-    title = map["title"];
-    accepted = map["accepted"];
-    description = map["description"];
-    detail = map["detail"];
-    timeStamp = map["time_stamp"];
-    attachements = map["attachements"];
-    user = map["user"];
-    status = map["status"];
-    category = map["category"];
+    id = map["id"].toString();
+    categoryName = map["category_name"].toString();
+    title = map["title"].toString();
+    accepted = map["accepted"].toString();
+    description = map["description"].toString();
+    detail = map["detail"].toString();
+    timeStamp = map["timestamp"].toString();
+    attachements = map["attachements"].toString();
+    user = map["user"].toString();
+    status = map["status"].toString();
+    category = map["category"].toString();
   }
 }

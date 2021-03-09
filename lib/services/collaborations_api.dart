@@ -2,10 +2,29 @@ import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
+import 'package:fbpidi/models/project.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
+  String baseUrl = "http://192.168.128.1:8000";
+
+  //Get all projects
+  Future<List<Project>> getProjects() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/projects_list/"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    Map<dynamic, dynamic> data = jsonDecode(response.body);
+    print(data); //Response from the api
+    List<Project> projects = List<Project>();
+    data['projects'].forEach((project) {
+      projects.add(Project.fromMap(project));
+    });
+    return projects;
+  }
+
   //Get all polls
   Future<List<Poll>> getPolls() async {
     var response = await http.get(
