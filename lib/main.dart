@@ -9,6 +9,7 @@ import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company.dart';
+import 'package:fbpidi/widgets/screens/company_and_product/product.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           '/projects': (BuildContext context) => Projects(),
           '/researches': (BuildContext context) => Researches(),
           '/companies': (BuildContext context) => Company(),
+          '/products': (BuildContext context) => Products(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
