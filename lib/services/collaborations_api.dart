@@ -4,6 +4,7 @@ import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/models/research.dart';
+import 'package:fbpidi/models/vacancy.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -40,6 +41,22 @@ class CollaborationsApi {
       researches.add(Research.fromMap(research));
     });
     return researches;
+  }
+
+  //Get all vacancies
+  Future<List<Vacancy>> getVacancies() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    Map<dynamic, dynamic> data = jsonDecode(response.body);
+    print(data); //Response from the api
+    List<Vacancy> vacancies = List<Vacancy>();
+    data['vacancies'].forEach((vacancy) {
+      vacancies.add(Vacancy.fromMap(vacancy));
+    });
+    return vacancies;
   }
 
   //Get all polls
