@@ -57,15 +57,31 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                   ),
                 ),
                 SizedBox(height: 30.0),
-                _buildRow(Icons.home, "Home"),
-                _buildRow(FontAwesomeIcons.building, "Companies"),
-                _buildRow(FontAwesomeIcons.productHunt, "Products"),
+                _buildRow(Icons.home, "Home", 15),
+                ExpansionTile(
+                  title: _buildRow(FontAwesomeIcons.building, "Companies", 0),
+                  children: <Widget>[
+                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20),
+                    _buildRow(FontAwesomeIcons.utensils, "Food", 20),
+                    _buildRow(
+                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20)
+                  ],
+                ),
+                ExpansionTile(
+                  title: _buildRow(FontAwesomeIcons.productHunt, "Products", 0),
+                  children: <Widget>[
+                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20),
+                    _buildRow(FontAwesomeIcons.utensils, "Food", 20),
+                    _buildRow(
+                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20)
+                  ],
+                ),
                 _buildRow(
-                    FontAwesomeIcons.utensils, "Investment Opportunities"),
-                _buildRow(FontAwesomeIcons.projectDiagram, "Projects"),
-                _buildRow(FontAwesomeIcons.researchgate, "Researches"),
-                _buildRow(FontAwesomeIcons.vaadin, "Vacancies"),
-                _buildRow(FontAwesomeIcons.chartLine, "Tenders"),
+                    FontAwesomeIcons.utensils, "Investment Opportunities", 15),
+                _buildRow(FontAwesomeIcons.projectDiagram, "Projects", 15),
+                _buildRow(FontAwesomeIcons.researchgate, "Researches", 15),
+                _buildRow(FontAwesomeIcons.vaadin, "Vacancies", 15),
+                _buildRow(FontAwesomeIcons.chartLine, "Tenders", 15),
                 _buildDivider(),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -75,13 +91,13 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                _buildRow(FontAwesomeIcons.newspaper, "News"),
-                _buildRow(FontAwesomeIcons.calendarDay, "Events"),
-                _buildRow(FontAwesomeIcons.blog, "Blogs"),
-                _buildRow(FontAwesomeIcons.forumbee, "Forums"),
-                _buildRow(FontAwesomeIcons.poll, "Polls"),
+                _buildRow(FontAwesomeIcons.newspaper, "News", 15),
+                _buildRow(FontAwesomeIcons.calendarDay, "Events", 15),
+                _buildRow(FontAwesomeIcons.blog, "Blogs", 15),
+                _buildRow(FontAwesomeIcons.forumbee, "Forums", 15),
+                _buildRow(FontAwesomeIcons.poll, "Polls", 15),
                 _buildDivider(),
-                _buildRow(FontAwesomeIcons.infoCircle, "Help and Support"),
+                _buildRow(FontAwesomeIcons.infoCircle, "Help and Support", 15),
               ],
             ),
           ),
@@ -96,7 +112,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     );
   }
 
-  Widget _buildRow(IconData icon, String title) {
+  Widget _buildRow(IconData icon, String title, double padding) {
     bool selected = false;
     if (widget.selected == title) selected = true;
     final TextStyle tStyle = TextStyle(
@@ -168,20 +184,23 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             "/products",
           );
       },
-      child: Container(
-        color: selected ? Theme.of(context).primaryColor : Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
-        child: Row(children: [
-          Icon(
-            icon,
-            color: selected ? Colors.white : active,
-          ),
-          SizedBox(width: 15.0),
-          Text(
-            title,
-            style: tStyle,
-          ),
-        ]),
+      child: Padding(
+        padding: EdgeInsets.only(left: padding),
+        child: Container(
+          color: selected ? Theme.of(context).primaryColor : Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+          child: Row(children: [
+            Icon(
+              icon,
+              color: selected ? Colors.white : active,
+            ),
+            SizedBox(width: 15.0),
+            Text(
+              title,
+              style: tStyle,
+            ),
+          ]),
+        ),
       ),
     );
   }
