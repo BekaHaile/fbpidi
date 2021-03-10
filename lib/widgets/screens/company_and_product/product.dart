@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Products extends StatefulWidget {
+  final data;
+  Products(this.data);
   @override
   _ProductsState createState() => _ProductsState();
 }
@@ -13,7 +15,16 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Products")),
+      drawer: Drawer(
+        child: widget.data['type'] == 'all'
+            ? FbpidiDrawer(
+                "Products",
+              )
+            : FbpidiDrawer(
+                widget.data['type'],
+                mainMenu: "Products",
+              ),
+      ),
       appBar: AppBar(
         title: Text("Products"),
       ),

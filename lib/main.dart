@@ -50,8 +50,6 @@ class MyApp extends StatelessWidget {
           '/events': (BuildContext context) => Events(),
           '/projects': (BuildContext context) => Projects(),
           '/researches': (BuildContext context) => Researches(),
-          '/companies': (BuildContext context) => CompanyPage(),
-          '/products': (BuildContext context) => Products(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
@@ -62,9 +60,19 @@ class MyApp extends StatelessWidget {
                   builder: (_) => AllCategories(
                         requests,
                       ));
-            case '/products':
+            case '/productsPage':
               return MaterialPageRoute(
                   builder: (_) => ProductsPage(
+                        requests,
+                      ));
+            case '/companies':
+              return MaterialPageRoute(
+                  builder: (_) => CompanyPage(
+                        requests,
+                      ));
+            case '/products':
+              return MaterialPageRoute(
+                  builder: (_) => Products(
                         requests,
                       ));
             default:

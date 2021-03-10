@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FbpidiDrawer extends StatefulWidget {
   final String selected;
-  FbpidiDrawer(this.selected);
+  final String mainMenu;
+  FbpidiDrawer(this.selected, {this.mainMenu});
   @override
   _FbpidiDrawerState createState() => _FbpidiDrawerState();
 }
@@ -17,6 +18,16 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
   }
 
   _buildDrawer() {
+    bool expandedCompany = false;
+    bool expandedProduct = false;
+    if (widget.selected == "Beverage" ||
+        widget.selected == "Food" ||
+        widget.selected == "Pharmaceutical") {
+      if (widget.mainMenu == "Companies")
+        expandedCompany = true;
+      else
+        expandedProduct = true;
+    }
     final String image =
         "https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png";
     return Drawer(
@@ -59,21 +70,29 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 SizedBox(height: 30.0),
                 _buildRow(Icons.home, "Home", 15),
                 ExpansionTile(
+                  initiallyExpanded: expandedCompany,
                   title: _buildRow(FontAwesomeIcons.building, "Companies", 0),
                   children: <Widget>[
-                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20),
-                    _buildRow(FontAwesomeIcons.utensils, "Food", 20),
+                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20,
+                        mainMenu: "Companies"),
+                    _buildRow(FontAwesomeIcons.utensils, "Food", 20,
+                        mainMenu: "Companies"),
                     _buildRow(
-                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20)
+                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20,
+                        mainMenu: "Companies")
                   ],
                 ),
                 ExpansionTile(
+                  initiallyExpanded: expandedProduct,
                   title: _buildRow(FontAwesomeIcons.productHunt, "Products", 0),
                   children: <Widget>[
-                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20),
-                    _buildRow(FontAwesomeIcons.utensils, "Food", 20),
+                    _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20,
+                        mainMenu: "Products"),
+                    _buildRow(FontAwesomeIcons.utensils, "Food", 20,
+                        mainMenu: "Products"),
                     _buildRow(
-                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20)
+                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20,
+                        mainMenu: "Products")
                   ],
                 ),
                 _buildRow(
@@ -112,9 +131,16 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     );
   }
 
-  Widget _buildRow(IconData icon, String title, double padding) {
+  Widget _buildRow(IconData icon, String title, double padding,
+      {String mainMenu}) {
     bool selected = false;
-    if (widget.selected == title) selected = true;
+    if (title == "Beverage" || title == "Food" || title == "Pharmaceutical") {
+      if (widget.selected == title && widget.mainMenu == mainMenu)
+        selected = true;
+    } else {
+      if (widget.selected == title) selected = true;
+    }
+
     final TextStyle tStyle = TextStyle(
         color: selected ? Colors.white : Colors.black87, fontSize: 17.0);
     return InkWell(
@@ -174,15 +200,32 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             "/researches",
           );
         else if (title == "Companies")
-          Navigator.pushNamed(
-            context,
-            "/companies",
-          );
+          Navigator.pushNamed(context, "/companies",
+              arguments: {'type': 'all'});
         else if (title == "Products")
-          Navigator.pushNamed(
-            context,
-            "/products",
-          );
+          Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
+        else if (title == "Beverage") {
+          if (mainMenu == "Companies")
+            Navigator.pushNamed(context, "/companies",
+                arguments: {'type': 'Beverage'});
+          else
+            Navigator.pushNamed(context, "/products",
+                arguments: {'type': 'Beverage'});
+        } else if (title == "Food") {
+          if (mainMenu == "Companies")
+            Navigator.pushNamed(context, "/companies",
+                arguments: {'type': 'Food'});
+          else
+            Navigator.pushNamed(context, "/products",
+                arguments: {'type': 'Food'});
+        } else if (title == "Pharmaceutical") {
+          if (mainMenu == "Companies")
+            Navigator.pushNamed(context, "/companies",
+                arguments: {'type': 'Pharmaceutical'});
+          else
+            Navigator.pushNamed(context, "/products",
+                arguments: {'type': 'Pharmaceutical'});
+        }
       },
       child: Padding(
         padding: EdgeInsets.only(left: padding),

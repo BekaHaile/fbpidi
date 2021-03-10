@@ -75,7 +75,7 @@ class AllCategories extends StatelessWidget {
     return FlatButton(
       onPressed: () {
         if (type["type"] == "sub")
-          Navigator.pushNamed(context, "/products",
+          Navigator.pushNamed(context, "/productsPage",
               arguments: {"isSubcategory": true, "name": title});
         else
           Navigator.pushNamed(context, "/allCategories",

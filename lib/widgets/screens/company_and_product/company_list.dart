@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CompanyPage extends StatefulWidget {
+  final data;
+  CompanyPage(this.data);
   @override
   _CompanyState createState() => _CompanyState();
 }
@@ -16,7 +18,14 @@ class _CompanyState extends State<CompanyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Companies")),
+      drawer: Drawer(
+        child: widget.data['type'] == 'all'
+            ? FbpidiDrawer("Companies")
+            : FbpidiDrawer(
+                widget.data['type'],
+                mainMenu: "Companies",
+              ),
+      ),
       appBar: AppBar(
         title: Text("Company"),
       ),
