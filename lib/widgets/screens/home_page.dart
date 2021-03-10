@@ -330,7 +330,6 @@ class _HomePageState extends State<HomePage> {
         else {
           List<Product> products = snapshot.data;
           return Container(
-            height: 1800,
             padding: EdgeInsets.symmetric(vertical: 1.0),
             child: GridView.builder(
               shrinkWrap: true,

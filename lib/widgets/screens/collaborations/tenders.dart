@@ -1,3 +1,4 @@
+import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ class _TendersState extends State<Tenders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(child: FbpidiDrawer("Tenders")),
       appBar: AppBar(
         title: Text("Tenders"),
       ),

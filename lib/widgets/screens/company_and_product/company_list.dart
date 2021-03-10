@@ -1,6 +1,7 @@
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
+import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +16,7 @@ class _CompanyState extends State<CompanyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(child: FbpidiDrawer("Companies")),
       appBar: AppBar(
         title: Text("Company"),
       ),

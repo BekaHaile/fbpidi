@@ -1,11 +1,13 @@
 import 'package:fbpidi/models/vacancy.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 
 class Vacancies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(child: FbpidiDrawer("Vacancies")),
       appBar: AppBar(
         title: Text("Vacancies"),
       ),

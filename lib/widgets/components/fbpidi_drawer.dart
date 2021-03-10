@@ -107,6 +107,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
         if (title == "Products")
           Navigator.pushNamed(context, "/products",
               arguments: {"isSubcategory": false});
+        else if (title == "Home")
+          Navigator.pushNamed(
+            context,
+            "/homePage",
+          );
         else if (title == "Blogs")
           Navigator.pushNamed(
             context,

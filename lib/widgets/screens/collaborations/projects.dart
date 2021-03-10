@@ -1,12 +1,14 @@
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
+import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 
 class Projects extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(child: FbpidiDrawer("Projects")),
       appBar: AppBar(
         title: Text("Projects"),
       ),
