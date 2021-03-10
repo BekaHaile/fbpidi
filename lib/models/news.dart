@@ -24,15 +24,15 @@ class News {
   });
 
   News.fromMap(Map<dynamic, dynamic> map) {
-    id = map["news"]["id"];
+    id = map["news"]["id"].toString();
     images = map["news"]["images"];
     companyInfo = map["news"]["company_info"];
-    title = map["news"]["title"];
-    titleAm = map["news"]["title_am"];
-    description = map["news"]["description"];
-    descriptionAm = map["news"]["description_am"];
-    catagory = map["news"]["catagory"];
-    timestamp = map["news"]["timestamp"];
-    user = map["news"]["user"];
+    title = map["news"]["title"].toString();
+    titleAm = map["news"]["title_am"].toString();
+    description = map["news"]["description"].toString();
+    descriptionAm = map["news"]["description_am"].toString();
+    catagory = map["news"]["catagory"].toString();
+    timestamp = map["news"]["timestamp"].toString();
+    user = map["news"]["user"].toString();
   }
 }

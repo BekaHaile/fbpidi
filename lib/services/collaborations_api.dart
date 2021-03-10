@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
+import 'package:fbpidi/models/forum.dart';
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
@@ -9,54 +10,90 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.128.1:8000";
+  String baseUrl = "http://192.168.137.99:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "$baseUrl/api/collaborations/projects_list/"), //uri of api
-        headers: {"Accept": "application/json"});
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/projects_list/"), //uri of api
+          headers: {"Accept": "application/json"});
 
-    Map<dynamic, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
-    List<Project> projects = List<Project>();
-    data['projects'].forEach((project) {
-      projects.add(Project.fromMap(project));
-    });
-    return projects;
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Project> projects = List<Project>();
+      data['projects'].forEach((project) {
+        projects.add(Project.fromMap(project));
+      });
+      return projects;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Get all projects
   Future<List<Research>> getResearches() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "$baseUrl/api/collaborations/research_list/"), //uri of api
-        headers: {"Accept": "application/json"});
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/research_list/"), //uri of api
+          headers: {"Accept": "application/json"});
 
-    Map<dynamic, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
-    List<Research> researches = List<Research>();
-    data['researchs'].forEach((research) {
-      researches.add(Research.fromMap(research));
-    });
-    return researches;
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Research> researches = List<Research>();
+      data['researchs'].forEach((research) {
+        researches.add(Research.fromMap(research));
+      });
+      return researches;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Get all vacancies
   Future<List<Vacancy>> getVacancies() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
-        headers: {"Accept": "application/json"});
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
+          headers: {"Accept": "application/json"});
 
-    Map<dynamic, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
-    List<Vacancy> vacancies = List<Vacancy>();
-    data['vacancies'].forEach((vacancy) {
-      vacancies.add(Vacancy.fromMap(vacancy));
-    });
-    return vacancies;
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Vacancy> vacancies = List<Vacancy>();
+      data['vacancies'].forEach((vacancy) {
+        vacancies.add(Vacancy.fromMap(vacancy));
+      });
+      return vacancies;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //Get all forums
+  Future<List<Forum>> getForums() async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/forum_list/"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Forum> forums = List<Forum>();
+      data['forums'].forEach((forum) {
+        forums.add(Forum.fromMap(forum));
+      });
+      return forums;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Get all polls
