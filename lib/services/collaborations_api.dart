@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.137.99:8000";
+  String baseUrl = "http://192.168.1.115:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -187,10 +187,9 @@ class CollaborationsApi {
 
 //Get list of events
   Future<List<Event>> getEvents() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/events/"), //uri of api
-        headers: {"Accept": "application/json"});
+    var response = await http
+        .get(Uri.encodeFull("$baseUrl/api/collaborations/events/"), //uri of api
+            headers: {"Accept": "application/json"});
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api

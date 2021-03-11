@@ -1,7 +1,7 @@
 class Event {
   String id;
   String image;
-  List<String> companyInfo;
+  Map<String, dynamic> companyInfo;
   String eventName;
   String eventNameAm;
   String description;
@@ -28,17 +28,17 @@ class Event {
   });
 
   Event.fromMap(Map<dynamic, dynamic> map) {
-    id = map["id"];
-    image = map["image"];
+    id = map["id"].toString();
+    image = map["image"].toString();
     companyInfo = map["company_info"];
-    eventName = map["event_name"];
-    eventNameAm = map["event_name_am"];
-    description = map["description"];
-    descriptionAm = map["description_am"];
-    timeStamp = map["time_stamp"];
-    startDate = map["start_date"];
-    endDate = map["end_date"];
-    status = map["status"];
-    company = map["company"];
+    eventName = map["title"].toString();
+    eventNameAm = map["title_am"].toString();
+    description = map["description"].toString();
+    descriptionAm = map["description_am"].toString();
+    timeStamp = map["time_stamp"].toString();
+    startDate = map["start_date"].toString();
+    endDate = map["end_date"].toString();
+    status = map["status"].toString();
+    company = map["company"].toString();
   }
 }
