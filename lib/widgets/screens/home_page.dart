@@ -189,44 +189,55 @@ class _HomePageState extends State<HomePage> {
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
                         return Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       else {
                         List<Company> companies = snapshot.data;
-                        return Container(
-                          height: 135,
-                          child: GridView.builder(
-                              physics: ScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: 5.0,
-                                      childAspectRatio: 1.1),
-                              itemBuilder: (_, int index) {
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          width: 105,
-                                          height: 110,
-                                          child: FittedBox(
-                                            child: Image.network(
-                                              title ==
-                                                      "Investment Opportunities"
-                                                  ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
-                                                  : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                        if (companies.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
+                          return Container(
+                            height: 135,
+                            child: GridView.builder(
+                                physics: ScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 1,
+                                        mainAxisSpacing: 5.0,
+                                        childAspectRatio: 1.1),
+                                itemBuilder: (_, int index) {
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Container(
+                                            width: 105,
+                                            height: 110,
+                                            child: FittedBox(
+                                              child: Image.network(
+                                                title ==
+                                                        "Investment Opportunities"
+                                                    ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
+                                                    : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                                              ),
+                                              fit: BoxFit.fill,
                                             ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
-                                  ],
-                                );
-                              },
-                              itemCount: companies.length),
-                        );
+                                          )),
+                                    ],
+                                  );
+                                },
+                                itemCount: companies.length),
+                          );
                       }
                     },
                   ),
@@ -325,10 +336,20 @@ class _HomePageState extends State<HomePage> {
         // _fetchLanguage(context);
         if (!snapshot.hasData)
           return Center(
-            child: CircularProgressIndicator(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: CircularProgressIndicator(),
+            ),
           );
         else {
           List<Product> products = snapshot.data;
+          if (products.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
           return Container(
             padding: EdgeInsets.symmetric(vertical: 1.0),
             child: GridView.builder(

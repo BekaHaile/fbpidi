@@ -162,10 +162,20 @@ class _EventsState extends State<Events> {
           builder: (BuildContext context, snapshot) {
             if (!snapshot.hasData)
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(),
+                ),
               );
             else {
               List<Event> events = snapshot.data;
+              if (events.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
               return Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width * 0.95,

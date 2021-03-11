@@ -35,10 +35,23 @@ class Forums extends StatelessWidget {
           builder: (BuildContext context, snapshot) {
             if (!snapshot.hasData)
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(),
+                ),
+                ),
               );
             else {
               List<Forum> forums = snapshot.data;
+              if (forums.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
               return Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width * 0.95,
