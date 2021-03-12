@@ -27,9 +27,14 @@ class FbpidiButton extends StatelessWidget {
         child: SizedBox.expand(
           child: RaisedButton(
             key: Key('raised'),
+            // style: ButtonStyle(
+            color: Theme.of(context).buttonColor,
+            padding: padding,
+            disabledColor: Theme.of(context).disabledColor,
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(13.0),
             ),
+            // ),
             onPressed: onPressed,
             child: Text(
               label,
@@ -38,9 +43,6 @@ class FbpidiButton extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            color: Theme.of(context).buttonColor,
-            padding: padding,
-            disabledColor: Theme.of(context).disabledColor,
           ),
         ),
       ),

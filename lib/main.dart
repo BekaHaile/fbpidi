@@ -9,6 +9,7 @@ import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_list.dart';
+import 'package:fbpidi/widgets/screens/company_and_product/product_detail.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/products.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
@@ -73,6 +74,11 @@ class MyApp extends StatelessWidget {
             case '/products':
               return MaterialPageRoute(
                   builder: (_) => Products(
+                        requests,
+                      ));
+            case '/productDetail':
+              return MaterialPageRoute(
+                  builder: (_) => ProductDetail(
                         requests,
                       ));
             default:
