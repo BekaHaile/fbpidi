@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompanyAndProductAPI {
-  String baseUrl = "http://192.168.137.99:8000";
+  String baseUrl = "http://192.168.0.32:8000";
 
   //Get list of companies
   Future<List<Company>> getCompanies(type, productCategory) async {
@@ -18,7 +18,7 @@ class CompanyAndProductAPI {
       );
       Map<String, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Company> companies = List<Company>();
+      List<Company> companies = [];
       data["companies"].forEach((com) {
         companies.add(Company.fromMap(com));
         print(baseUrl + com["company_logo"]);
@@ -60,7 +60,7 @@ class CompanyAndProductAPI {
 
       Map<String, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Product> products = List<Product>();
+      List<Product> products = [];
       data["products"].forEach((prod) {
         products.add(Product.fromMap(prod));
       });
@@ -83,7 +83,7 @@ class CompanyAndProductAPI {
 
       Map<String, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Product> products = List<Product>();
+      List<Product> products = [];
       data["products"].forEach((prod) {
         products.add(Product.fromMap(prod));
       });

@@ -3,7 +3,7 @@
 import 'package:fbpidi/models/product.dart';
 
 class CartBloc extends Object {
-  List<Product> cart = List<Product>();
+  List<Product> cart = [];
 
   // Stream<List<Product>> get cart => _cart.stream;
 

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.137.99:8000";
+  String baseUrl = "http://192.168.0.32:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -22,7 +22,7 @@ class CollaborationsApi {
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Project> projects = List<Project>();
+      List<Project> projects = [];
       data['projects'].forEach((project) {
         projects.add(Project.fromMap(project));
       });
@@ -43,7 +43,7 @@ class CollaborationsApi {
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Research> researches = List<Research>();
+      List<Research> researches = [];
       data['researchs'].forEach((research) {
         researches.add(Research.fromMap(research));
       });
@@ -64,7 +64,7 @@ class CollaborationsApi {
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Vacancy> vacancies = List<Vacancy>();
+      List<Vacancy> vacancies = [];
       data['vacancies'].forEach((vacancy) {
         vacancies.add(Vacancy.fromMap(vacancy));
       });
@@ -85,7 +85,7 @@ class CollaborationsApi {
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      List<Forum> forums = List<Forum>();
+      List<Forum> forums = [];
       data['forums'].forEach((forum) {
         forums.add(Forum.fromMap(forum));
       });
@@ -107,7 +107,7 @@ class CollaborationsApi {
 
     List<dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    List<Poll> polls = List<Poll>();
+    List<Poll> polls = [];
     data.forEach((poll) {
       polls.add(Poll.fromMap(poll));
     });
@@ -160,7 +160,7 @@ class CollaborationsApi {
 
     List<dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    List<News> newsList = List<News>();
+    List<News> newsList = [];
     data.forEach((news) {
       newsList.add(news.fromMap(news));
     });
@@ -194,7 +194,7 @@ class CollaborationsApi {
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    List<Event> events = List<Event>();
+    List<Event> events = [];
     data["event_list"].forEach((event) {
       events.add(Event.fromMap(event));
     });
@@ -235,7 +235,7 @@ class CollaborationsApi {
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    List<Blog> blogs = List<Blog>();
+    List<Blog> blogs = [];
     data["blogs"].forEach((blog) {
       blogs.add(Blog.fromMap(blog));
     });
