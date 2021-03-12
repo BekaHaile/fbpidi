@@ -40,7 +40,6 @@ class AllCategories extends StatelessWidget {
                   ),
                 );
               else {
-                
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   color: Colors.white,
@@ -78,7 +77,7 @@ class AllCategories extends StatelessWidget {
 
   Widget _buildRow(image, String title, context) {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 20.0);
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         if (type["type"] == "sub")
           Navigator.pushNamed(context, "/productsPage",

@@ -23,9 +23,12 @@ class FbpidiSearch extends StatelessWidget {
                 ),
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () {},
-              color: Theme.of(context).buttonColor,
+              style: ElevatedButton.styleFrom(
+                onPrimary: Theme.of(context).buttonColor.withOpacity(0.3),
+                primary: Theme.of(context).buttonColor,
+              ),
               child: Text(
                 "Search",
                 style: TextStyle(color: Colors.white),

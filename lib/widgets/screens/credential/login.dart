@@ -84,10 +84,15 @@ class _LoginSevenPageState extends State<LoginPage> {
                   width: MediaQuery.of(context).size.width * 0.37,
                   height: 50.0,
                   child: SizedBox.expand(
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       key: Key('raised'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(7.0),
+                      style: ElevatedButton.styleFrom(
+                        onPrimary:
+                            Color.fromRGBO(221, 75, 57, 1).withOpacity(0.7),
+                        primary: Color.fromRGBO(221, 75, 57, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(7.0),
+                        ),
                       ),
                       onPressed: () {},
                       child: Row(
@@ -106,8 +111,6 @@ class _LoginSevenPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      color: Color.fromRGBO(221, 75, 57, 1),
-                      disabledColor: Theme.of(context).disabledColor,
                     ),
                   ),
                 ),
@@ -268,7 +271,7 @@ class _LoginSevenPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: Color.fromRGBO(255, 136, 25, 1),
                 ),
-                child: FlatButton(
+                child: TextButton(
                   child: Text(
                     "Login",
                     style: TextStyle(

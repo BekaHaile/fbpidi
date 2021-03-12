@@ -1,6 +1,5 @@
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
-import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
@@ -88,19 +87,21 @@ class _ProductsState extends State<Products> {
               height: 55,
               padding: EdgeInsets.only(bottom: 5),
               child: SizedBox.expand(
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     setState(() {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
                   },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: selected[0]
-                              ? Theme.of(context).buttonColor
-                              : Colors.black38)),
+                  style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.white.withOpacity(0.3),
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: selected[0]
+                                  ? Theme.of(context).buttonColor
+                                  : Colors.black38))),
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.32),
@@ -142,19 +143,23 @@ class _ProductsState extends State<Products> {
       height: 55,
       padding: EdgeInsets.only(bottom: 5),
       child: SizedBox.expand(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             setState(() {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
           },
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.white.withOpacity(0.3),
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
               side: BorderSide(
                   color: selected[index]
                       ? Theme.of(context).buttonColor
-                      : Colors.grey)),
+                      : Colors.grey),
+            ),
+          ),
           child: Text(
             title,
             style: TextStyle(
@@ -276,11 +281,19 @@ class _ProductsState extends State<Products> {
                                                   height: 30,
                                                   width: 70,
                                                   child: SizedBox.expand(
-                                                    child: RaisedButton(
+                                                    child: ElevatedButton(
                                                       onPressed: () {},
-                                                      color: Theme.of(context)
-                                                          .buttonColor
-                                                          .withOpacity(0.7),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        onPrimary:
+                                                            Theme.of(context)
+                                                                .buttonColor
+                                                                .withOpacity(1),
+                                                        primary: Theme.of(
+                                                                context)
+                                                            .buttonColor
+                                                            .withOpacity(0.7),
+                                                      ),
                                                       child: Text(
                                                         products[index]
                                                             .categoryName,

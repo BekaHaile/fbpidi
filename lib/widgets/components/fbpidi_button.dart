@@ -25,16 +25,16 @@ class FbpidiButton extends StatelessWidget {
         width: width * ratio,
         height: 60.0,
         child: SizedBox.expand(
-          child: RaisedButton(
+          child: ElevatedButton(
             key: Key('raised'),
-            // style: ButtonStyle(
-            color: Theme.of(context).buttonColor,
-            padding: padding,
-            disabledColor: Theme.of(context).disabledColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(13.0),
+            style: ElevatedButton.styleFrom(
+              onPrimary: Theme.of(context).buttonColor.withOpacity(0.3),
+              primary: Theme.of(context).buttonColor,
+              padding: padding,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(13)),
+              ),
             ),
-            // ),
             onPressed: onPressed,
             child: Text(
               label,

@@ -166,11 +166,19 @@ class ProductDetail extends StatelessWidget {
                                                   height: 30,
                                                   width: 70,
                                                   child: SizedBox.expand(
-                                                    child: RaisedButton(
+                                                    child: ElevatedButton(
                                                       onPressed: () {},
-                                                      color: Theme.of(context)
-                                                          .buttonColor
-                                                          .withOpacity(0.7),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        onPrimary: Theme.of(
+                                                                context)
+                                                            .buttonColor
+                                                            .withOpacity(0.9),
+                                                        primary: Theme.of(
+                                                                context)
+                                                            .buttonColor
+                                                            .withOpacity(0.7),
+                                                      ),
                                                       child: Text(
                                                         products[0]
                                                             .categoryName,
