@@ -169,8 +169,10 @@ class _ProductsState extends State<Products> {
   }
 
   Widget _buildNewsList(context) {
+    bool liked = false;
     return FutureBuilder<List<Product>>(
-        future: CompanyAndProductAPI().getProductsByMainCategory("all"),
+        future: CompanyAndProductAPI()
+            .getProductsByMainCategory(widget.data['type']),
         builder: (BuildContext context, snapshot) {
           // _fetchLanguage(context);
           if (!snapshot.hasData)
@@ -209,32 +211,83 @@ class _ProductsState extends State<Products> {
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 25,
-                                        bottom: 15.0,
-                                        left: 25,
-                                        right: 5),
-                                    child: Container(
-                                      height: 160,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.55,
-                                      child: FittedBox(
-                                        fit: BoxFit.fill,
-                                        child: Image.network(
-                                          "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
-                                        ),
-                                      ),
+                                      bottom: 15.0,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, top: 5, bottom: 10),
-                                    child: Text(
-                                      'manufacturer',
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 19,
-                                      ),
-                                      textAlign: TextAlign.left,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.95,
+                                          child: FittedBox(
+                                            fit: BoxFit.fill,
+                                            child: Image.network(
+                                              "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned.fill(
+                                          child: Align(
+                                            alignment: Alignment.topRight,
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 5, top: 5),
+                                                child: Container(
+                                                  height: 34,
+                                                  width: 34,
+                                                  decoration: BoxDecoration(
+                                                      color: liked
+                                                          ? Color.fromRGBO(
+                                                              230, 42, 114, 1)
+                                                          : Colors.black,
+                                                      shape: BoxShape.circle),
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      FontAwesomeIcons.heart,
+                                                      size: 18,
+                                                      color: Colors.white,
+                                                    ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        liked = true;
+                                                      });
+                                                    },
+                                                  ),
+                                                )),
+                                          ),
+                                        ),
+                                        Positioned.fill(
+                                          child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 5,
+                                                bottom: 5,
+                                              ),
+                                              child: Container(
+                                                height: 30,
+                                                width: 70,
+                                                child: SizedBox.expand(
+                                                  child: RaisedButton(
+                                                    onPressed: () {},
+                                                    color: Theme.of(context)
+                                                        .buttonColor
+                                                        .withOpacity(0.7),
+                                                    child: Text(
+                                                      products[index]
+                                                          .categoryName,
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(
@@ -255,13 +308,11 @@ class _ProductsState extends State<Products> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 10,
+                                        width: 5,
                                       ),
-                                      Icon(
-                                        Icons.check_circle,
-                                        color: Colors.green,
-                                        size: 28,
-                                      )
+                                      Icon(FontAwesomeIcons.exclamationCircle,
+                                          color: Theme.of(context).buttonColor,
+                                          size: 22)
                                     ],
                                   ),
                                   SizedBox(
@@ -269,16 +320,230 @@ class _ProductsState extends State<Products> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
+                                        left: 20.0, right: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          size: 23,
+                                          color:
+                                              Color.fromRGBO(241, 196, 16, 1),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 23,
+                                          color:
+                                              Color.fromRGBO(241, 196, 16, 1),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 23,
+                                          color:
+                                              Color.fromRGBO(241, 196, 16, 1),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 23,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 23,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "52 Reviews",
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 18),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: Icon(
+                                          FontAwesomeIcons.globeAfrica,
+                                          color: Colors.black,
+                                          size: 19,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10.0,
+                                        ),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Text(
+                                            'Addis Ababa',
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 18,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: Icon(
+                                          Icons.location_on,
+                                          color: Colors.black54,
+                                          size: 19,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10.0,
+                                        ),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Text(
+                                            'Addis Ababa, Ethiopia',
+                                            style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 20,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
                                         left: 20.0, top: 5, bottom: 20),
                                     child: Text(
-                                      RemoveTag().removeAllHtmlTags(
-                                          products[index].description),
+                                      'Timings : 10am - 10pm',
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 20,
                                       ),
                                       textAlign: TextAlign.left,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                      height: 3,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 18.0),
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.mail,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            FontAwesomeIcons.globe,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            FontAwesomeIcons.solidComments,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.share,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -296,236 +561,27 @@ class _ProductsState extends State<Products> {
                                                   247, 247, 251, 1),
                                               shape: BoxShape.circle),
                                           child: Icon(
-                                            Icons.location_on,
+                                            Icons.directions,
                                             color: Colors.black,
                                             size: 19,
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 10.0,
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        'Get Directions',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 18,
                                         ),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
-                                          child: Text(
-                                            'Addis Ababa, Ethiopia',
-                                            style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 20,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
+                                        textAlign: TextAlign.left,
                                       ),
                                     ],
                                   ),
                                   SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 18.0),
-                                        child: Container(
-                                          height: 34,
-                                          width: 34,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  247, 247, 251, 1),
-                                              shape: BoxShape.circle),
-                                          child: Icon(
-                                            Icons.phone,
-                                            color: Colors.black,
-                                            size: 19,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 10.0,
-                                        ),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
-                                          child: Text(
-                                            '+251-92459-9500',
-                                            style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 20,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                      height: 3,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 5, top: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.46,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            color: Color.fromRGBO(
-                                                246, 246, 250, 0.8),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Colors.black45),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 7.0,
-                                                left: 10,
-                                                bottom: 7.0),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.heart,
-                                                  size: 18,
-                                                  color: Colors.black54,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "Add to Favorites",
-                                                  style: TextStyle(
-                                                      fontSize: 19,
-                                                      color: Colors.black87),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            color: Color.fromRGBO(
-                                                246, 246, 250, 0.8),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Colors.black45),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 7.0,
-                                                left: 10,
-                                                bottom: 7.0),
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.eye,
-                                                  size: 18,
-                                                  color: Colors.black87,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "125",
-                                                  style: TextStyle(
-                                                      fontSize: 19,
-                                                      color: Colors.black87),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.9,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20.0, right: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                size: 23,
-                                                color: Color.fromRGBO(
-                                                    241, 196, 16, 1),
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 23,
-                                                color: Color.fromRGBO(
-                                                    241, 196, 16, 1),
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 23,
-                                                color: Color.fromRGBO(
-                                                    241, 196, 16, 1),
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 23,
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 23,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "52 Reviews",
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 20),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
-                                      ],
-                                    ),
+                                    height: 10.0,
                                   ),
                                 ],
                               ),
