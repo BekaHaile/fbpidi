@@ -96,6 +96,13 @@ class Projects extends StatelessWidget {
               );
             else {
               List<Project> projects = snapshot.data;
+              if (projects.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
               return Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width * 0.95,

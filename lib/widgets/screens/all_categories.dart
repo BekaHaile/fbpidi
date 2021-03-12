@@ -33,8 +33,14 @@ class AllCategories extends StatelessWidget {
             builder: (BuildContext context, snapshot) {
               // _fetchLanguage(context);
               if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               else {
+                
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   color: Colors.white,

@@ -3,6 +3,7 @@
 class Product {
   String id;
   String category;
+  String categoryName;
   String company;
   // List<String> moreImages;
   String name;
@@ -17,6 +18,7 @@ class Product {
   Product({
     this.id,
     this.category,
+    this.categoryName,
     this.company,
     // this.moreImages,
     this.name,
@@ -32,6 +34,7 @@ class Product {
   Product.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
     category = map["category"].toString();
+    categoryName = map["category_name"].toString();
     // Category.fromMap(map["category"]);
     company = map["company"].toString();
     // Company.fromMap(map["company"]);

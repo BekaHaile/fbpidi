@@ -135,9 +135,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       {String mainMenu}) {
     bool selected = false;
     if (title == "Beverage" || title == "Food" || title == "Pharmaceutical") {
+      print('doing comparison for the title' + widget.selected + mainMenu);
       if (widget.selected == title && widget.mainMenu == mainMenu)
         selected = true;
     } else {
+      print('doing comparison for the title' + widget.selected + title);
       if (widget.selected == title) selected = true;
     }
 
@@ -147,8 +149,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       onTap: () {
         Navigator.pop(context);
         if (title == "Products")
-          Navigator.pushNamed(context, "/products",
-              arguments: {"isSubcategory": false});
+          Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
         else if (title == "Home")
           Navigator.pushNamed(
             context,

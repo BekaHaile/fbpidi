@@ -189,44 +189,55 @@ class _HomePageState extends State<HomePage> {
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
                         return Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       else {
                         List<Company> companies = snapshot.data;
-                        return Container(
-                          height: 135,
-                          child: GridView.builder(
-                              physics: ScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: 5.0,
-                                      childAspectRatio: 1.1),
-                              itemBuilder: (_, int index) {
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          width: 105,
-                                          height: 110,
-                                          child: FittedBox(
-                                            child: Image.network(
-                                              title ==
-                                                      "Investment Opportunities"
-                                                  ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
-                                                  : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                        if (companies.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else
+                          return Container(
+                            height: 135,
+                            child: GridView.builder(
+                                physics: ScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 1,
+                                        mainAxisSpacing: 5.0,
+                                        childAspectRatio: 1.1),
+                                itemBuilder: (_, int index) {
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Container(
+                                            width: 105,
+                                            height: 110,
+                                            child: FittedBox(
+                                              child: Image.network(
+                                                title ==
+                                                        "Investment Opportunities"
+                                                    ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
+                                                    : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                                              ),
+                                              fit: BoxFit.fill,
                                             ),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        )),
-                                  ],
-                                );
-                              },
-                              itemCount: companies.length),
-                        );
+                                          )),
+                                    ],
+                                  );
+                                },
+                                itemCount: companies.length),
+                          );
                       }
                     },
                   ),
@@ -325,106 +336,116 @@ class _HomePageState extends State<HomePage> {
         // _fetchLanguage(context);
         if (!snapshot.hasData)
           return Center(
-            child: CircularProgressIndicator(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: CircularProgressIndicator(),
+            ),
           );
         else {
           List<Product> products = snapshot.data;
-          return Container(
-            padding: EdgeInsets.symmetric(vertical: 1.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              scrollDirection: Axis.vertical,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 5.0,
-                  childAspectRatio: 0.58),
-              itemBuilder: (_, int index) {
-                return Card(
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Image.network(
-                          "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
-                          height: 150,
+          if (products.length == 0)
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text("No data"),
+            ));
+          else
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 1.0),
+              child: GridView.builder(
+                shrinkWrap: true,
+                primary: false,
+                scrollDirection: Axis.vertical,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5.0,
+                    childAspectRatio: 0.58),
+                itemBuilder: (_, int index) {
+                  return Card(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Image.network(
+                            "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                            height: 150,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          color: Colors.grey,
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              'Product Category',
-                              softWrap: true,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                              textAlign: TextAlign.left,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Container(
+                            color: Colors.grey,
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                products[index].categoryName,
+                                softWrap: true,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                                textAlign: TextAlign.left,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 5),
-                        child: Text(
-                          'Tomato Paste for Benin 2200g Tomato Paste ...',
-                          style: TextStyle(
-                            fontSize: 17.0,
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 18.0, right: 5),
+                          child: Text(
+                            products[index].name,
+                            style: TextStyle(
+                              fontSize: 17.0,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.network(
-                                  "https://media.istockphoto.com/photos/oil-refinery-chemical-petrochemical-plant-picture-id932140864?k=6&m=932140864&s=612x612&w=0&h=UujqNqhSsXBOHMd2x-X3YmkMOBLv7g1FZCCr52rC6b4=",
-                                  height: 20,
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.network(
+                                    "https://media.istockphoto.com/photos/oil-refinery-chemical-petrochemical-plant-picture-id932140864?k=6&m=932140864&s=612x612&w=0&h=UujqNqhSsXBOHMd2x-X3YmkMOBLv7g1FZCCr52rC6b4=",
+                                    height: 20,
+                                  ),
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    'Manufacturer Company',
-                                    softWrap: true,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 11),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    'Phone Number',
-                                    softWrap: true,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 11),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ],
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Manufacturer Company',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 11),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      'Phone Number',
+                                      softWrap: true,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 11),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              itemCount: products.length,
-            ),
-          );
+                      ],
+                    ),
+                  );
+                },
+                itemCount: products.length,
+              ),
+            );
         }
       },
     );

@@ -124,148 +124,163 @@ class Researches extends StatelessWidget {
           builder: (BuildContext context, snapshot) {
             if (!snapshot.hasData)
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(),
+                ),
               );
             else {
               List<Research> researches = snapshot.data;
-              return Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.95,
-                padding: EdgeInsets.symmetric(vertical: 1.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (_, int index) {
-                    return Column(
-                      children: [
-                        Card(
-                          color: Colors.white,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 18.0, top: 20, bottom: 20),
-                                  child: Text(
-                                    researches[index].title,
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
+              if (researches.length == 0)
+                return Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text("No data"),
+                ));
+              else
+                return Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (_, int index) {
+                      return Column(
+                        children: [
+                          Card(
+                            color: Colors.white,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18.0, top: 20, bottom: 20),
+                                    child: Text(
+                                      researches[index].title,
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    ),
                                   ),
-                                ),
-                                Divider(
-                                  height: 5,
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.95,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_today,
-                                              color: Colors.black54,
-                                              size: 19,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              researches[index]
-                                                  .timeStamp
-                                                  .substring(0, 10),
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  color: Colors.black87),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                            SizedBox(
-                                              width: 10.0,
-                                            ),
-                                            Icon(
-                                              Icons.person,
-                                              color: Colors.black54,
-                                              size: 19,
-                                            ),
-                                            Text(
-                                              'Superuser',
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  color: Colors.black87),
-                                              textAlign: TextAlign.justify,
-                                            )
-                                          ],
+                                  Divider(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: 15.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.95,
-                                        child: Text(
-                                          RemoveTag().removeAllHtmlTags(
-                                              researches[index].description),
-                                          style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, left: 20.0, bottom: 15.0),
-                                        child: RaisedButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(5.0),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: Colors.black54,
+                                                size: 19,
+                                              ),
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text(
+                                                researches[index]
+                                                    .timeStamp
+                                                    .substring(0, 10),
+                                                style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.black87),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                              SizedBox(
+                                                width: 10.0,
+                                              ),
+                                              Icon(
+                                                Icons.person,
+                                                color: Colors.black54,
+                                                size: 19,
+                                              ),
+                                              Text(
+                                                'Superuser',
+                                                style: TextStyle(
+                                                    fontSize: 17.0,
+                                                    color: Colors.black87),
+                                                textAlign: TextAlign.justify,
+                                              )
+                                            ],
                                           ),
-                                          onPressed: () {},
-                                          color: Theme.of(context).buttonColor,
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.95,
                                           child: Text(
-                                            "Read More",
+                                            RemoveTag().removeAllHtmlTags(
+                                                researches[index].description),
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17),
+                                                color: Colors.black87,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        SizedBox(
+                                          height: 15.0,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10,
+                                              left: 20.0,
+                                              bottom: 15.0),
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      5.0),
+                                            ),
+                                            onPressed: () {},
+                                            color:
+                                                Theme.of(context).buttonColor,
+                                            child: Text(
+                                              "Read More",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: researches.length,
-                ),
-              );
+                        ],
+                      );
+                    },
+                    itemCount: researches.length,
+                  ),
+                );
             }
           }),
     );

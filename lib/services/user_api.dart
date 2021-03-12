@@ -54,7 +54,7 @@ class UserApi {
     try {
       response = await http.post(
         Uri.encodeFull(
-            "http://127.0.0.2:8000/client/accounts/login/"), //uri of api
+            "http://192.168.1.115:8000/client/accounts/login/"), //uri of api
         headers: {
           "Accept": "application/json; charset=UTF-8",
         },

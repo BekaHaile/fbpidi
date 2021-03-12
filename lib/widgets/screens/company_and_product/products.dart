@@ -1,4 +1,4 @@
-import 'package:fbpidi/models/company.dart';
+import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
@@ -6,28 +6,30 @@ import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CompanyPage extends StatefulWidget {
+class Products extends StatefulWidget {
   final data;
-  CompanyPage(this.data);
+  Products(this.data);
   @override
-  _CompanyState createState() => _CompanyState();
+  _ProductsState createState() => _ProductsState();
 }
 
-class _CompanyState extends State<CompanyPage> {
+class _ProductsState extends State<Products> {
   List selected = [true, false, false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
         child: widget.data['type'] == 'all'
-            ? FbpidiDrawer("Companies")
+            ? FbpidiDrawer(
+                "Products",
+              )
             : FbpidiDrawer(
                 widget.data['type'],
-                mainMenu: "Companies",
+                mainMenu: "Products",
               ),
       ),
       appBar: AppBar(
-        title: Text("Company"),
+        title: Text("Products"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -167,39 +169,35 @@ class _CompanyState extends State<CompanyPage> {
   }
 
   Widget _buildNewsList(context) {
-    return IgnorePointer(
-      child: FutureBuilder<List<Company>>(
-          future: CompanyAndProductAPI()
-              .getCompanies("manufacturer", widget.data['type']),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
+    return FutureBuilder<List<Product>>(
+        future: CompanyAndProductAPI().getProductsByMainCategory("all"),
+        builder: (BuildContext context, snapshot) {
+          // _fetchLanguage(context);
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            List<Product> products = snapshot.data;
+            if (products.length == 0)
               return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              );
-            else {
-              List<Company> companies = snapshot.data;
-              if (companies.length == 0)
-                return Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text("No data"),
-                ));
-              else
-                return Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                  child: ListView.builder(
+                padding: const EdgeInsets.all(20.0),
+                child: Text("No data"),
+              ));
+            else
+              return Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: EdgeInsets.symmetric(vertical: 1.0),
+                child: ListView.builder(
                     shrinkWrap: true,
                     primary: false,
                     scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (_, int index) {
                       return Column(
                         children: [
                           Card(
@@ -231,7 +229,7 @@ class _CompanyState extends State<CompanyPage> {
                                     padding: const EdgeInsets.only(
                                         left: 20.0, top: 5, bottom: 10),
                                     child: Text(
-                                      companies[index].companyType,
+                                      'manufacturer',
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 19,
@@ -248,7 +246,7 @@ class _CompanyState extends State<CompanyPage> {
                                         padding: const EdgeInsets.only(
                                             left: 20.0, top: 5, bottom: 10),
                                         child: Text(
-                                          companies[index].companyName,
+                                          products[index].name,
                                           style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 24,
@@ -274,7 +272,7 @@ class _CompanyState extends State<CompanyPage> {
                                         left: 20.0, top: 5, bottom: 20),
                                     child: Text(
                                       RemoveTag().removeAllHtmlTags(
-                                          companies[index].detail),
+                                          products[index].description),
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 20,
@@ -314,7 +312,7 @@ class _CompanyState extends State<CompanyPage> {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            companies[index].location,
+                                            'Addis Ababa, Ethiopia',
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 20,
@@ -357,7 +355,7 @@ class _CompanyState extends State<CompanyPage> {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            companies[index].phoneNumber,
+                                            '+251-92459-9500',
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 20,
@@ -536,11 +534,9 @@ class _CompanyState extends State<CompanyPage> {
                         ],
                       );
                     },
-                    itemCount: companies.length,
-                  ),
-                );
-            }
-          }),
-    );
+                    itemCount: products.length),
+              );
+          }
+        });
   }
 }
