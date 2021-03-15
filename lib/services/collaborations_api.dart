@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.19:8000";
+  String baseUrl = "http://192.168.137.99:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {

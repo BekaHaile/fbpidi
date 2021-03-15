@@ -6,7 +6,7 @@ class Event {
   String eventNameAm;
   String description;
   String descriptionAm;
-  String timeStamp;
+  String createdDate;
   String startDate;
   String endDate;
   String status;
@@ -20,7 +20,7 @@ class Event {
     this.eventNameAm,
     this.description,
     this.descriptionAm,
-    this.timeStamp,
+    this.createdDate,
     this.startDate,
     this.endDate,
     this.status,
@@ -35,7 +35,7 @@ class Event {
     eventNameAm = map["title_am"].toString();
     description = map["description"].toString();
     descriptionAm = map["description_am"].toString();
-    timeStamp = map["time_stamp"].toString();
+    createdDate = map["created_date"].toString();
     startDate = map["start_date"].toString();
     endDate = map["end_date"].toString();
     status = map["status"].toString();
