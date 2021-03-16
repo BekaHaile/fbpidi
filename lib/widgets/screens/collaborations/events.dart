@@ -27,7 +27,7 @@ class _EventsState extends State<Events> {
             children: [
               FbpidiSearch(),
               _sortList(context),
-              _buildNewsList(context),
+              _buildEventList(context),
             ],
           ),
         )),
@@ -155,27 +155,26 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget _buildNewsList(context) {
-    return IgnorePointer(
-      child: FutureBuilder<List<Event>>(
-          future: CollaborationsApi().getEvents(),
-          builder: (BuildContext context, snapshot) {
-            if (!snapshot.hasData)
+  Widget _buildEventList(context) {
+    return FutureBuilder<List<Event>>(
+        future: CollaborationsApi().getEvents(),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            List<Event> events = snapshot.data;
+            if (events.length == 0)
               return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            else {
-              List<Event> events = snapshot.data;
-              if (events.length == 0)
-                          return Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("No data"),
-                          ));
-                        else
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text("No data"),
+              ));
+            else
               return Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width * 0.95,
@@ -196,7 +195,8 @@ class _EventsState extends State<Events> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      bottom: 30.0, left: 5, right: 5),
+                                    bottom: 30.0,
+                                  ),
                                   child: Stack(
                                     children: [
                                       Container(
@@ -228,19 +228,6 @@ class _EventsState extends State<Events> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20.0),
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    color: Color.fromRGBO(0, 128, 0, 1),
-                                    child: Text(
-                                      events[index].status,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 17),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, bottom: 20),
                                   child: Text(
                                     events[index].startDate.substring(0, 10) +
                                         ' - ' +
@@ -252,8 +239,23 @@ class _EventsState extends State<Events> {
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
-                                Divider(
-                                  height: 5,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, bottom: 20),
+                                  child: RaisedButton(
+                                    onPressed: () {},
+                                    color: Color.fromRGBO(0, 128, 0, 1),
+                                    child: Text(
+                                      events[index].status,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  height: 3,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -313,21 +315,41 @@ class _EventsState extends State<Events> {
                                       SizedBox(
                                         width: 5.0,
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: RaisedButton(
-                                          onPressed: () {},
-                                          color: Theme.of(context).buttonColor,
-                                          child: Text(
-                                            "Event Detail",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18),
-                                          ),
+                                      Container(
+                                        height: 34,
+                                        width: 34,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                247, 247, 251, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          FontAwesomeIcons.solidComments,
+                                          color: Color.fromRGBO(0, 0, 255, 1),
+                                          size: 19,
                                         ),
-                                      )
+                                      ),
                                     ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, "/eventDetail",
+                                          arguments: {'id': events[index].id});
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Theme.of(context)
+                                          .buttonColor
+                                          .withOpacity(0.3),
+                                      primary: Theme.of(context).buttonColor,
+                                    ),
+                                    child: Text(
+                                      "Event Detail",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -359,7 +381,7 @@ class _EventsState extends State<Events> {
                                             ),
                                             Text(
                                               events[index]
-                                                  .timeStamp
+                                                  .createdDate
                                                   .substring(0, 10),
                                               style: TextStyle(
                                                   fontSize: 17.0,
@@ -385,8 +407,7 @@ class _EventsState extends State<Events> {
                   itemCount: events.length,
                 ),
               );
-            }
-          }),
-    );
+          }
+        });
   }
 }

@@ -15,6 +15,7 @@ class CompanyPage extends StatefulWidget {
 
 class _CompanyState extends State<CompanyPage> {
   List selected = [true, false, false, false];
+  List<Company> companies = List<Company>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +143,12 @@ class _CompanyState extends State<CompanyPage> {
       child: SizedBox.expand(
         child: RaisedButton(
           onPressed: () {
+            if (title == 'Distance') {
+              setState(() {
+                companies.sort((a, b) =>
+                    a.numberOfEmployees.compareTo(b.numberOfEmployees));
+              });
+            }
             setState(() {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
@@ -183,7 +190,7 @@ class _CompanyState extends State<CompanyPage> {
                 ),
               );
             else {
-              List<Company> companies = snapshot.data;
+              companies = snapshot.data;
               if (companies.length == 0)
                 return Center(
                     child: Padding(

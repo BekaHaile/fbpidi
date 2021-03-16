@@ -135,11 +135,9 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       {String mainMenu}) {
     bool selected = false;
     if (title == "Beverage" || title == "Food" || title == "Pharmaceutical") {
-      print('doing comparison for the title' + widget.selected + mainMenu);
       if (widget.selected == title && widget.mainMenu == mainMenu)
         selected = true;
     } else {
-      print('doing comparison for the title' + widget.selected + title);
       if (widget.selected == title) selected = true;
     }
 

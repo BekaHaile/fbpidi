@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompanyAndProductAPI {
-  String baseUrl = "http://192.168.1.19:8000";
+  String baseUrl = "http://172.18.48.1:8000";
 
   //Get list of companies
   Future<List<Company>> getCompanies(type, productCategory) async {

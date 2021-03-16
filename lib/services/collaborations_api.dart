@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.19:8000";
+  String baseUrl = "http://172.18.48.1:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -187,31 +187,41 @@ class CollaborationsApi {
 
 //Get list of events
   Future<List<Event>> getEvents() async {
-    var response = await http
-        .get(Uri.encodeFull("$baseUrl/api/collaborations/events/"), //uri of api
-            headers: {"Accept": "application/json"});
+    try {
+      var response = await http.get(
+          Uri.encodeFull("$baseUrl/api/collaborations/events/"), //uri of api
+          headers: {"Accept": "application/json"});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
-    List<Event> events = [];
-    data["event_list"].forEach((event) {
-      events.add(Event.fromMap(event));
-    });
-    return events;
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Event> events = [];
+      data["event_list"].forEach((event) {
+        events.add(Event.fromMap(event));
+      });
+      return events;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
-  //Get event detail
+  ///Pass an id of an event to get the detail
   Future<Event> getEventDetail(id) async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/event_detail/$id/"), //uri of api
-        headers: {"Accept": "application/json"});
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/event_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
-    Event event = Event.fromMap(data["event"]);
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      Event event = Event.fromMap(data["event"]);
 
-    return event;
+      return event;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Notify for event

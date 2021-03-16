@@ -38,7 +38,7 @@ class _ProductsState extends State<Products> {
             children: [
               FbpidiSearch(),
               _sortList(context),
-              _buildNewsList(context),
+              _buildProductList(context),
             ],
           ),
         )),
@@ -173,7 +173,7 @@ class _ProductsState extends State<Products> {
     );
   }
 
-  Widget _buildNewsList(context) {
+  Widget _buildProductList(context) {
     bool liked = false;
     return FutureBuilder<List<Product>>(
         future: CompanyAndProductAPI()
