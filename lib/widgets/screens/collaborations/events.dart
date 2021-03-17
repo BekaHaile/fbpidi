@@ -27,7 +27,7 @@ class _EventsState extends State<Events> {
             children: [
               FbpidiSearch(),
               _sortList(context),
-              _buildNewsList(context),
+              _buildEventList(context),
             ],
           ),
         )),
@@ -155,114 +155,94 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget _buildNewsList(context) {
-    return IgnorePointer(
-      child: FutureBuilder<List<Event>>(
-          future: CollaborationsApi().getEvents(),
-          builder: (BuildContext context, snapshot) {
-            if (!snapshot.hasData)
+  Widget _buildEventList(context) {
+    return FutureBuilder<List<Event>>(
+        future: CollaborationsApi().getEvents(),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            List<Event> events = snapshot.data;
+            if (events.length == 0)
               return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            else {
-              List<Event> events = snapshot.data;
-              if (events.length == 0)
-                return Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text("No data"),
-                ));
-              else
-                return Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  padding: EdgeInsets.symmetric(vertical: 1.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (_, int index) {
-                      print('Building the $index event');
-                      return Column(
-                        children: [
-                          Card(
-                            color: Colors.white,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 30.0, left: 5, right: 5),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 160,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.95,
-                                          child: FittedBox(
-                                            fit: BoxFit.fill,
-                                            child: Image.network(
-                                              "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text("No data"),
+              ));
+            else
+              return Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.95,
+                padding: EdgeInsets.symmetric(vertical: 1.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (_, int index) {
+                    return Column(
+                      children: [
+                        Card(
+                          color: Colors.white,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 30.0,
+                                  ),
+                                  child: Container(
+                                    height: 160,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    child: FittedBox(
+                                      fit: BoxFit.fill,
+                                      child: Image.network(
+                                        "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, top: 5, bottom: 5),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: Text(
+                                    events[index].startDate.substring(0, 10) +
+                                        ' - ' +
+                                        events[index].endDate.substring(0, 10),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, bottom: 20),
+                                  child: RaisedButton(
+                                    onPressed: () {},
+                                    color: Color.fromRGBO(0, 128, 0, 1),
                                     child: Text(
-                                      events[index].eventName,
+                                      events[index].status,
                                       style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 21,
-                                      ),
-                                      textAlign: TextAlign.left,
+                                          color: Colors.white, fontSize: 17),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: RaisedButton(
-                                      onPressed: () {},
-                                      color: Color.fromRGBO(0, 128, 0, 1),
-                                      child: Text(
-                                        events[index].status,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 17),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, bottom: 20),
-                                    child: Text(
-                                      events[index].startDate.substring(0, 10) +
-                                          ' - ' +
-                                          events[index]
-                                              .endDate
-                                              .substring(0, 10),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 5,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 5, top: 10),
-                                    child: Row(
+                                ),
+                                Container(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  height: 3,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 5, top: 10),
+                                  child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -286,72 +266,80 @@ class _EventsState extends State<Events> {
                                         SizedBox(
                                           width: 10.0,
                                         ),
-                                        Container(
-                                          height: 34,
-                                          width: 34,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  247, 247, 251, 1),
-                                              shape: BoxShape.circle),
-                                          child: Icon(
-                                            Icons.phone,
-                                            color: Colors.black,
-                                            size: 19,
-                                          ),
+                                      ]),
+                                ),
+                                Divider(
+                                  height: 5,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 5, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "By: ",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Container(
+                                        height: 34,
+                                        width: 34,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                247, 247, 251, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          FontAwesomeIcons.solidComments,
+                                          color: Color.fromRGBO(0, 0, 255, 1),
+                                          size: 19,
                                         ),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
-                                        Container(
-                                          height: 34,
-                                          width: 34,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  247, 247, 251, 1),
-                                              shape: BoxShape.circle),
-                                          child: Icon(
-                                            Icons.location_on,
-                                            color: Colors.black,
-                                            size: 19,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: RaisedButton(
-                                            onPressed: () {},
-                                            color:
-                                                Theme.of(context).buttonColor,
-                                            child: Text(
-                                              "Event Detail",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18),
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, "/eventDetail",
+                                          arguments: {'id': events[index].id});
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Theme.of(context)
+                                          .buttonColor
+                                          .withOpacity(0.3),
+                                      primary: Theme.of(context).buttonColor,
+                                    ),
+                                    child: Text(
+                                      "Event Detail",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
                                     ),
                                   ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.57,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20.0, right: 5),
-                                          child: Row(
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.57,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 5),
+                                        child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
@@ -368,31 +356,70 @@ class _EventsState extends State<Events> {
                                                     .createdDate
                                                     .substring(0, 10),
                                                 style: TextStyle(
-                                                    fontSize: 17.0,
-                                                    color: Colors.black87),
-                                                textAlign: TextAlign.justify,
+                                                    color: Colors.white,
+                                                    fontSize: 18),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15.0,
-                                        ),
-                                      ],
-                                    ),
+                                            ]),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.57,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.calendar_today,
+                                              color: Colors.black54,
+                                              size: 19,
+                                            ),
+                                            SizedBox(
+                                              width: 5.0,
+                                            ),
+                                            Text(
+                                              events[index]
+                                                  .createdDate
+                                                  .substring(0, 10),
+                                              style: TextStyle(
+                                                  fontSize: 17.0,
+                                                  color: Colors.black87),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 15.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      );
-                    },
-                    itemCount: events.length,
-                  ),
-                );
-            }
-          }),
-    );
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount: events.length,
+                ),
+              );
+          }
+        });
   }
 }
