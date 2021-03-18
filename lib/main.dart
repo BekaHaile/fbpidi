@@ -3,7 +3,7 @@ import 'package:fbpidi/widgets/screens/collaborations/blog.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
 import 'package:fbpidi/widgets/screens/collaborations/event_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/forums.dart';
-import 'package:fbpidi/widgets/screens/collaborations/news.dart';
+import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
 import 'package:fbpidi/widgets/screens/collaborations/polls.dart';
 import 'package:fbpidi/widgets/screens/collaborations/projects.dart';
 import 'package:fbpidi/widgets/screens/collaborations/researches.dart';

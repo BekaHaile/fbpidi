@@ -1,23 +1,23 @@
-import 'package:fbpidi/models/event.dart';
+import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Events extends StatefulWidget {
+class NewsPage extends StatefulWidget {
   @override
-  _EventsState createState() => _EventsState();
+  _NewsState createState() => _NewsState();
 }
 
-class _EventsState extends State<Events> {
+class _NewsState extends State<NewsPage> {
   List selected = [true, false, false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Events")),
+      drawer: Drawer(child: FbpidiDrawer("News")),
       appBar: AppBar(
-        title: Text("Events"),
+        title: Text("News"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -27,7 +27,7 @@ class _EventsState extends State<Events> {
             children: [
               FbpidiSearch(),
               _sortList(context),
-              _buildEventList(context),
+              _buildNewsList(context),
             ],
           ),
         )),
@@ -112,8 +112,9 @@ class _EventsState extends State<Events> {
                 ),
               ),
             ),
-            _sortButton("Upcoming Events", context, 1),
-            _sortButton("New Events", context, 2),
+            _sortButton("Distance", context, 1),
+            _sortButton("Latest", context, 2),
+            _sortButton("Rating", context, 3),
             SizedBox(
               height: 20.0,
             ),
@@ -155,9 +156,9 @@ class _EventsState extends State<Events> {
     );
   }
 
-  Widget _buildEventList(context) {
-    return FutureBuilder<List<Event>>(
-        future: CollaborationsApi().getEvents(),
+  Widget _buildNewsList(context) {
+    return FutureBuilder<List<News>>(
+        future: CollaborationsApi().getNews(),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -167,7 +168,7 @@ class _EventsState extends State<Events> {
               ),
             );
           else {
-            List<Event> events = snapshot.data;
+            List<News> events = snapshot.data;
             if (events.length == 0)
               return Center(
                   child: Padding(
@@ -175,8 +176,9 @@ class _EventsState extends State<Events> {
                 child: Text("No data"),
               ));
             else
-              return Container(
+              Container(
                 alignment: Alignment.center,
+                height: 1800,
                 width: MediaQuery.of(context).size.width * 0.95,
                 padding: EdgeInsets.symmetric(vertical: 1.0),
                 child: ListView.builder(
@@ -189,87 +191,78 @@ class _EventsState extends State<Events> {
                         Card(
                           color: Colors.white,
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.94,
+                            width: MediaQuery.of(context).size.width * 0.95,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                    bottom: 30.0,
-                                  ),
-                                  child: Container(
-                                    height: 160,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.95,
-                                    child: FittedBox(
-                                      fit: BoxFit.fill,
-                                      child: Image.network(
-                                        "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                  padding: const EdgeInsets.only(bottom: 30.0),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height: 180,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.95,
+                                        child: FittedBox(
+                                          fit: BoxFit.fill,
+                                          child: Image.network(
+                                            "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Positioned.fill(
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 5),
+                                            child: RaisedButton(
+                                              onPressed: () {},
+                                              color:
+                                                  Theme.of(context).buttonColor,
+                                              child: Text(
+                                                "Beverage",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, top: 5, bottom: 10),
                                   child: Text(
-                                    events[index].startDate.substring(0, 10) +
-                                        ' - ' +
-                                        events[index].endDate.substring(0, 10),
+                                    'News',
                                     style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
+                                      color: Colors.black87,
+                                      fontSize: 20,
                                     ),
+                                    textAlign: TextAlign.left,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 5.0,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20.0, bottom: 20),
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    color: Color.fromRGBO(0, 128, 0, 1),
-                                    child: Text(
-                                      events[index].status,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 17),
+                                      left: 20.0, top: 5, bottom: 20),
+                                  child: Text(
+                                    'Ethiopian Food, Beverage and Pharmaseutical Institute has officially launched the IIMP project. …',
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 19,
                                     ),
+                                    textAlign: TextAlign.left,
                                   ),
-                                ),
-                                Container(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  height: 3,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 5, top: 10),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "By: ",
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          width: 5.0,
-                                        ),
-                                        CircleAvatar(
-                                          radius: 20,
-                                          child: ClipOval(
-                                              child: Image.network(
-                                            "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
-                                            fit: BoxFit.cover,
-                                            width: 90.0,
-                                            height: 90.0,
-                                          )),
-                                        ),
-                                        SizedBox(
-                                          width: 10.0,
-                                        ),
-                                      ]),
                                 ),
                                 Divider(
-                                  height: 5,
+                                  height: 3,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -278,11 +271,37 @@ class _EventsState extends State<Events> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "By : ",
+                                        "By: ",
                                         style: TextStyle(fontSize: 18),
                                       ),
                                       SizedBox(
                                         width: 5.0,
+                                      ),
+                                      CircleAvatar(
+                                        radius: 20,
+                                        child: ClipOval(
+                                            child: Image.network(
+                                          "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
+                                          fit: BoxFit.cover,
+                                          width: 90.0,
+                                          height: 90.0,
+                                        )),
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Container(
+                                        height: 34,
+                                        width: 34,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                247, 247, 251, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          Icons.phone,
+                                          color: Colors.black,
+                                          size: 19,
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 5.0,
@@ -295,71 +314,26 @@ class _EventsState extends State<Events> {
                                                 247, 247, 251, 1),
                                             shape: BoxShape.circle),
                                         child: Icon(
-                                          FontAwesomeIcons.solidComments,
-                                          color: Color.fromRGBO(0, 0, 255, 1),
+                                          Icons.location_on,
+                                          color: Colors.black,
                                           size: 19,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, "/eventDetail",
-                                          arguments: {'id': events[index].id});
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      onPrimary: Theme.of(context)
-                                          .buttonColor
-                                          .withOpacity(0.3),
-                                      primary: Theme.of(context).buttonColor,
-                                    ),
-                                    child: Text(
-                                      "Event Detail",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.57,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
                                       SizedBox(
-                                        height: 20.0,
+                                        width: 5.0,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.calendar_today,
-                                                color: Colors.black54,
-                                                size: 19,
-                                              ),
-                                              SizedBox(
-                                                width: 5.0,
-                                              ),
-                                              Text(
-                                                events[index]
-                                                    .createdDate
-                                                    .substring(0, 10),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18),
-                                              ),
-                                            ]),
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: RaisedButton(
+                                          onPressed: () {},
+                                          color: Theme.of(context).buttonColor,
+                                          child: Text(
+                                            "News Detail",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -392,9 +366,7 @@ class _EventsState extends State<Events> {
                                               width: 5.0,
                                             ),
                                             Text(
-                                              events[index]
-                                                  .createdDate
-                                                  .substring(0, 10),
+                                              'Feb 23, 2021, 8:31pm',
                                               style: TextStyle(
                                                   fontSize: 17.0,
                                                   color: Colors.black87),
@@ -416,7 +388,7 @@ class _EventsState extends State<Events> {
                       ],
                     );
                   },
-                  itemCount: events.length,
+                  itemCount: 10,
                 ),
               );
           }

@@ -151,12 +151,9 @@ class CollaborationsApi {
 
 //Get list of news
   Future<List<News>> getNews() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/news/"), //uri of api
-        headers: {"Accept": "application/json"});
-
-    //ToDo - add token into the api call
+    var response = await http
+        .get(Uri.encodeFull("$baseUrl/api/collaborations/news/"), //uri of api
+            headers: {"Accept": "application/json"});
 
     List<dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
