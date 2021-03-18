@@ -189,7 +189,7 @@ class _EventsState extends State<Events> {
                         Card(
                           color: Colors.white,
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.95,
+                            width: MediaQuery.of(context).size.width * 0.94,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -264,7 +264,7 @@ class _EventsState extends State<Events> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "By: ",
+                                        "By : ",
                                         style: TextStyle(fontSize: 18),
                                       ),
                                       SizedBox(
