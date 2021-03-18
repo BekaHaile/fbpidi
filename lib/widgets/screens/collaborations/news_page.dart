@@ -168,17 +168,16 @@ class _NewsState extends State<NewsPage> {
               ),
             );
           else {
-            List<News> events = snapshot.data;
-            if (events.length == 0)
+            List<News> news = snapshot.data;
+            if (news.length == 0)
               return Center(
                   child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text("No data"),
               ));
             else
-              Container(
+              return Container(
                 alignment: Alignment.center,
-                height: 1800,
                 width: MediaQuery.of(context).size.width * 0.95,
                 padding: EdgeInsets.symmetric(vertical: 1.0),
                 child: ListView.builder(

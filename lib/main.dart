@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           '/login': (BuildContext context) => LoginPage(),
           '/blogs': (BuildContext context) => Blog(),
           '/forums': (BuildContext context) => Forums(),
-          '/news': (BuildContext context) => News(),
+          '/news': (BuildContext context) => NewsPage(),
           '/polls': (BuildContext context) => Polls(),
           '/tenders': (BuildContext context) => Tenders(),
           '/vacancies': (BuildContext context) => Vacancies(),

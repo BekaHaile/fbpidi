@@ -33,7 +33,7 @@ class EventDetail extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width * 0.95,
-                        padding: EdgeInsets.symmetric(vertical: 1.0),
+                        padding: EdgeInsets.symmetric(vertical: 15.0),
                         child: Column(
                           children: [
                             Card(
@@ -48,9 +48,9 @@ class EventDetail extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 20.0, top: 5, bottom: 10),
+                                          left: 20.0, top: 15, bottom: 10),
                                       child: Text(
-                                        event.eventName,
+                                        event.title,
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 24,
@@ -310,7 +310,7 @@ class EventDetail extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      height: 160,
+                      height: 200,
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: FittedBox(
                         fit: BoxFit.fill,

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.137.99:8000";
+  String baseUrl = "http://192.168.1.19:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -155,11 +155,11 @@ class CollaborationsApi {
         .get(Uri.encodeFull("$baseUrl/api/collaborations/news/"), //uri of api
             headers: {"Accept": "application/json"});
 
-    List<dynamic> data = jsonDecode(response.body);
+    Map<dynamic, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
     List<News> newsList = [];
-    data.forEach((news) {
-      newsList.add(news.fromMap(news));
+    data['news_list'].forEach((news) {
+      newsList.add(News.fromMap(news));
     });
     return newsList;
   }
