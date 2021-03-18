@@ -3,6 +3,7 @@ import 'package:fbpidi/widgets/screens/collaborations/blog.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
 import 'package:fbpidi/widgets/screens/collaborations/event_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/forums.dart';
+import 'package:fbpidi/widgets/screens/collaborations/news_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
 import 'package:fbpidi/widgets/screens/collaborations/polls.dart';
 import 'package:fbpidi/widgets/screens/collaborations/projects.dart';
@@ -85,6 +86,11 @@ class MyApp extends StatelessWidget {
             case '/eventDetail':
               return MaterialPageRoute(
                   builder: (_) => EventDetail(
+                        requests,
+                      ));
+            case '/newsDetail':
+              return MaterialPageRoute(
+                  builder: (_) => NewsDetail(
                         requests,
                       ));
             default:

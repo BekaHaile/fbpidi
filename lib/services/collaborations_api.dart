@@ -168,16 +168,12 @@ class CollaborationsApi {
   Future<News> getNewsDetail(id) async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/news_detail/$id/"), //uri of api
-        headers: {
-          "Authorization Token": "99b43761704f6994a5bd6cd0fc93b1f542db5e73"
-        });
-
-    //ToDo - add token into the api call
+            "$baseUrl/api/collaborations/news_detail/?id=$id"), //uri of api
+        headers: {"Accept": "application/json"});
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    News news = News.fromMap(data);
+    News news = News.fromMap(data['news']);
 
     return news;
   }

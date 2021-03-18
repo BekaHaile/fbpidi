@@ -76,19 +76,21 @@ class _NewsState extends State<NewsPage> {
               height: 55,
               padding: EdgeInsets.only(bottom: 5),
               child: SizedBox.expand(
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     setState(() {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
                   },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: selected[0]
-                              ? Theme.of(context).buttonColor
-                              : Colors.black38)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: selected[0]
+                                ? Theme.of(context).buttonColor
+                                : Colors.black38)),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.32),
@@ -130,19 +132,21 @@ class _NewsState extends State<NewsPage> {
       height: 55,
       padding: EdgeInsets.only(bottom: 5),
       child: SizedBox.expand(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             setState(() {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
           },
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: selected[index]
-                      ? Theme.of(context).buttonColor
-                      : Colors.grey)),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: selected[index]
+                        ? Theme.of(context).buttonColor
+                        : Colors.grey)),
+          ),
           child: Text(
             title,
             style: TextStyle(
@@ -185,209 +189,213 @@ class _NewsState extends State<NewsPage> {
                   primary: false,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (_, int index) {
-                    return Column(
-                      children: [
-                        Card(
-                          color: Colors.white,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 30.0),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        height: 180,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.95,
-                                        child: FittedBox(
-                                          fit: BoxFit.fill,
-                                          child: Image.network(
-                                            "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Column(
+                        children: [
+                          Card(
+                            color: Colors.white,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 30.0),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.95,
+                                          child: FittedBox(
+                                            fit: BoxFit.fill,
+                                            child: Image.network(
+                                              "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Positioned.fill(
-                                        child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 5),
-                                            child: RaisedButton(
-                                              onPressed: () {},
-                                              color:
-                                                  Theme.of(context).buttonColor,
-                                              child: Text(
-                                                "Beverage",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 17),
+                                        Positioned.fill(
+                                          child: Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5),
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .buttonColor,
+                                                ),
+                                                onPressed: () {},
+                                                child: Text(
+                                                  news[index].catagory,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17),
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, top: 5, bottom: 10),
-                                  child: Text(
-                                    'News',
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 20,
+                                      ],
                                     ),
-                                    textAlign: TextAlign.left,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, top: 5, bottom: 20),
-                                  child: Text(
-                                    'Ethiopian Food, Beverage and Pharmaseutical Institute has officially launched the IIMP project. …',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 19,
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, top: 5, bottom: 10),
+                                    child: Text(
+                                      news[index].title,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.left,
                                     ),
-                                    textAlign: TextAlign.left,
                                   ),
-                                ),
-                                Divider(
-                                  height: 3,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 5, top: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "By: ",
-                                        style: TextStyle(fontSize: 18),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, top: 5, bottom: 20),
+                                    child: Text(
+                                      'Posted at: ' +
+                                          news[index]
+                                              .createdDate
+                                              .substring(0, 10) +
+                                          ', ' +
+                                          news[index]
+                                              .createdDate
+                                              .substring(12, 16) +
+                                          ' a.m.',
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 19,
                                       ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      CircleAvatar(
-                                        radius: 20,
-                                        child: ClipOval(
-                                            child: Image.network(
-                                          "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
-                                          fit: BoxFit.cover,
-                                          width: 90.0,
-                                          height: 90.0,
-                                        )),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Container(
-                                        height: 34,
-                                        width: 34,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                247, 247, 251, 1),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.phone,
-                                          color: Colors.black,
-                                          size: 19,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 3,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0,
+                                        right: 5,
+                                        top: 10,
+                                        bottom: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "By: ",
+                                          style: TextStyle(fontSize: 18),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Container(
-                                        height: 34,
-                                        width: 34,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                247, 247, 251, 1),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.location_on,
-                                          color: Colors.black,
-                                          size: 19,
+                                        SizedBox(
+                                          width: 5.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20.0),
-                                        child: RaisedButton(
-                                          onPressed: () {},
-                                          color: Theme.of(context).buttonColor,
-                                          child: Text(
-                                            "News Detail",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                        CircleAvatar(
+                                          radius: 20,
+                                          child: ClipOval(
+                                              child: Image.network(
+                                            "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
+                                            fit: BoxFit.cover,
+                                            width: 90.0,
+                                            height: 90.0,
+                                          )),
+                                        ),
+                                        SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: Colors.black,
+                                            size: 19,
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.57,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_today,
-                                              color: Colors.black54,
-                                              size: 19,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              'Feb 23, 2021, 8:31pm',
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  color: Colors.black87),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ],
+                                        SizedBox(
+                                          width: 5.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                    ],
+                                        Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.location_on,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            FontAwesomeIcons.solidComments,
+                                            color: Color.fromRGBO(0, 0, 255, 1),
+                                            size: 19,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5.0,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20.0),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, '/newsDetail',
+                                                  arguments: {
+                                                    'id': news[index].id
+                                                  });
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              primary:
+                                                  Theme.of(context).buttonColor,
+                                            ),
+                                            child: Text(
+                                              "News Detail",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
-                  itemCount: 10,
+                  itemCount: news.length,
                 ),
               );
           }
