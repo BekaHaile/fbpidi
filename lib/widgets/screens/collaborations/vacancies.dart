@@ -227,7 +227,7 @@ class Vacancies extends StatelessWidget {
                                               Text(
                                                 vacancies[index]
                                                     .companyInfo
-                                                    .companyName,
+                                                    .name,
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 19,

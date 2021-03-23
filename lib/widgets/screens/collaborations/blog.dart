@@ -150,9 +150,11 @@ class Blog extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20.0, bottom: 15.0),
-                                child: RaisedButton(
+                                child: ElevatedButton(
                                   onPressed: () {},
-                                  color: Theme.of(context).buttonColor,
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).buttonColor,
+                                  ),
                                   child: Text(
                                     "Read More",
                                     style: TextStyle(color: Colors.white),

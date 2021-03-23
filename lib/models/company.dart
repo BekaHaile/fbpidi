@@ -1,155 +1,196 @@
 class Company {
   String id;
-  String user;
-  String companyName;
-  String companyNameAm;
-  String location;
-  String email;
-  String phoneNumber;
+  String createdBy;
+  Map<dynamic, dynamic> companyAddress;
+  String mainCategory;
+  String name;
+  String nameAm;
+  String logo;
+  String geoLocation;
+  String establishedYear;
   String detail;
   String detailAm;
-  String companyLogo;
-  String companyIntro;
-  String companyType;
-  String companyTypeAm;
-  String numberOfEmployees;
-  String establishedYear;
-  String certification;
-  String city;
-  String postalCode;
-  String productCategoryName;
-  String productCategory;
-  String color;
-  String facebookLink;
-  String twitterLink;
-  String googleLink;
-  String capital;
-  String pintrestLink;
-  String instagramLink;
-  String linkedinLink;
-  String incoterms;
-  String incotermsAm;
-  String averageLeadTime;
-  String averageLeadTimeAm;
-  String noTradingStaff;
-  String termsOfPayment;
-  String exportYr;
-  String exportPercentage;
-  String mainMarket;
-  String mainMarketAm;
-  String nearestPort;
-  String nearestPortAm;
-  String importExport;
-  String rAndDCapacity;
-  String rAndDCapacityAm;
-  String noOfRndStaff;
-  String noProductionLines;
-  String anualOpValue;
-  String anualOpMainProducts;
-  String anualOpMainProductsAm;
-  String timestamp;
+  String expansionPlan;
+  String expansionPlanAm;
+  String tradeLicense;
+  String orgnStrct;
+  String labTestAnalysis;
+  String labTestAnalysisAm;
+  String labEquipment;
+  String labEquipmentAm;
+  String outsourcedTestParam;
+  String outsourcedTestParamAm;
+  String conductedResearch;
+  String conductedResearchAm;
+  String newProductDeveloped;
+  String newProductDevelopedAm;
+  bool electricPower;
+  bool waterSupply;
+  bool telecom;
+  bool marketingDepartment;
+  bool eCommerce;
+  bool activeDatabase;
+  String wasteTrtmntSystem;
+  String wasteTrtmntSystemAm;
+  bool efluentTreatmentPlant;
+
+  String envMgmtPlan;
+  String gasCarbEmision;
+  String gasCarbEmisionAm;
+  String compoundAllot;
+  String comunityCompliant;
+  String comunityCompliantAm;
+  bool envFocalPerson;
+  bool safetyProfesional;
+  bool notificationProcedure;
+  String universityLinkage;
+  String universityLinkageAm;
+  bool recallSystem;
+  String qualityDefectsAm;
+  String qualityDefects;
+  String gasWasteMgmntMeasure;
+  String gasWasteMgmntMeasureAm;
+  String createdDate;
+  String lastUpdatedDate;
+  bool expired;
+  String ownershipForm;
+  String contactPerson;
+  String workingHours;
+  String sourceOfEnergy;
+  String supportRequired;
+  String companyCondition;
+  String lastUpdatedBy;
+  List category;
+  List certification;
+  List managementTools;
 
   Company({
     this.id,
-    this.user,
-    this.companyName,
-    this.companyNameAm,
-    this.location,
-    this.email,
-    this.phoneNumber,
+    this.createdBy,
+    this.companyAddress,
+    this.mainCategory,
+    this.name,
+    this.nameAm,
+    this.geoLocation,
+    this.expansionPlan,
+    this.expansionPlanAm,
+    this.tradeLicense,
+    this.orgnStrct,
+    this.labTestAnalysis,
+    this.labTestAnalysisAm,
+    this.labEquipment,
+    this.labEquipmentAm,
+    this.outsourcedTestParam,
+    this.outsourcedTestParamAm,
+    this.conductedResearch,
+    this.conductedResearchAm,
+    this.newProductDeveloped,
+    this.newProductDevelopedAm,
+    this.electricPower,
+    this.waterSupply,
+    this.telecom,
+    this.marketingDepartment,
+    this.activeDatabase,
+    this.wasteTrtmntSystem,
+    this.wasteTrtmntSystemAm,
+    this.efluentTreatmentPlant,
+    this.envMgmtPlan,
+    this.gasCarbEmision,
+    this.gasCarbEmisionAm,
+    this.compoundAllot,
+    this.comunityCompliant,
+    this.comunityCompliantAm,
+    this.envFocalPerson,
+    this.safetyProfesional,
+    this.notificationProcedure,
+    this.universityLinkage,
+    this.universityLinkageAm,
+    this.recallSystem,
+    this.qualityDefectsAm,
+    this.qualityDefects,
+    this.gasWasteMgmntMeasure,
+    this.gasWasteMgmntMeasureAm,
+    this.createdDate,
+    this.lastUpdatedDate,
+    this.expired,
+    this.ownershipForm,
+    this.contactPerson,
+    this.workingHours,
+    this.sourceOfEnergy,
+    this.supportRequired,
+    this.companyCondition,
+    this.lastUpdatedBy,
+    this.category,
+    this.certification,
+    this.managementTools,
     this.detail,
     this.detailAm,
-    this.companyLogo,
-    this.companyIntro,
-    this.companyType,
-    this.companyTypeAm,
-    this.numberOfEmployees,
+    this.logo,
     this.establishedYear,
-    this.certification,
-    this.city,
-    this.postalCode,
-    this.productCategoryName,
-    this.productCategory,
-    this.color,
-    this.facebookLink,
-    this.twitterLink,
-    this.googleLink,
-    this.capital,
-    this.pintrestLink,
-    this.instagramLink,
-    this.linkedinLink,
-    this.incoterms,
-    this.incotermsAm,
-    this.averageLeadTime,
-    this.averageLeadTimeAm,
-    this.noTradingStaff,
-    this.termsOfPayment,
-    this.exportYr,
-    this.exportPercentage,
-    this.mainMarket,
-    this.mainMarketAm,
-    this.nearestPort,
-    this.nearestPortAm,
-    this.importExport,
-    this.rAndDCapacity,
-    this.rAndDCapacityAm,
-    this.noOfRndStaff,
-    this.noProductionLines,
-    this.anualOpValue,
-    this.anualOpMainProducts,
-    this.anualOpMainProductsAm,
-    this.timestamp,
   });
 
   Company.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
-    user = map["user"].toString();
-    companyName = map["company_name"].toString();
-    companyNameAm = map["company_name_am"].toString();
-    location = map["location"].toString();
-    email = map["email"].toString();
-    phoneNumber = map["phone_number"].toString();
+    createdBy = map["created_by"].toString();
+    companyAddress = map["company_address"];
+    mainCategory = map["main_category"].toString();
+    name = map["name"].toString();
+    nameAm = map["company_name_am"].toString();
+    logo = map["logo"].toString();
+    geoLocation = map["geo_location"].toString();
     detail = map["detail"].toString();
     detailAm = map["detail_am"].toString();
-    companyLogo = map["company_logo"].toString();
-    companyIntro = map["company_intro"].toString();
-    companyType = map["company_type"].toString();
-    companyTypeAm = map["company_type_am"].toString();
-    numberOfEmployees = map["number_of_employees"].toString();
+    expansionPlan = map["expansion_plan"].toString();
+    expansionPlanAm = map["expansion_plan_am"].toString();
+    tradeLicense = map["trade_license"].toString();
+    orgnStrct = map["orgn_strct"].toString();
+    labTestAnalysis = map["lab_test_analysis"].toString();
+    labTestAnalysisAm = map["lab_test_analysis_am"].toString();
+    labEquipment = map["lab_equipment"].toString();
+    labEquipmentAm = map["lab_equipment_am"].toString();
+    outsourcedTestParam = map["outsourced_test_param"].toString();
+    outsourcedTestParamAm = map["outsourced_test_param_am"].toString();
+    conductedResearch = map["conducted_research"].toString();
+    conductedResearchAm = map["conducted_research_am"].toString();
+    newProductDeveloped = map["new_product_developed"].toString();
+    newProductDevelopedAm = map["new_product_developed_am"].toString();
+    electricPower = map["electric_power"];
+    waterSupply = map["water_supply"];
+    telecom = map["telecom"];
+    marketingDepartment = map["marketing_department"];
+    activeDatabase = map["active_database"];
+    wasteTrtmntSystem = map["waste_trtmnt_system"].toString();
+    wasteTrtmntSystemAm = map["waste_trtmnt_system_am"].toString();
+    efluentTreatmentPlant = map["efluent_treatment_plant"];
+    envMgmtPlan = map["env_mgmt_plan"].toString();
+    gasCarbEmision = map["gas_carb_emision"].toString();
+    gasCarbEmisionAm = map["gas_carb_emision_am"].toString();
+    compoundAllot = map["compound_allot"].toString();
+    comunityCompliant = map["comunity_compliant"].toString();
+    comunityCompliantAm = map["comunity_compliant_am"].toString();
+    envFocalPerson = map["env_focal_person"];
+    safetyProfesional = map["safety_profesional"];
+    notificationProcedure = map["notification_procedure"];
+    universityLinkage = map["university_linkage"].toString();
+    universityLinkageAm = map["university_linkage_am"].toString();
+    recallSystem = map["recall_system"];
+    qualityDefectsAm = map["quality_defects_am"].toString();
+    qualityDefects = map["quality_defects"].toString();
+    gasWasteMgmntMeasure = map["gas_waste_mgmnt_measure"].toString();
+    gasWasteMgmntMeasureAm = map["gas_waste_mgmnt_measure_am"].toString();
+    createdDate = map["created_date"].toString();
+    lastUpdatedDate = map["last_updated_date"].toString();
+    expired = map["expired"];
+    ownershipForm = map["ownership_form"].toString();
+    contactPerson = map["contact_person"].toString();
+    workingHours = map["working_hours"].toString();
+    sourceOfEnergy = map["source_of_energy"].toString();
+    supportRequired = map["support_required"].toString();
+    companyCondition = map["company_condition"].toString();
+    lastUpdatedBy = map["last_updated_by"].toString();
+    category = map["category"];
+    certification = map["certification"];
+    managementTools = map["management_tools"];
     establishedYear = map["established_year"].toString();
-    certification = map["certification"].toString();
-    city = map["city"].toString();
-    postalCode = map["postal_code"].toString();
-    productCategoryName = map["product_category_name"].toString();
-    productCategory = map["product_category"].toString();
-    color = map["color"].toString();
-    facebookLink = map["facebook_link"].toString();
-    twitterLink = map["twiter_link"].toString();
-    googleLink = map["google_link"].toString();
-    capital = map["capital"].toString();
-    pintrestLink = map["pintrest_link"].toString();
-    instagramLink = map["instagram_link"].toString();
-    linkedinLink = map["linkedin_link"].toString();
-    incoterms = map["incoterms"].toString();
-    incotermsAm = map["incoterms_am"].toString();
-    averageLeadTime = map["average_lead_time"].toString();
-    averageLeadTimeAm = map["average_lead_time_am"].toString();
-    noTradingStaff = map["no_trading_staff"].toString();
-    termsOfPayment = map["terms_of_payment"].toString();
-    exportYr = map["export_yr"].toString();
-    exportPercentage = map["export_percentage"].toString();
-    mainMarket = map["main_market"].toString();
-    mainMarketAm = map["main_market_am"].toString();
-    nearestPort = map["nearest_port"].toString();
-    nearestPortAm = map["nearest_port_am"].toString();
-    importExport = map["import_export"].toString();
-    rAndDCapacity = map["r_and_d_capacity"].toString();
-    rAndDCapacityAm = map["r_and_d_capacity_am"].toString();
-    noOfRndStaff = map["no_of_rnd_staff"].toString();
-    noProductionLines = map["no_production_lines"].toString();
-    anualOpValue = map["anual_op_value"].toString();
-    anualOpMainProducts = map["anual_op_main_products"].toString();
-    anualOpMainProductsAm = map["anual_op_main_products_am"].toString();
-    timestamp = map["timestamp"].toString();
   }
 }

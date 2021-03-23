@@ -38,162 +38,166 @@ class Forums extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CircularProgressIndicator(),
-                ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               );
             else {
               List<Forum> forums = snapshot.data;
               if (forums.length == 0)
-                          return Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("No data"),
-                          ));
-                        else
-              return Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.95,
-                padding: EdgeInsets.symmetric(vertical: 1.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (_, int index) {
-                    return Column(
-                      children: [
-                        Card(
-                          color: Colors.white,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 18.0, top: 20, bottom: 20),
-                                  child: Text(
-                                    forums[index].title,
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
+                return Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text("No data"),
+                ));
+              else
+                return Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  padding: EdgeInsets.symmetric(vertical: 1.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (_, int index) {
+                      return Column(
+                        children: [
+                          Card(
+                            color: Colors.white,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18.0, top: 20, bottom: 20),
+                                    child: Text(
+                                      forums[index].title,
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.57,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.calendar_today,
-                                              color: Colors.black54,
-                                              size: 18,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              forums[index]
-                                                  .timeStamp
-                                                  .substring(0, 10),
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  color: Colors.black54),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ],
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.57,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          height: 10.0,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 7.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.comment,
-                                              color: Colors.black54,
-                                              size: 18,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              forums[index].noOfComments,
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  color: Colors.black54),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, top: 5, bottom: 10),
-                                        child: Text(
-                                          forums[index].description,
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 19,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: Colors.black54,
+                                                size: 18,
+                                              ),
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text(
+                                                forums[index]
+                                                    .timeStamp
+                                                    .substring(0, 10),
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    color: Colors.black54),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                            ],
                                           ),
-                                          textAlign: TextAlign.left,
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, bottom: 15.0),
-                                        child: RaisedButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(5.0),
+                                        SizedBox(
+                                          height: 7.0,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.comment,
+                                                color: Colors.black54,
+                                                size: 18,
+                                              ),
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text(
+                                                forums[index].noOfComments,
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    color: Colors.black54),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                            ],
                                           ),
-                                          onPressed: () {},
-                                          color: Theme.of(context).buttonColor,
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, top: 5, bottom: 10),
                                           child: Text(
-                                            "Read More",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            forums[index].description,
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 19,
+                                            ),
+                                            textAlign: TextAlign.left,
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, bottom: 15.0),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        5.0),
+                                              ),
+                                              primary:
+                                                  Theme.of(context).buttonColor,
+                                            ),
+                                            onPressed: () {},
+                                            child: Text(
+                                              "Read More",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: forums.length,
-                ),
-              );
+                        ],
+                      );
+                    },
+                    itemCount: forums.length,
+                  ),
+                );
             }
           }),
     );

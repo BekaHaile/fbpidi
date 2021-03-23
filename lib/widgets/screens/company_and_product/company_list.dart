@@ -145,8 +145,8 @@ class _CompanyState extends State<CompanyPage> {
           onPressed: () {
             if (title == 'Distance') {
               setState(() {
-                companies.sort((a, b) =>
-                    a.numberOfEmployees.compareTo(b.numberOfEmployees));
+                // companies.sort((a, b) =>
+                //     a.numberOfEmployees.compareTo(b.numberOfEmployees));
               });
             }
             setState(() {
@@ -238,7 +238,7 @@ class _CompanyState extends State<CompanyPage> {
                                     padding: const EdgeInsets.only(
                                         left: 20.0, top: 5, bottom: 10),
                                     child: Text(
-                                      companies[index].companyType,
+                                      companies[index].mainCategory,
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 19,
@@ -255,7 +255,7 @@ class _CompanyState extends State<CompanyPage> {
                                         padding: const EdgeInsets.only(
                                             left: 20.0, top: 5, bottom: 10),
                                         child: Text(
-                                          companies[index].companyName,
+                                          companies[index].name,
                                           style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 24,
@@ -321,7 +321,8 @@ class _CompanyState extends State<CompanyPage> {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            companies[index].location,
+                                            companies[index]
+                                                .companyAddress['city_town'],
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 20,
@@ -364,7 +365,8 @@ class _CompanyState extends State<CompanyPage> {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            companies[index].phoneNumber,
+                                            companies[index]
+                                                .companyAddress['phone_number'],
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 20,
