@@ -63,71 +63,72 @@ class Company {
   List category;
   List certification;
   List managementTools;
+  List companyCertificates;
 
-  Company({
-    this.id,
-    this.createdBy,
-    this.companyAddress,
-    this.mainCategory,
-    this.name,
-    this.nameAm,
-    this.geoLocation,
-    this.expansionPlan,
-    this.expansionPlanAm,
-    this.tradeLicense,
-    this.orgnStrct,
-    this.labTestAnalysis,
-    this.labTestAnalysisAm,
-    this.labEquipment,
-    this.labEquipmentAm,
-    this.outsourcedTestParam,
-    this.outsourcedTestParamAm,
-    this.conductedResearch,
-    this.conductedResearchAm,
-    this.newProductDeveloped,
-    this.newProductDevelopedAm,
-    this.electricPower,
-    this.waterSupply,
-    this.telecom,
-    this.marketingDepartment,
-    this.activeDatabase,
-    this.wasteTrtmntSystem,
-    this.wasteTrtmntSystemAm,
-    this.efluentTreatmentPlant,
-    this.envMgmtPlan,
-    this.gasCarbEmision,
-    this.gasCarbEmisionAm,
-    this.compoundAllot,
-    this.comunityCompliant,
-    this.comunityCompliantAm,
-    this.envFocalPerson,
-    this.safetyProfesional,
-    this.notificationProcedure,
-    this.universityLinkage,
-    this.universityLinkageAm,
-    this.recallSystem,
-    this.qualityDefectsAm,
-    this.qualityDefects,
-    this.gasWasteMgmntMeasure,
-    this.gasWasteMgmntMeasureAm,
-    this.createdDate,
-    this.lastUpdatedDate,
-    this.expired,
-    this.ownershipForm,
-    this.contactPerson,
-    this.workingHours,
-    this.sourceOfEnergy,
-    this.supportRequired,
-    this.companyCondition,
-    this.lastUpdatedBy,
-    this.category,
-    this.certification,
-    this.managementTools,
-    this.detail,
-    this.detailAm,
-    this.logo,
-    this.establishedYear,
-  });
+  Company(
+      {this.id,
+      this.createdBy,
+      this.companyAddress,
+      this.mainCategory,
+      this.name,
+      this.nameAm,
+      this.geoLocation,
+      this.expansionPlan,
+      this.expansionPlanAm,
+      this.tradeLicense,
+      this.orgnStrct,
+      this.labTestAnalysis,
+      this.labTestAnalysisAm,
+      this.labEquipment,
+      this.labEquipmentAm,
+      this.outsourcedTestParam,
+      this.outsourcedTestParamAm,
+      this.conductedResearch,
+      this.conductedResearchAm,
+      this.newProductDeveloped,
+      this.newProductDevelopedAm,
+      this.electricPower,
+      this.waterSupply,
+      this.telecom,
+      this.marketingDepartment,
+      this.activeDatabase,
+      this.wasteTrtmntSystem,
+      this.wasteTrtmntSystemAm,
+      this.efluentTreatmentPlant,
+      this.envMgmtPlan,
+      this.gasCarbEmision,
+      this.gasCarbEmisionAm,
+      this.compoundAllot,
+      this.comunityCompliant,
+      this.comunityCompliantAm,
+      this.envFocalPerson,
+      this.safetyProfesional,
+      this.notificationProcedure,
+      this.universityLinkage,
+      this.universityLinkageAm,
+      this.recallSystem,
+      this.qualityDefectsAm,
+      this.qualityDefects,
+      this.gasWasteMgmntMeasure,
+      this.gasWasteMgmntMeasureAm,
+      this.createdDate,
+      this.lastUpdatedDate,
+      this.expired,
+      this.ownershipForm,
+      this.contactPerson,
+      this.workingHours,
+      this.sourceOfEnergy,
+      this.supportRequired,
+      this.companyCondition,
+      this.lastUpdatedBy,
+      this.category,
+      this.certification,
+      this.managementTools,
+      this.detail,
+      this.detailAm,
+      this.logo,
+      this.establishedYear,
+      this.companyCertificates});
 
   Company.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
@@ -135,7 +136,7 @@ class Company {
     companyAddress = map["company_address"];
     mainCategory = map["main_category"].toString();
     name = map["name"].toString();
-    nameAm = map["company_name_am"].toString();
+    nameAm = map["name_am"].toString();
     logo = map["logo"].toString();
     geoLocation = map["geo_location"].toString();
     detail = map["detail"].toString();
@@ -191,6 +192,7 @@ class Company {
     category = map["category"];
     certification = map["certification"];
     managementTools = map["management_tools"];
-    establishedYear = map["established_year"].toString();
+    establishedYear = map["established_yr"].toString();
+    companyCertificates = map['company_certificates'];
   }
 }

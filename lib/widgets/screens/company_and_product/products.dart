@@ -292,7 +292,7 @@ class _ProductsState extends State<Products> {
                                                         primary: Theme.of(
                                                                 context)
                                                             .buttonColor
-                                                            .withOpacity(0.7),
+                                                            .withOpacity(0.9),
                                                       ),
                                                       child: Text(
                                                         products[index]

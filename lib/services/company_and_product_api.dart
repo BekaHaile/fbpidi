@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompanyAndProductAPI {
-  String baseUrl = "http://192.168.1.19:8000";
+  String baseUrl = "http://192.168.1.174:8000";
 
   //Get list of companies
+  /// company_type = manufacturer or supplier
+  /// product_category = all or Beverage or Food or Pharmaceuticals
   Future<List<Company>> getCompanies(type, productCategory) async {
-    // company_type = manufacturer or supplier
-    // product_category = all or Beverage or Food or Pharmaceuticals
     try {
       var response = await http.get(
         Uri.encodeFull(
@@ -19,10 +19,14 @@ class CompanyAndProductAPI {
       Map<String, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
       List<Company> companies = [];
-      data["companies"].forEach((com) {
-        companies.add(Company.fromMap(com));
-        print(baseUrl + com["company_logo"]);
-      });
+      try {
+        data["companies"].forEach((com) {
+          companies.add(Company.fromMap(com));
+        });
+      } catch (e) {
+        print(e.toString());
+        throw Exception('Unable to convert data from map to model.');
+      }
       return companies;
     } catch (e) {
       print("Error: " + e.toString());
