@@ -5,6 +5,7 @@ import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/models/research.dart';
+import 'package:fbpidi/models/tender.dart';
 import 'package:fbpidi/models/vacancy.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -69,6 +70,27 @@ class CollaborationsApi {
         vacancies.add(Vacancy.fromMap(vacancy));
       });
       return vacancies;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //Get all tenders
+  Future<List<Tender>> getTenders() async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/tender_list/"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Tender> tenders = [];
+      data['tenders'].forEach((tender) {
+        tenders.add(Tender.fromMap(tender));
+      });
+      return tenders;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

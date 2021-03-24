@@ -1,40 +1,64 @@
+import 'package:fbpidi/models/company.dart';
+
 class Tender {
   String id;
-  String categoryName;
+  Map<dynamic, dynamic> createdBy;
+  Company company;
+  String createdDate;
   String title;
-  String accepted;
+  String titleAm;
   String description;
-  String detail;
-  String timeStamp;
-  String attachements;
-  String user;
+  String descriptionAm;
+  String document;
+  String tenderType;
+  double documentPrice;
   String status;
-  String category;
+  String startDate;
+  String endDate;
+  String lastUpdatedDate;
+  bool expired;
+  String lastUpdatedBy;
+  List bankAccount;
+
   Tender({
     this.id,
-    this.categoryName,
+    this.createdBy,
+    this.company,
+    this.createdDate,
     this.title,
-    this.accepted,
+    this.titleAm,
     this.description,
-    this.detail,
-    this.timeStamp,
-    this.attachements,
-    this.user,
+    this.descriptionAm,
+    this.document,
+    this.tenderType,
+    this.documentPrice,
     this.status,
-    this.category,
+    this.startDate,
+    this.endDate,
+    this.lastUpdatedDate,
+    this.expired,
+    this.lastUpdatedBy,
+    this.bankAccount,
   });
 
   Tender.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
-    categoryName = map["category_name"].toString();
-    title = map["title"].toString();
-    accepted = map["accepted"].toString();
+    createdBy = map["created_by"];
+    company = Company.fromMap(map["company"]);
+    createdDate = map["created_date"].toString();
     description = map["description"].toString();
-    detail = map["detail"].toString();
-    timeStamp = map["timestamp"].toString();
-    attachements = map["attachements"].toString();
-    user = map["user"].toString();
+    descriptionAm = map["description_am"].toString();
+    document = map["document"].toString();
+    tenderType = map[""].toString();
+    documentPrice = map[""];
+    startDate = map[""].toString();
+    endDate = map[""].toString();
+    lastUpdatedBy = map[""].toString();
     status = map["status"].toString();
-    category = map["category"].toString();
+    expired = map[""];
+    lastUpdatedBy = map[""].toString();
+    bankAccount = map[""];
+    title = map["title"].toString();
+    titleAm = map["title_am"].toString();
   }
 }
