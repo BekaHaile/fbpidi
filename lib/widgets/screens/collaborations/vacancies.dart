@@ -294,7 +294,13 @@ class Vacancies extends StatelessWidget {
                                                 primary: Theme.of(context)
                                                     .buttonColor,
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, '/vacancyDetail',
+                                                    arguments: {
+                                                      'id': vacancies[index].id
+                                                    });
+                                              },
                                               child: Text(
                                                 "View Job Details",
                                                 style: TextStyle(

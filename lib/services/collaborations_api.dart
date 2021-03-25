@@ -77,6 +77,25 @@ class CollaborationsApi {
     }
   }
 
+  ///Pass an id of a vacancy to get the detail
+  Future<Vacancy> getVacancyDetail(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/vacancy_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      Vacancy vacancy = Vacancy.fromMap(data["vacancy"]);
+
+      return vacancy;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
   Future<Map<String, dynamic>> getJobCategory() async {
     try {
       var response = await http.get(

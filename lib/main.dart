@@ -11,6 +11,7 @@ import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tender_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
+import 'package:fbpidi/widgets/screens/collaborations/vacancy_detail.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_detail.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_list.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/product_detail.dart';
@@ -103,6 +104,11 @@ class MyApp extends StatelessWidget {
             case '/tenderDetail':
               return MaterialPageRoute(
                   builder: (_) => TenderDetail(
+                        requests,
+                      ));
+            case '/vacancyDetail':
+              return MaterialPageRoute(
+                  builder: (_) => VacancyDetail(
                         requests,
                       ));
 
