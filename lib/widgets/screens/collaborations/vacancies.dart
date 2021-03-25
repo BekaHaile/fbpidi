@@ -239,15 +239,17 @@ class Vacancies extends StatelessWidget {
                                                 top: 10,
                                                 left: 20.0,
                                                 bottom: 15.0),
-                                            child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        5.0),
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                ),
+                                                primary: Theme.of(context)
+                                                    .buttonColor,
                                               ),
                                               onPressed: () {},
-                                              color:
-                                                  Theme.of(context).buttonColor,
                                               child: Text(
                                                 "View Job Details",
                                                 style: TextStyle(
@@ -261,15 +263,17 @@ class Vacancies extends StatelessWidget {
                                                 top: 10,
                                                 left: 20.0,
                                                 bottom: 15.0),
-                                            child: RaisedButton(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        5.0),
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          5.0),
+                                                ),
+                                                primary: Theme.of(context)
+                                                    .buttonColor,
                                               ),
                                               onPressed: () {},
-                                              color:
-                                                  Theme.of(context).buttonColor,
                                               child: Text(
                                                 "Apply",
                                                 style: TextStyle(

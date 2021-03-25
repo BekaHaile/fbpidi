@@ -74,19 +74,21 @@ class _PollsState extends State<Polls> {
               height: 55,
               padding: EdgeInsets.only(bottom: 5),
               child: SizedBox.expand(
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     setState(() {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
                   },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: selected[0]
-                              ? Theme.of(context).buttonColor
-                              : Colors.black38)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: selected[0]
+                                ? Theme.of(context).buttonColor
+                                : Colors.black38)),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.32),
@@ -126,19 +128,21 @@ class _PollsState extends State<Polls> {
       height: 55,
       padding: EdgeInsets.only(bottom: 5),
       child: SizedBox.expand(
-        child: RaisedButton(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: selected[index]
+                        ? Theme.of(context).buttonColor
+                        : Colors.grey)),
+          ),
           onPressed: () {
             setState(() {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
           },
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: selected[index]
-                      ? Theme.of(context).buttonColor
-                      : Colors.grey)),
           child: Text(
             title,
             style: TextStyle(
@@ -275,9 +279,11 @@ class _PollsState extends State<Polls> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
-                                child: RaisedButton(
+                                child: ElevatedButton(
                                   onPressed: () {},
-                                  color: Theme.of(context).buttonColor,
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).buttonColor,
+                                  ),
                                   child: Text(
                                     "Poll Detail",
                                     style: TextStyle(color: Colors.white),

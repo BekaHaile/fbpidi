@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.174:8000";
+  String baseUrl = "http://192.168.1.33:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -72,7 +72,7 @@ class CollaborationsApi {
       return vacancies;
     } catch (e) {
       print("Error: " + e.toString());
-      throw Exception('Unable to Connect to Server');
+      throw Exception(e);
     }
   }
 
@@ -91,6 +91,25 @@ class CollaborationsApi {
         tenders.add(Tender.fromMap(tender));
       });
       return tenders;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  ///Pass an id of a tender to get the detail
+  Future<Tender> getTenderDetail(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/tender_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      Tender tender = Tender.fromMap(data["tender"]);
+
+      return tender;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

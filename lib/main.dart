@@ -8,6 +8,7 @@ import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
 import 'package:fbpidi/widgets/screens/collaborations/polls.dart';
 import 'package:fbpidi/widgets/screens/collaborations/projects.dart';
 import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
+import 'package:fbpidi/widgets/screens/collaborations/tender_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_detail.dart';
@@ -97,6 +98,11 @@ class MyApp extends StatelessWidget {
             case '/newsDetail':
               return MaterialPageRoute(
                   builder: (_) => NewsDetail(
+                        requests,
+                      ));
+            case '/tenderDetail':
+              return MaterialPageRoute(
+                  builder: (_) => TenderDetail(
                         requests,
                       ));
             default:

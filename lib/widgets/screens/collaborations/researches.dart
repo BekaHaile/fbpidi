@@ -30,7 +30,7 @@ class Researches extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.55,
                       height: 40.0,
                       child: SizedBox.expand(
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {},
                           child: Text(
                             "Add new Research",
@@ -39,8 +39,10 @@ class Researches extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          color: Theme.of(context).primaryColor,
-                          disabledColor: Theme.of(context).disabledColor,
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                            onPrimary: Theme.of(context).disabledColor,
+                          ),
                         ),
                       ),
                     ),
@@ -251,15 +253,17 @@ class Researches extends StatelessWidget {
                                               top: 10,
                                               left: 20.0,
                                               bottom: 15.0),
-                                          child: RaisedButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      5.0),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        5.0),
+                                              ),
+                                              primary:
+                                                  Theme.of(context).buttonColor,
                                             ),
                                             onPressed: () {},
-                                            color:
-                                                Theme.of(context).buttonColor,
                                             child: Text(
                                               "Read More",
                                               style: TextStyle(

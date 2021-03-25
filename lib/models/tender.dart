@@ -49,15 +49,15 @@ class Tender {
     description = map["description"].toString();
     descriptionAm = map["description_am"].toString();
     document = map["document"].toString();
-    tenderType = map[""].toString();
-    documentPrice = map[""];
-    startDate = map[""].toString();
-    endDate = map[""].toString();
-    lastUpdatedBy = map[""].toString();
+    tenderType = map["tender_type"].toString();
+    documentPrice = map["document_price"];
+    startDate = map["start_date"].toString();
+    endDate = map["end_date"].toString();
+    lastUpdatedBy = map["last_Updated_by"].toString();
+    lastUpdatedDate = map["last_updated_date"].toString();
     status = map["status"].toString();
-    expired = map[""];
-    lastUpdatedBy = map[""].toString();
-    bankAccount = map[""];
+    expired = map["expired"];
+    bankAccount = map["bank_account"];
     title = map["title"].toString();
     titleAm = map["title_am"].toString();
   }

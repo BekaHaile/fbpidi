@@ -76,19 +76,21 @@ class _TendersState extends State<Tenders> {
               height: 55,
               padding: EdgeInsets.only(bottom: 5),
               child: SizedBox.expand(
-                child: RaisedButton(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: selected[0]
+                                ? Theme.of(context).buttonColor
+                                : Colors.black38)),
+                  ),
                   onPressed: () {
                     setState(() {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
                   },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: selected[0]
-                              ? Theme.of(context).buttonColor
-                              : Colors.black38)),
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.32),
@@ -130,19 +132,21 @@ class _TendersState extends State<Tenders> {
       height: 55,
       padding: EdgeInsets.only(bottom: 5),
       child: SizedBox.expand(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             setState(() {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
           },
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: selected[index]
-                      ? Theme.of(context).buttonColor
-                      : Colors.grey)),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: selected[index]
+                        ? Theme.of(context).buttonColor
+                        : Colors.grey)),
+          ),
           child: Text(
             title,
             style: TextStyle(
@@ -160,6 +164,7 @@ class _TendersState extends State<Tenders> {
     return FutureBuilder<List<Tender>>(
         future: CollaborationsApi().getTenders(),
         builder: (BuildContext context, snapshot) {
+          print(snapshot.data);
           if (!snapshot.hasData)
             return Center(
               child: Padding(
@@ -231,7 +236,7 @@ class _TendersState extends State<Tenders> {
                                   padding: const EdgeInsets.only(
                                       left: 20.0, top: 5, bottom: 20),
                                   child: Text(
-                                    tenders[index].status,
+                                    tenders[index].tenderType,
                                     style: TextStyle(
                                       color: Colors.black54,
                                       fontSize: 19,
@@ -247,7 +252,7 @@ class _TendersState extends State<Tenders> {
                                     ),
                                     onPressed: () {},
                                     child: Text(
-                                      "Open",
+                                      tenders[index].status,
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 17),
                                     ),
@@ -334,7 +339,13 @@ class _TendersState extends State<Tenders> {
                                         padding:
                                             const EdgeInsets.only(left: 20.0),
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/tenderDetail',
+                                                arguments: {
+                                                  'id': tenders[index].id
+                                                });
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             primary:
                                                 Theme.of(context).buttonColor,
