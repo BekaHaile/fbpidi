@@ -105,6 +105,7 @@ class MyApp extends StatelessWidget {
                   builder: (_) => TenderDetail(
                         requests,
                       ));
+
             default:
               return null;
           }

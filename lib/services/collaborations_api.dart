@@ -1,6 +1,7 @@
 import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/forum.dart';
+import 'package:fbpidi/models/jobcategory.dart';
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
@@ -70,6 +71,30 @@ class CollaborationsApi {
         vacancies.add(Vacancy.fromMap(vacancy));
       });
       return vacancies;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> getJobCategory() async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      List<Vacancy> vacancies = [];
+      data['vacancies'].forEach((vacancy) {
+        vacancies.add(Vacancy.fromMap(vacancy));
+      });
+      List<JobCategory> jobCategories = [];
+      data['jobcategory'].forEach((jobCategory) {
+        jobCategories.add(JobCategory.fromMap(jobCategory));
+      });
+      return {'vacancies': vacancies, 'jobCategory': jobCategories};
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception(e);

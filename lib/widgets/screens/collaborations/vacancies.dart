@@ -39,38 +39,12 @@ class Vacancies extends StatelessWidget {
                       Divider(
                         height: 3,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18.0, top: 20, bottom: 20),
-                            child: Text(
-                              'Computer Science',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 19,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 18.0),
-                            child: Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Center(child: Text("1"))),
-                          ),
-                        ],
-                      ),
+                      _buildCategoryList(context)
                     ],
                   ),
                 ),
               ),
-              _buildForumList(context),
+              _buildVacancyList(context),
             ],
           ),
         )),
@@ -78,7 +52,78 @@ class Vacancies extends StatelessWidget {
     );
   }
 
-  Widget _buildForumList(context) {
+  Widget _buildCategoryList(context) {
+    return FutureBuilder<Map<String, dynamic>>(
+        future: CollaborationsApi().getJobCategory(),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            Map<String, dynamic> data = snapshot.data;
+            if (data.length == 0)
+              return Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text("No data"),
+              ));
+            else
+              return ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  scrollDirection: Axis.vertical,
+                  itemCount: data['jobCategory'].length,
+                  itemBuilder: (_, int index) {
+                    int count = 0;
+                    data['vacancies'].forEach((vacancy) {
+                      if (vacancy.category == data['jobCategory'][index].id)
+                        count++;
+                    });
+                    return Column(
+                      children: [
+                        Container(
+                          height: 3,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 18.0, top: 20, bottom: 20),
+                              child: Text(
+                                data['jobCategory'][index].categoryName,
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 19,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 18.0),
+                              child: Container(
+                                  height: 34,
+                                  width: 34,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(247, 247, 251, 1),
+                                      shape: BoxShape.circle),
+                                  child: Center(child: Text(count.toString()))),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  });
+          }
+        });
+  }
+
+  Widget _buildVacancyList(context) {
     return FutureBuilder<List<Vacancy>>(
         future: CollaborationsApi().getVacancies(),
         builder: (BuildContext context, snapshot) {
@@ -217,7 +262,7 @@ class Vacancies extends StatelessWidget {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              vacancies[index].companyInfo.name,
+                                              vacancies[index].company.name,
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 19,
