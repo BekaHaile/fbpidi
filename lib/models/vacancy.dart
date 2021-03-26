@@ -50,7 +50,7 @@ class Vacancy {
     id = map["id"].toString();
     company = Company.fromMap(map["company"]);
     categoryName = map["category_name"].toString();
-    location = map["title"].toString();
+    location = map["location"].toString();
     salary = map["salary"].toString();
     employementType = map["employement_type"].toString();
     startingDate = map["starting_date"].toString();
