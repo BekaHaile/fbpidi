@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.33:8000";
+  String baseUrl = "http://192.168.0.26:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -175,6 +175,25 @@ class CollaborationsApi {
         forums.add(Forum.fromMap(forum));
       });
       return forums;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  ///Pass an id of a forum to get the detail
+  Future<Forum> getForumDetail(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/forum_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      Forum forum = Forum.fromMap(data["forum"]);
+
+      return forum;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

@@ -2,6 +2,7 @@ import 'package:fbpidi/widgets/screens/all_categories.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blog.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
 import 'package:fbpidi/widgets/screens/collaborations/event_detail.dart';
+import 'package:fbpidi/widgets/screens/collaborations/forum_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/forums.dart';
 import 'package:fbpidi/widgets/screens/collaborations/news_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
@@ -109,6 +110,11 @@ class MyApp extends StatelessWidget {
             case '/vacancyDetail':
               return MaterialPageRoute(
                   builder: (_) => VacancyDetail(
+                        requests,
+                      ));
+            case '/forumDetail':
+              return MaterialPageRoute(
+                  builder: (_) => ForumDetail(
                         requests,
                       ));
 

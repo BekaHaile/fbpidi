@@ -5,9 +5,12 @@ class Forum {
   List commentsList;
   String description;
   String detail;
-  String timeStamp;
+  String createdDate;
   String attachements;
-  String user;
+  String createdBy;
+  String lastUpdatedDate;
+  String expired;
+  String lastUpdatedBy;
   Forum(
       {this.id,
       this.noOfComments,
@@ -15,9 +18,12 @@ class Forum {
       this.commentsList,
       this.description,
       this.detail,
-      this.timeStamp,
+      this.createdDate,
       this.attachements,
-      this.user});
+      this.createdBy,
+      this.lastUpdatedDate,
+      this.expired,
+      this.lastUpdatedBy});
 
   Forum.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
@@ -26,8 +32,11 @@ class Forum {
     commentsList = map["comments_list"];
     description = map["description"].toString();
     detail = map["detail"].toString();
-    timeStamp = map["timestamp"].toString();
+    createdDate = map["created_date"].toString();
     attachements = map["attachements"].toString();
-    user = map["user"].toString();
+    createdBy = map["created_by"].toString();
+    lastUpdatedDate = map["last_updated_date"].toString();
+    expired = map["expired"].toString();
+    lastUpdatedBy = map["last_updated_by"].toString();
   }
 }
