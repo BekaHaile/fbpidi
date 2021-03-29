@@ -351,7 +351,7 @@ class CollaborationsApi {
   Future<Blog> getBlogDetail(id) async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/blog-details/?id=$id"), //uri of api
+            "$baseUrl/api/collaborations/blog-details/?id=$id"), //uri of api
         headers: {"Accept": "application/json"});
 
     Map<String, dynamic> data = jsonDecode(response.body);

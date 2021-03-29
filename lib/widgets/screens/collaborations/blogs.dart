@@ -186,7 +186,13 @@ class Blogs extends StatelessWidget {
                                         padding: const EdgeInsets.only(
                                             left: 20.0, bottom: 15.0),
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/blogDetail',
+                                                arguments: {
+                                                  'id': blogs[index].id
+                                                });
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             primary:
                                                 Theme.of(context).buttonColor,

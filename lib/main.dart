@@ -1,4 +1,5 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
+import 'package:fbpidi/widgets/screens/collaborations/blog_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blogs.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
 import 'package:fbpidi/widgets/screens/collaborations/event_detail.dart';
@@ -115,6 +116,11 @@ class MyApp extends StatelessWidget {
             case '/forumDetail':
               return MaterialPageRoute(
                   builder: (_) => ForumDetail(
+                        requests,
+                      ));
+            case '/blogDetail':
+              return MaterialPageRoute(
+                  builder: (_) => BlogDetail(
                         requests,
                       ));
 

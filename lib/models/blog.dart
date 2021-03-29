@@ -14,24 +14,25 @@ class Blog {
   bool expired;
   String company;
   String lastUpdatedBy;
+  List commentsList;
 
-  Blog({
-    this.id,
-    this.title,
-    this.titleAm,
-    this.tag,
-    this.tagAm,
-    this.blogImage,
-    this.content,
-    this.contentAm,
-    this.createdDate,
-    this.publish,
-    this.createdBy,
-    this.lastUpdatedDate,
-    this.expired,
-    this.company,
-    this.lastUpdatedBy,
-  });
+  Blog(
+      {this.id,
+      this.title,
+      this.titleAm,
+      this.tag,
+      this.tagAm,
+      this.blogImage,
+      this.content,
+      this.contentAm,
+      this.createdDate,
+      this.publish,
+      this.createdBy,
+      this.lastUpdatedDate,
+      this.expired,
+      this.company,
+      this.lastUpdatedBy,
+      this.commentsList});
 
   Blog.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
@@ -49,5 +50,6 @@ class Blog {
     expired = map["expired"];
     company = map["company"].toString();
     lastUpdatedBy = map["last_updated_by"].toString();
+    commentsList = map["comments"];
   }
 }
