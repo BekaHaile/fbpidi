@@ -1,5 +1,5 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
-import 'package:fbpidi/widgets/screens/collaborations/blog.dart';
+import 'package:fbpidi/widgets/screens/collaborations/blogs.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
 import 'package:fbpidi/widgets/screens/collaborations/event_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/forum_detail.dart';
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           '/homePage': (BuildContext context) => HomePage(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
-          '/blogs': (BuildContext context) => Blog(),
+          '/blogs': (BuildContext context) => Blogs(),
           '/forums': (BuildContext context) => Forums(),
           '/news': (BuildContext context) => NewsPage(),
           '/polls': (BuildContext context) => Polls(),

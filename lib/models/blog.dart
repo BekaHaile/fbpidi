@@ -7,9 +7,13 @@ class Blog {
   String blogImage;
   String content;
   String contentAm;
-  String timestamp;
-  String publish;
-  String user;
+  String createdDate;
+  bool publish;
+  String createdBy;
+  String lastUpdatedDate;
+  bool expired;
+  String company;
+  String lastUpdatedBy;
 
   Blog({
     this.id,
@@ -20,22 +24,30 @@ class Blog {
     this.blogImage,
     this.content,
     this.contentAm,
-    this.timestamp,
+    this.createdDate,
     this.publish,
-    this.user,
+    this.createdBy,
+    this.lastUpdatedDate,
+    this.expired,
+    this.company,
+    this.lastUpdatedBy,
   });
 
   Blog.fromMap(Map<dynamic, dynamic> map) {
-    id = map["id"];
-    title = map["title"];
-    titleAm = map["title_am"];
-    tag = map["tag"];
-    tagAm = map["tag_am"];
-    blogImage = map["blogImage"];
-    content = map["content"];
-    contentAm = map["content_am"];
-    timestamp = map["timestamp"];
+    id = map["id"].toString();
+    title = map["title"].toString();
+    titleAm = map["title_am"].toString();
+    tag = map["tag"].toString();
+    tagAm = map["tag_am"].toString();
+    blogImage = map["blogImage"].toString();
+    content = map["content"].toString();
+    contentAm = map["content_am"].toString();
+    createdDate = map["created_date"].toString();
     publish = map["publish"];
-    user = map["user"];
+    createdBy = map["created_by"].toString();
+    lastUpdatedDate = map["last_updated_date"].toString();
+    expired = map["expired"];
+    company = map["company"].toString();
+    lastUpdatedBy = map["last_updated_by"].toString();
   }
 }
