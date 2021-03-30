@@ -9,6 +9,7 @@ class EventDetail extends StatelessWidget {
   EventDetail(this.data);
   @override
   Widget build(BuildContext context) {
+    print(data['id'] + ' /////is the id of the event');
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Detail'),
@@ -62,7 +63,7 @@ class EventDetail extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        'By: ${event.companyInfo['company_name']}',
+                                        'By: ${event.company.name}',
                                         style: TextStyle(fontSize: 17),
                                       ),
                                     ),
@@ -155,7 +156,7 @@ class EventDetail extends StatelessWidget {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: Text(
-                                  "Other Events from ${event.companyInfo['company_name']}",
+                                  "Other Events from ${event.company.name}",
                                   style: TextStyle(
                                       color: Colors.black87,
                                       fontSize: 23,
@@ -248,7 +249,7 @@ class EventDetail extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 15),
                   child: Text(
-                    event.companyInfo['company_name'],
+                    event.company.name,
                     style: TextStyle(
                         color: Colors.black87,
                         fontSize: 24,
@@ -268,7 +269,8 @@ class EventDetail extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              _contactInfo(context, Icons.flag, event.companyInfo['location']),
+              _contactInfo(context, Icons.flag,
+                  event.company.companyAddress['city_town']),
               SizedBox(
                 height: 15.0,
               ),
@@ -276,8 +278,8 @@ class EventDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              _contactInfo(
-                  context, Icons.phone, event.companyInfo['phone_number']),
+              _contactInfo(context, Icons.phone,
+                  event.company.companyAddress['phone_number']),
               SizedBox(
                 height: 15.0,
               ),

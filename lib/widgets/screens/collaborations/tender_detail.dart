@@ -95,11 +95,15 @@ class TenderDetail extends StatelessWidget {
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Text(
-                                            'Total Applicants:- 0',
-                                            style: TextStyle(fontSize: 17),
-                                          )
                                         ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 25.0),
+                                      child: Text(
+                                        'Total Applicants:- 0',
+                                        style: TextStyle(fontSize: 17),
                                       ),
                                     ),
                                     SizedBox(

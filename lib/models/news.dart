@@ -1,7 +1,9 @@
+import 'package:fbpidi/models/company.dart';
+
 class News {
   String id;
   List<dynamic> images;
-  Map<String, dynamic> companyInfo;
+  Company company;
   String title;
   String titleAm;
   String description;
@@ -16,7 +18,7 @@ class News {
   News(
       {this.id,
       this.images,
-      this.companyInfo,
+      this.company,
       this.title,
       this.titleAm,
       this.description,
@@ -31,7 +33,7 @@ class News {
   News.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
     images = map["images"];
-    companyInfo = map["company_info"];
+    company = Company.fromMap(map["company"]);
     title = map["title"].toString();
     titleAm = map["title_am"].toString();
     description = map["description"].toString();

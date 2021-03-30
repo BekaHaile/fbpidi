@@ -62,7 +62,7 @@ class NewsDetail extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        'By: ${news.companyInfo['company_name']}',
+                                        'By: ${news.company.name}',
                                         style: TextStyle(fontSize: 17),
                                       ),
                                     ),
@@ -148,7 +148,7 @@ class NewsDetail extends StatelessWidget {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: Text(
-                                  "Other News from ${news.companyInfo['company_name']}",
+                                  "Other News from ${news.company.name}",
                                   style: TextStyle(
                                       color: Colors.black87,
                                       fontSize: 23,
@@ -241,7 +241,7 @@ class NewsDetail extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 15),
                   child: Text(
-                    news.companyInfo['company_name'],
+                    news.company.name,
                     style: TextStyle(
                         color: Colors.black87,
                         fontSize: 24,
@@ -261,7 +261,8 @@ class NewsDetail extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              _contactInfo(context, Icons.flag, news.companyInfo['location']),
+              _contactInfo(context, Icons.flag,
+                  news.company.companyAddress['city_town']),
               SizedBox(
                 height: 15.0,
               ),
@@ -269,8 +270,8 @@ class NewsDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              _contactInfo(
-                  context, Icons.phone, news.companyInfo['phone_number']),
+              _contactInfo(context, Icons.phone,
+                  news.company.companyAddress['phone_number']),
               SizedBox(
                 height: 15.0,
               ),

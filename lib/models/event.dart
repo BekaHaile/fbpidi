@@ -1,7 +1,8 @@
+import 'package:fbpidi/models/company.dart';
+
 class Event {
   String id;
   String image;
-  Map<String, dynamic> companyInfo;
   String title;
   String titleAm;
   String description;
@@ -10,7 +11,7 @@ class Event {
   String startDate;
   String endDate;
   String status;
-  String company;
+  Company company;
   String lastUpdatedDate;
   String expired;
   String lastUpdatedBy;
@@ -18,7 +19,6 @@ class Event {
   Event(
       {this.id,
       this.image,
-      this.companyInfo,
       this.title,
       this.titleAm,
       this.description,
@@ -35,7 +35,6 @@ class Event {
   Event.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
     image = map["image"].toString();
-    companyInfo = map["company_info"];
     createdDate = map["created_date"].toString();
     title = map["title"].toString();
     titleAm = map["title_am"].toString();
@@ -46,7 +45,7 @@ class Event {
     status = map["status"].toString();
     lastUpdatedDate = map["last_updated_date"].toString();
     expired = map["expired"].toString();
-    company = map["company"].toString();
+    company = Company.fromMap(map["company"]);
     lastUpdatedBy = map["last_updated_by"].toString();
   }
 }
