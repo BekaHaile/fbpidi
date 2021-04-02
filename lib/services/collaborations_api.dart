@@ -222,8 +222,7 @@ class CollaborationsApi {
   //Get all polls
   Future<List<Poll>> getPolls() async {
     var response = await http.get(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/polls/"), //uri of api
+        Uri.encodeFull("$baseUrl/client/collaborations/polls/"), //uri of api
         headers: {"Accept": "application/json"});
 
     //ToDo - add token into the api call
@@ -241,7 +240,7 @@ class CollaborationsApi {
   Future<Poll> getPollDetail(id) async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/poll_detail/$id/"), //uri of api
+            "$baseUrl/client/collaborations/poll_detail/$id/"), //uri of api
         headers: {
           "Authorization Token": "99b43761704f6994a5bd6cd0fc93b1f542db5e73"
         });
