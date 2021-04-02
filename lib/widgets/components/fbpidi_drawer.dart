@@ -95,8 +95,8 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                         mainMenu: "Products")
                   ],
                 ),
-                _buildRow(
-                    FontAwesomeIcons.utensils, "Investment Opportunities", 15),
+                // _buildRow(
+                //     FontAwesomeIcons.utensils, "Investment Opportunities", 15),
                 _buildRow(FontAwesomeIcons.projectDiagram, "Projects", 15),
                 _buildRow(FontAwesomeIcons.researchgate, "Researches", 15),
                 _buildRow(FontAwesomeIcons.vaadin, "Vacancies", 15),

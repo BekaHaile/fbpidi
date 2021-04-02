@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.35:8000";
+  String baseUrl = "http://192.168.1.33:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -50,6 +50,25 @@ class CollaborationsApi {
         researches.add(Research.fromMap(research));
       });
       return researches;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  ///Pass an id of a research to get the detail
+  Future<Research> getResearchDetail(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/research_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+      Research research = Research.fromMap(data["research"]);
+
+      return research;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

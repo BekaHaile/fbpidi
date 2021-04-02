@@ -5,24 +5,32 @@ class Research {
   String accepted;
   String description;
   String detail;
-  String timeStamp;
+  String createdDate;
   String attachements;
-  String user;
+  String createdBy;
   String status;
   String category;
-  Research({
-    this.id,
-    this.categoryName,
-    this.title,
-    this.accepted,
-    this.description,
-    this.detail,
-    this.timeStamp,
-    this.attachements,
-    this.user,
-    this.status,
-    this.category,
-  });
+  String lastUpdatedDate;
+  String lastUpdatedBy;
+  bool expired;
+  String company;
+
+  Research(
+      {this.id,
+      this.categoryName,
+      this.title,
+      this.accepted,
+      this.description,
+      this.detail,
+      this.createdDate,
+      this.attachements,
+      this.createdBy,
+      this.status,
+      this.category,
+      this.expired,
+      this.lastUpdatedDate,
+      this.lastUpdatedBy,
+      this.company});
 
   Research.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
@@ -31,10 +39,14 @@ class Research {
     accepted = map["accepted"].toString();
     description = map["description"].toString();
     detail = map["detail"].toString();
-    timeStamp = map["timestamp"].toString();
+    createdDate = map["created_date"].toString();
     attachements = map["attachements"].toString();
-    user = map["user"].toString();
+    createdBy = map["created_by"].toString();
     status = map["status"].toString();
     category = map["category"].toString();
+    expired = map['expired'];
+    lastUpdatedDate = map['last_updated_date'].toString();
+    lastUpdatedBy = map['last_updated_by'].toString();
+    company = map['company'].toString();
   }
 }
