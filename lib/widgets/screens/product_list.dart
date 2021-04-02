@@ -148,13 +148,16 @@ class ProductsList extends StatelessWidget {
                             width: 160,
                             height: 40.0,
                             child: SizedBox.expand(
-                              child: RaisedButton(
-                                elevation: 0,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(12.0),
+                                      side: BorderSide(color: Colors.grey)),
+                                  primary: Color.fromRGBO(249, 249, 249, 1),
+                                  elevation: 0,
+                                ),
                                 key: Key('raised'),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(12.0),
-                                    side: BorderSide(color: Colors.grey)),
                                 onPressed: () {},
                                 child: Text(
                                   "Contact Manufacturer",
@@ -163,7 +166,6 @@ class ProductsList extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
-                                color: Color.fromRGBO(249, 249, 249, 1),
                               ),
                             ),
                           ),
