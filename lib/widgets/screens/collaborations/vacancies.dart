@@ -3,7 +3,12 @@ import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 
-class Vacancies extends StatelessWidget {
+class Vacancies extends StatefulWidget {
+  @override
+  _VacanciesState createState() => _VacanciesState();
+}
+
+class _VacanciesState extends State<Vacancies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
