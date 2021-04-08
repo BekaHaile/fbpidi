@@ -13,6 +13,7 @@ class Forums extends StatefulWidget {
 class _ForumsState extends State<Forums> {
   List<Forum> forums, searchedForums = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,10 @@ class _ForumsState extends State<Forums> {
           padding: const EdgeInsets.only(top: 18.0),
           child: Column(
             children: [
-              FbpidiSearch(),
+              FbpidiSearch(
+                callback: searchCallback,
+                editingController: editingController,
+              ),
               _buildForumList(context),
             ],
           ),
@@ -37,13 +41,21 @@ class _ForumsState extends State<Forums> {
   }
 
   void searchCallback(String searchValue) {
-    if (forums.length > 0) {
+    searchedForums.clear();
+    if (forums.length > 0 && searchValue != '') {
       forums.forEach((element) {
-        if (element.title.contains(searchValue)) searchedForums.add(element);
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedForums.add(element);
       });
+
+      print(searchedForums.length);
 
       setState(() {
         isBeingSearhced = true;
+      });
+    } else {
+      setState(() {
+        isBeingSearhced = false;
       });
     }
   }

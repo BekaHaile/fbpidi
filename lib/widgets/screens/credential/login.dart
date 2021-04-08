@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -285,7 +286,11 @@ class _LoginSevenPageState extends State<LoginPage> {
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    final storage = new FlutterSecureStorage();
+                    await storage.write(key: 'loginStatus', value: 'true');
+                    Navigator.pushNamed(context, '/homePage');
+                  },
                 ),
               )),
           SizedBox(

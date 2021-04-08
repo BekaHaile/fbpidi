@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompanyAndProductAPI {
-  String baseUrl = "http://192.168.1.33:8000";
+  String baseUrl = "http://192.168.0.26:8000";
 
   //Get list of companies
   /// company_type = manufacturer or supplier

@@ -14,6 +14,7 @@ class _ResearchesState extends State<Researches> {
   List selected = [true, false, false, false];
   List<Research> researches, searchedResearches = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _ResearchesState extends State<Researches> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildResearchList(context),

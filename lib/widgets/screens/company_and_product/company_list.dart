@@ -17,6 +17,8 @@ class _CompanyState extends State<CompanyPage> {
   List selected = [true, false, false, false];
   List<Company> companies, searchedCompanies = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +41,7 @@ class _CompanyState extends State<CompanyPage> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildCompanyList(context),

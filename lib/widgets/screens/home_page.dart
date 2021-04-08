@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
         ),
         itemBuilder: (_, int index) {
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (index == 0)
                 Navigator.pushNamed(context, "/allCategories",
                     arguments: {"type": "all"});

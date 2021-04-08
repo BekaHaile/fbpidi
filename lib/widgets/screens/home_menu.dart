@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -10,77 +12,124 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final storage = new FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    writeStatus();
+  }
+
   @override
   void dispose() {
     indexcontroller.close();
     super.dispose();
   }
 
+  writeStatus() async {
+    await storage.read(key: 'loginStatus').then((value) async {
+      if (value.isEmpty)
+        await storage.write(key: 'loginStatus', value: 'false');
+      else
+        isLoggedIn = value;
+    });
+  }
+
   PageController pageController = PageController(initialPage: 0);
   StreamController<int> indexcontroller = StreamController<int>.broadcast();
   int index = 0;
+  String isLoggedIn = 'false';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          indexcontroller.add(index);
-        },
-        controller: pageController,
-        children: <Widget>[
-          HomePage(),
-          Center(
-            child: Text('About'),
-          ),
-          Center(
-            child: Text('News'),
-          ),
-          Center(
-            child: Text('Account'),
-          ),
-        ],
-      ),
-      bottomNavigationBar: StreamBuilder<Object>(
-          initialData: 0,
-          stream: indexcontroller.stream,
-          builder: (context, snapshot) {
-            int cIndex = snapshot.data;
-            return FancyBottomNavigation(
-              currentIndex: cIndex,
-              items: <FancyBottomNavigationItem>[
-                FancyBottomNavigationItem(
-                    icon: Icon(
-                      Icons.home,
-                      color: Color.fromRGBO(115, 115, 115, 1),
-                    ),
-                    title: Text('Home')),
-                FancyBottomNavigationItem(
-                    icon: Icon(
-                      Icons.info,
-                      color: Color.fromRGBO(115, 115, 115, 1),
-                    ),
-                    title: Text('About')),
-                FancyBottomNavigationItem(
-                    icon: Icon(
-                      FontAwesomeIcons.globe,
-                      color: Color.fromRGBO(115, 115, 115, 1),
-                    ),
-                    title: Text('News')),
-                FancyBottomNavigationItem(
-                    icon: Icon(
-                      FontAwesomeIcons.userCircle,
-                      color: Color.fromRGBO(115, 115, 115, 1),
-                    ),
-                    title: Text('Account')),
-              ],
-              onItemSelected: (int value) {
-                indexcontroller.add(value);
-                pageController.jumpToPage(value);
-              },
-            );
-          }),
-    );
+        body: FutureBuilder<String>(
+            future: storage.read(key: 'loginStatus'),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (snapshot.data == 'false')
+                  return LoginPage();
+                else
+                  return PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    onPageChanged: (index) {
+                      indexcontroller.add(index);
+                    },
+                    controller: pageController,
+                    children: <Widget>[
+                      HomePage(),
+                      Center(
+                        child: Text('About'),
+                      ),
+                      Center(
+                        child: Text('News'),
+                      ),
+                      Center(
+                        child: Text('Account'),
+                      ),
+                    ],
+                  );
+              }
+            }),
+        bottomNavigationBar: FutureBuilder<String>(
+            future: storage.read(key: 'loginStatus'),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (snapshot.data == 'false')
+                  return Container(
+                    width: 1,
+                    height: 1,
+                  );
+                else
+                  return StreamBuilder<Object>(
+                      initialData: 0,
+                      stream: indexcontroller.stream,
+                      builder: (context, snapshot) {
+                        int cIndex = snapshot.data;
+                        return FancyBottomNavigation(
+                          currentIndex: cIndex,
+                          items: <FancyBottomNavigationItem>[
+                            FancyBottomNavigationItem(
+                                icon: Icon(
+                                  Icons.home,
+                                  color: Color.fromRGBO(115, 115, 115, 1),
+                                ),
+                                title: Text('Home')),
+                            FancyBottomNavigationItem(
+                                icon: Icon(
+                                  Icons.info,
+                                  color: Color.fromRGBO(115, 115, 115, 1),
+                                ),
+                                title: Text('About')),
+                            FancyBottomNavigationItem(
+                                icon: Icon(
+                                  FontAwesomeIcons.globe,
+                                  color: Color.fromRGBO(115, 115, 115, 1),
+                                ),
+                                title: Text('News')),
+                            FancyBottomNavigationItem(
+                                icon: Icon(
+                                  FontAwesomeIcons.userCircle,
+                                  color: Color.fromRGBO(115, 115, 115, 1),
+                                ),
+                                title: Text('Account')),
+                          ],
+                          onItemSelected: (int value) {
+                            indexcontroller.add(value);
+                            pageController.jumpToPage(value);
+                          },
+                        );
+                      });
+              }
+            }));
   }
 }
 

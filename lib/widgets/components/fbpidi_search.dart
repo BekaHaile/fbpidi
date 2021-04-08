@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class FbpidiSearch extends StatelessWidget {
   final dynamic callback;
-  FbpidiSearch({this.callback});
+  final TextEditingController editingController;
+  FbpidiSearch({this.callback, this.editingController});
   @override
   Widget build(BuildContext context) {
-    TextEditingController editingController = TextEditingController();
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       height: 70,
@@ -25,6 +25,9 @@ class FbpidiSearch extends StatelessWidget {
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
                 ),
+                // onChanged: (val) {
+                //   callback(val);
+                // },
               ),
             ),
             ElevatedButton(

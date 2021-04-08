@@ -15,6 +15,7 @@ class _PollsState extends State<Polls> {
   List selected = [true, false];
   List<Poll> polls, searchedPolls = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _PollsState extends State<Polls> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildPollsList(context),

@@ -14,6 +14,7 @@ class _BlogsState extends State<Blogs> {
   List<Blog> blogs, searchedBlogs = [];
 
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _BlogsState extends State<Blogs> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _buildBlogList(context),
             ],

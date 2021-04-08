@@ -14,6 +14,7 @@ class _EventsState extends State<Events> {
   List selected = [true, false, false, false];
   List<Event> events, searchedEvents = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _EventsState extends State<Events> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildEventList(context),

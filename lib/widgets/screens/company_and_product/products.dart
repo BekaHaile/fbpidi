@@ -16,6 +16,8 @@ class _ProductsState extends State<Products> {
   List selected = [true, false, false, false];
   List<Product> products, searchedProducts = [];
   bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +42,7 @@ class _ProductsState extends State<Products> {
             children: [
               FbpidiSearch(
                 callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildProductList(context),
