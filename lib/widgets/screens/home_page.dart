@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              _buildProductGrid(context),
+              // _buildProductGrid(context),
             ],
           ),
           _buildBottomCards(),

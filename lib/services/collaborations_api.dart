@@ -96,6 +96,24 @@ class CollaborationsApi {
     }
   }
 
+  //Get all vacancies
+  Future<List<dynamic>> getCategories() async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+
+      return data['jobcategory'];
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception(e);
+    }
+  }
+
   ///Pass an id of a vacancy to get the detail
   Future<Vacancy> getVacancyDetail(id) async {
     try {

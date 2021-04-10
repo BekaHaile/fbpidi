@@ -1,3 +1,4 @@
+import 'package:fbpidi/models/jobcategory.dart';
 import 'package:fbpidi/models/vacancy.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
@@ -13,8 +14,109 @@ class VacancyDetail extends StatelessWidget {
           title: Text('Vacancy Detail'),
         ),
         body: SingleChildScrollView(
-          child: _buildDetail(context),
+          child: Column(
+            children: [
+              _buildCategoryList(context),
+              _buildDetail(context),
+            ],
+          ),
         ));
+  }
+
+  Widget _buildCategoryList(context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.95,
+        child: Card(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0, top: 20, bottom: 20),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                height: 3,
+              ),
+              FutureBuilder<Map<dynamic, dynamic>>(
+                  future: CollaborationsApi().getJobCategory(),
+                  builder: (BuildContext context, snapshot) {
+                    if (!snapshot.hasData)
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    else {
+                      List<JobCategory> jobCategory =
+                          snapshot.data['jobCategory'];
+                      List<Vacancy> vacancies = snapshot.data['vacancies'];
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: jobCategory.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (_, int index) {
+                          int count = 0;
+                          vacancies.forEach((element) {
+                            if (element.categoryName ==
+                                jobCategory[index].categoryName) count++;
+                          });
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.75,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18.0, top: 20, bottom: 20),
+                                    child: Text(
+                                      jobCategory[index].categoryName,
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 19,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 18.0),
+                                  child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Center(
+                                          child: Text(count.toString()))),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildDetail(context) {

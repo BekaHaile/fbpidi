@@ -11,7 +11,7 @@ class Vacancies extends StatefulWidget {
 }
 
 class _VacanciesState extends State<Vacancies> {
-  List selected = [true, false, false, false];
+  List selected = [true];
   List<Vacancy> vacancies, searchedVacancies = [];
   bool isBeingSearhced = false;
   TextEditingController editingController = TextEditingController();
@@ -133,9 +133,9 @@ class _VacanciesState extends State<Vacancies> {
                 ),
               ),
             ),
-            _sortButton("Free only", context, 1),
-            _sortButton("Paid only", context, 2),
-            _sortButton("Open only", context, 3),
+            // _sortButton("Free only", context, 1),
+            // _sortButton("Paid only", context, 2),
+            // _sortButton("Open only", context, 3),
             SizedBox(
               height: 20.0,
             ),
