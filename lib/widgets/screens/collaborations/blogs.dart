@@ -44,7 +44,8 @@ class _BlogsState extends State<Blogs> {
   void searchCallback(String searchValue) {
     if (blogs.length > 0) {
       blogs.forEach((element) {
-        if (element.title.contains(searchValue)) searchedBlogs.add(element);
+        if (element.title.contains(searchValue) ||
+            element.tag.contains(searchValue)) searchedBlogs.add(element);
       });
 
       setState(() {

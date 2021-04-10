@@ -45,7 +45,10 @@ class _VacanciesState extends State<Vacancies> {
   void searchCallback(String searchValue) {
     if (vacancies.length > 0) {
       vacancies.forEach((element) {
-        if (element.title.contains(searchValue)) searchedVacancies.add(element);
+        if (element.title.contains(searchValue) ||
+            element.categoryName.contains(searchValue) ||
+            element.company.name.contains(searchValue))
+          searchedVacancies.add(element);
       });
 
       setState(() {
@@ -145,39 +148,39 @@ class _VacanciesState extends State<Vacancies> {
     );
   }
 
-  Widget _sortButton(title, context, index) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      height: 55,
-      padding: EdgeInsets.only(bottom: 5),
-      child: SizedBox.expand(
-        child: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              for (int i = 0; i < 4; i++) selected[i] = false;
-              selected[index] = true;
-            });
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: selected[index]
-                        ? Theme.of(context).buttonColor
-                        : Colors.grey)),
-          ),
-          child: Text(
-            title,
-            style: TextStyle(
-                color: selected[index]
-                    ? Theme.of(context).buttonColor
-                    : Colors.black54,
-                fontSize: 18),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _sortButton(title, context, index) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width * 0.85,
+  //     height: 55,
+  //     padding: EdgeInsets.only(bottom: 5),
+  //     child: SizedBox.expand(
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           setState(() {
+  //             for (int i = 0; i < 4; i++) selected[i] = false;
+  //             selected[index] = true;
+  //           });
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           primary: Colors.white,
+  //           shape: RoundedRectangleBorder(
+  //               side: BorderSide(
+  //                   color: selected[index]
+  //                       ? Theme.of(context).buttonColor
+  //                       : Colors.grey)),
+  //         ),
+  //         child: Text(
+  //           title,
+  //           style: TextStyle(
+  //               color: selected[index]
+  //                   ? Theme.of(context).buttonColor
+  //                   : Colors.black54,
+  //               fontSize: 18),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildVacancyList(context) {
     return FutureBuilder<List<Vacancy>>(

@@ -43,7 +43,10 @@ class _TendersState extends State<Tenders> {
   void searchCallback(String searchValue) {
     if (tenders.length > 0) {
       tenders.forEach((element) {
-        if (element.title.contains(searchValue)) searchedTenders.add(element);
+        if (element.title.contains(searchValue) ||
+            element.status.contains(searchValue) ||
+            element.company.name.contains(searchValue))
+          searchedTenders.add(element);
       });
 
       setState(() {

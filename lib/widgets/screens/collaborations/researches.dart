@@ -46,7 +46,8 @@ class _ResearchesState extends State<Researches> {
   void searchCallback(String searchValue) {
     if (researches.length > 0) {
       researches.forEach((element) {
-        if (element.title.contains(searchValue))
+        if (element.title.contains(searchValue) ||
+            element.categoryName.contains(searchValue))
           searchedResearches.add(element);
       });
 

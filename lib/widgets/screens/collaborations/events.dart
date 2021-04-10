@@ -45,7 +45,10 @@ class _EventsState extends State<Events> {
   void searchCallback(String searchValue) {
     if (events.length > 0) {
       events.forEach((element) {
-        if (element.title.contains(searchValue)) searchedEvents.add(element);
+        if (element.title.contains(searchValue) ||
+            element.status.contains(searchValue) ||
+            element.company.name.contains(searchValue))
+          searchedEvents.add(element);
       });
 
       setState(() {

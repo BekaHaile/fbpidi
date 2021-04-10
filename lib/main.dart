@@ -1,4 +1,5 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
+import 'package:fbpidi/widgets/screens/collaborations/apply_for_vacancy.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blog_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blogs.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
@@ -127,6 +128,11 @@ class MyApp extends StatelessWidget {
             case '/researchDetail':
               return MaterialPageRoute(
                   builder: (_) => ResearchDetail(
+                        requests,
+                      ));
+            case '/applyForVacancy':
+              return MaterialPageRoute(
+                  builder: (_) => ApplyForVacancy(
                         requests,
                       ));
 
