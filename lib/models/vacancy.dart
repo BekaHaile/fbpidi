@@ -9,12 +9,12 @@ class Vacancy {
   String categoryName;
   String location;
   String salary;
-  String employementType;
+  String employmentType;
   String startingDate;
   String createdDate;
   String endingDate;
-  String jobTitle;
-  String jobTitleAm;
+  String title;
+  String titleAm;
   String descriptionAm;
   String category;
   String closed;
@@ -28,12 +28,12 @@ class Vacancy {
       this.categoryName,
       this.location,
       this.salary,
-      this.employementType,
+      this.employmentType,
       this.startingDate,
       this.createdDate,
       this.endingDate,
-      this.jobTitle,
-      this.jobTitleAm,
+      this.title,
+      this.titleAm,
       this.category,
       this.closed,
       this.company,
@@ -52,12 +52,12 @@ class Vacancy {
     categoryName = map["category_name"].toString();
     location = map["location"].toString();
     salary = map["salary"].toString();
-    employementType = map["employement_type"].toString();
+    employmentType = map["employement_type"].toString();
     startingDate = map["starting_date"].toString();
     createdDate = map["created_date"].toString();
     endingDate = map["ending_date"].toString();
-    jobTitle = map["job_title"].toString();
-    jobTitleAm = map["job_Title_am"].toString();
+    title = map["title"].toString();
+    titleAm = map["title_am"].toString();
     descriptionAm = map["description_am"].toString();
     requirementAm = map["requirementAm"].toString();
     description = map["description"].toString();

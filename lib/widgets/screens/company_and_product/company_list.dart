@@ -24,14 +24,14 @@ class _CompanyState extends State<CompanyPage> {
     return Scaffold(
       drawer: Drawer(
         child: widget.data['type'] == 'all'
-            ? FbpidiDrawer("Companies")
+            ? FbpidiDrawer("Manufacturers")
             : FbpidiDrawer(
                 widget.data['type'],
-                mainMenu: "Companies",
+                mainMenu: "Manufacturers",
               ),
       ),
       appBar: AppBar(
-        title: Text("Company"),
+        title: Text("Manufacturer"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -306,7 +306,7 @@ class _CompanyState extends State<CompanyPage> {
                                       ),
                                       child: Container(
                                         height: 30,
-                                        width: 70,
+                                        width: 100,
                                         child: SizedBox.expand(
                                           child: ElevatedButton(
                                             onPressed: () {},
@@ -319,7 +319,11 @@ class _CompanyState extends State<CompanyPage> {
                                                   .withOpacity(0.9),
                                             ),
                                             child: Text(
-                                              companies[index].mainCategory,
+                                              companies[index].category.length >
+                                                      0
+                                                  ? companies[index].category[0]
+                                                      ['category_type']
+                                                  : "Unknown",
                                               style: TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -388,9 +392,7 @@ class _CompanyState extends State<CompanyPage> {
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.7,
-                                  child: companies[index]
-                                              .companyAddress['city_town'] !=
-                                          null
+                                  child: companies[index].companyAddress != null
                                       ? Text(
                                           companies[index]
                                                   .companyAddress['city_town'] +
@@ -422,8 +424,11 @@ class _CompanyState extends State<CompanyPage> {
                             padding: const EdgeInsets.only(
                                 left: 20.0, top: 5, bottom: 20),
                             child: Text(
-                              RemoveTag()
-                                  .removeAllHtmlTags(companies[index].detail),
+                              companies[index].category.length > 0
+                                  ? RemoveTag().removeAllHtmlTags(
+                                      companies[index].category[0]
+                                          ['description'])
+                                  : "No description",
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 20,

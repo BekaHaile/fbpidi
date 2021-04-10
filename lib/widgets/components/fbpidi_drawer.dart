@@ -23,7 +23,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     if (widget.selected == "Beverage" ||
         widget.selected == "Food" ||
         widget.selected == "Pharmaceutical") {
-      if (widget.mainMenu == "Companies")
+      if (widget.mainMenu == "Manufacturers")
         expandedCompany = true;
       else
         expandedProduct = true;
@@ -71,15 +71,16 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 _buildRow(Icons.home, "Home", 15),
                 ExpansionTile(
                   initiallyExpanded: expandedCompany,
-                  title: _buildRow(FontAwesomeIcons.building, "Companies", 0),
+                  title:
+                      _buildRow(FontAwesomeIcons.building, "Manufacturers", 0),
                   children: <Widget>[
                     _buildRow(FontAwesomeIcons.glassCheers, "Beverage", 20,
-                        mainMenu: "Companies"),
+                        mainMenu: "Manufacturers"),
                     _buildRow(FontAwesomeIcons.utensils, "Food", 20,
-                        mainMenu: "Companies"),
+                        mainMenu: "Manufacturers"),
                     _buildRow(
                         FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20,
-                        mainMenu: "Companies")
+                        mainMenu: "Manufacturers")
                   ],
                 ),
                 ExpansionTile(
@@ -198,27 +199,27 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             context,
             "/researches",
           );
-        else if (title == "Companies")
+        else if (title == "Manufacturers")
           Navigator.pushNamed(context, "/companies",
               arguments: {'type': 'all'});
         else if (title == "Products")
           Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
         else if (title == "Beverage") {
-          if (mainMenu == "Companies")
+          if (mainMenu == "Manufacturers")
             Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Beverage'});
           else
             Navigator.pushNamed(context, "/products",
                 arguments: {'type': 'Beverage'});
         } else if (title == "Food") {
-          if (mainMenu == "Companies")
+          if (mainMenu == "Manufacturers")
             Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Food'});
           else
             Navigator.pushNamed(context, "/products",
                 arguments: {'type': 'Food'});
         } else if (title == "Pharmaceutical") {
-          if (mainMenu == "Companies")
+          if (mainMenu == "Manufacturers")
             Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Pharmaceutical'});
           else

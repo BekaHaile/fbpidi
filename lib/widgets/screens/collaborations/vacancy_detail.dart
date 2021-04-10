@@ -45,7 +45,7 @@ class VacancyDetail extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               left: 18.0, top: 20, bottom: 20),
                           child: Text(
-                            vacancy.jobTitle,
+                            vacancy.title,
                             style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 27,
@@ -72,7 +72,7 @@ class VacancyDetail extends StatelessWidget {
                                 height: 10.0,
                               ),
                               _buildContent(context, "Employee type",
-                                  vacancy.employementType, false),
+                                  vacancy.employmentType, false),
                               SizedBox(
                                 height: 10.0,
                               ),

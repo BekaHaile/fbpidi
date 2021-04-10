@@ -202,8 +202,11 @@ class CompanyDetail extends StatelessWidget {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text(company
-                                            .companyAddress['phone_number'])
+                                        Text(company.companyAddress != null
+                                            ? company
+                                                .companyAddress['phone_number']
+                                                .toString()
+                                            : '')
                                       ],
                                     ),
                                   ),
@@ -293,130 +296,157 @@ class CompanyDetail extends StatelessWidget {
       color: Colors.white,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-            Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
-            child: Text(
-              'Overview',
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Container(
-              height: 3, color: Theme.of(context).scaffoldBackgroundColor),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 15, bottom: 15, right: 15),
-            child: Text(
-              RemoveTag().removeAllHtmlTags(company.detail),
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 17,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
-            child: Text(
-              'Contact info',
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          _contactInfo(
-              context,
-              Icons.flag,
-              company.companyAddress['city_town'] +
-                  ', ' +
-                  company.companyAddress['local_area']),
-          SizedBox(
-            height: 15.0,
-          ),
-          _contactInfo(context, Icons.mail, company.companyAddress['email']),
-          SizedBox(
-            height: 15.0,
-          ),
-          _contactInfo(
-              context, Icons.phone, company.companyAddress['phone_number']),
-          SizedBox(
-            height: 15.0,
-          ),
-          _contactInfo(context, Icons.file_copy, company.companyAddress['fax']),
-          SizedBox(
-            height: 15.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
-            child: Text(
-              'More Business info',
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          _businessInfo(context, "Established Year", company.establishedYear),
-          SizedBox(
-            height: 15.0,
-          ),
-          _businessInfo(context, "Services", ""),
-          SizedBox(
-            height: 15.0,
-          ),
-          _businessInfo(context, "Fax", company.companyAddress['fax']),
-          SizedBox(
-            height: 15.0,
-          ),
-          _businessInfo(context, "Certification",
-              company.certification.length > 0 ? company.certification[0] : ""),
-          SizedBox(
-            height: 15.0,
-          ),
-          Container(
-              height: 3, color: Theme.of(context).scaffoldBackgroundColor),
-          SizedBox(
-            height: 15.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              child: Text(
-                "Business ID : #2314443",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 19,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
+                child: Text(
+                  'Overview',
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              child: Text(
-                "Posted by MelfanTech / March 11, 2021",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 19,
+              Container(
+                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, top: 15, bottom: 15, right: 15),
+                child: Text(
+                  RemoveTag().removeAllHtmlTags(company.detail),
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 17,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
-            ),
-          ),
-          Container(
-              height: 3, color: Theme.of(context).scaffoldBackgroundColor),
-        ]),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
+                child: Text(
+                  'Contact info',
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              _contactInfo(
+                  context,
+                  Icons.flag,
+                  company.companyAddress != null
+                      ? company.companyAddress['city_town'] +
+                          ', ' +
+                          company.companyAddress['local_area']
+                      : 'No Address'),
+              SizedBox(
+                height: 15.0,
+              ),
+              _contactInfo(
+                  context,
+                  Icons.mail,
+                  company.companyAddress != null
+                      ? company.companyAddress['email']
+                      : 'Email'),
+              SizedBox(
+                height: 15.0,
+              ),
+              _contactInfo(
+                  context,
+                  Icons.phone,
+                  company.companyAddress != null
+                      ? company.companyAddress['phone_number']
+                      : ''),
+              SizedBox(
+                height: 15.0,
+              ),
+              _contactInfo(
+                  context,
+                  Icons.file_copy,
+                  company.companyAddress != null
+                      ? company.companyAddress['fax']
+                      : ''),
+              SizedBox(
+                height: 15.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
+                child: Text(
+                  'More Business info',
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              _businessInfo(context, "Established Year",
+                  company.establishedYear.toString()),
+              SizedBox(
+                height: 15.0,
+              ),
+              _businessInfo(context, "Services", ""),
+              SizedBox(
+                height: 15.0,
+              ),
+              _businessInfo(
+                  context,
+                  "Fax",
+                  company.companyAddress != null
+                      ? company.companyAddress['fax']
+                      : ''),
+              SizedBox(
+                height: 15.0,
+              ),
+              _businessInfo(
+                  context,
+                  "Certification",
+                  company.certification.length > 0
+                      ? company.certification[0].toString()
+                      : ""),
+              SizedBox(
+                height: 15.0,
+              ),
+              Container(
+                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
+              SizedBox(
+                height: 15.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Text(
+                    "Business ID : #2314443",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 19,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Text(
+                    "Posted by MelfanTech / March 11, 2021",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 19,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+              Container(
+                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
+            ]),
       ),
     );
   }

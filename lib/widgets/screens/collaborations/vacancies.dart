@@ -1,7 +1,9 @@
 import 'package:fbpidi/models/vacancy.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
+import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Vacancies extends StatefulWidget {
   @override
@@ -9,6 +11,11 @@ class Vacancies extends StatefulWidget {
 }
 
 class _VacanciesState extends State<Vacancies> {
+  List selected = [true, false, false, false];
+  List<Vacancy> vacancies, searchedVacancies = [];
+  bool isBeingSearhced = false;
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,34 +28,12 @@ class _VacanciesState extends State<Vacancies> {
             child: Padding(
           padding: const EdgeInsets.only(top: 18.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Card(
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 18.0, top: 20, bottom: 20),
-                        child: Text(
-                          'Categories',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Divider(
-                        height: 3,
-                      ),
-                      _buildCategoryList(context)
-                    ],
-                  ),
-                ),
+              FbpidiSearch(
+                callback: searchCallback,
+                editingController: editingController,
               ),
+              _sortList(context),
               _buildVacancyList(context),
             ],
           ),
@@ -57,81 +42,148 @@ class _VacanciesState extends State<Vacancies> {
     );
   }
 
-  Widget _buildCategoryList(context) {
-    return FutureBuilder<Map<String, dynamic>>(
-        future: CollaborationsApi().getJobCategory(),
-        builder: (BuildContext context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: CircularProgressIndicator(),
+  void searchCallback(String searchValue) {
+    if (vacancies.length > 0) {
+      vacancies.forEach((element) {
+        if (element.title.contains(searchValue)) searchedVacancies.add(element);
+      });
+
+      setState(() {
+        isBeingSearhced = true;
+      });
+    }
+  }
+
+  Widget _sortList(context) {
+    return Card(
+      color: Colors.white,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.95,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 10),
+              child: Text(
+                'Showing 1 to 10 of 30 entries',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
               ),
-            );
-          else {
-            Map<String, dynamic> data = snapshot.data;
-            if (data.length == 0)
-              return Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text("No data"),
-              ));
-            else
-              return ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  itemCount: data['jobCategory'].length,
-                  itemBuilder: (_, int index) {
-                    int count = 0;
-                    data['vacancies'].forEach((vacancy) {
-                      if (vacancy.category == data['jobCategory'][index].id)
-                        count++;
+            ),
+            SizedBox(
+              width: 5.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 10),
+              child: Text(
+                'Sort by: ',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SizedBox(
+              width: 10.0,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              height: 55,
+              padding: EdgeInsets.only(bottom: 5),
+              child: SizedBox.expand(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: selected[0]
+                                ? Theme.of(context).buttonColor
+                                : Colors.black38)),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      for (int i = 0; i < 4; i++) selected[i] = false;
+                      selected[0] = true;
                     });
-                    return Column(
-                      children: [
-                        Container(
-                          height: 3,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 18.0, top: 20, bottom: 20),
-                              child: Text(
-                                data['jobCategory'][index].categoryName,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 19,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 18.0),
-                              child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Center(child: Text(count.toString()))),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  });
-          }
-        });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.32),
+                    child: Row(children: [
+                      Text(
+                        "All",
+                        style: TextStyle(
+                            color: selected[0]
+                                ? Theme.of(context).buttonColor
+                                : Colors.black54,
+                            fontSize: 18),
+                      ),
+                      Icon(
+                        FontAwesomeIcons.sort,
+                        color: selected[0]
+                            ? Theme.of(context).buttonColor
+                            : Colors.black54,
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
+            ),
+            _sortButton("Free only", context, 1),
+            _sortButton("Paid only", context, 2),
+            _sortButton("Open only", context, 3),
+            SizedBox(
+              height: 20.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sortButton(title, context, index) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 55,
+      padding: EdgeInsets.only(bottom: 5),
+      child: SizedBox.expand(
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              for (int i = 0; i < 4; i++) selected[i] = false;
+              selected[index] = true;
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: selected[index]
+                        ? Theme.of(context).buttonColor
+                        : Colors.grey)),
+          ),
+          child: Text(
+            title,
+            style: TextStyle(
+                color: selected[index]
+                    ? Theme.of(context).buttonColor
+                    : Colors.black54,
+                fontSize: 18),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildVacancyList(context) {
     return FutureBuilder<List<Vacancy>>(
         future: CollaborationsApi().getVacancies(),
         builder: (BuildContext context, snapshot) {
+          print(snapshot.data);
           if (!snapshot.hasData)
             return Center(
               child: Padding(
@@ -140,7 +192,7 @@ class _VacanciesState extends State<Vacancies> {
               ),
             );
           else {
-            List<Vacancy> vacancies = snapshot.data;
+            vacancies = snapshot.data;
             if (vacancies.length == 0)
               return Center(
                   child: Padding(
@@ -148,212 +200,263 @@ class _VacanciesState extends State<Vacancies> {
                 child: Text("No data"),
               ));
             else
-              return Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.9,
-                padding: EdgeInsets.symmetric(vertical: 1.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (_, int index) {
-                    return Column(
-                      children: [
-                        Card(
-                          color: Colors.white,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 18.0, top: 20, bottom: 20),
-                                  child: Text(
-                                    vacancies[index].jobTitle,
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Divider(
-                                  height: 5,
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.9,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Category: ',
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.all(5),
-                                              color: Color.fromRGBO(
-                                                  247, 247, 247, 1),
-                                              child: Text(
-                                                vacancies[index].categoryName,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 19,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.9,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Employee type: ',
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              vacancies[index].employementType,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 19,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.9,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Company: ',
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              vacancies[index].company.name,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 19,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                      Divider(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10,
-                                                left: 20.0,
-                                                bottom: 15.0),
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                ),
-                                                primary: Theme.of(context)
-                                                    .buttonColor,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, '/vacancyDetail',
-                                                    arguments: {
-                                                      'id': vacancies[index].id
-                                                    });
-                                              },
-                                              child: Text(
-                                                "View Job Details",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 17),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10,
-                                                left: 20.0,
-                                                bottom: 15.0),
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          5.0),
-                                                ),
-                                                primary: Theme.of(context)
-                                                    .buttonColor,
-                                              ),
-                                              onPressed: () {},
-                                              child: Text(
-                                                "Apply",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 17),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: vacancies.length,
-                ),
-              );
+              return isBeingSearhced
+                  ? _listviewBuildVacancies(searchedVacancies)
+                  : _listviewBuildVacancies(vacancies);
           }
         });
+  }
+
+  Widget _listviewBuildVacancies(List<Vacancy> vacancies) {
+    return Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width * 0.95,
+      padding: EdgeInsets.symmetric(vertical: 1.0),
+      child: ListView.builder(
+        shrinkWrap: true,
+        primary: false,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (_, int index) {
+          return Column(
+            children: [
+              Card(
+                color: Colors.white,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 30.0,
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.network(
+                                  "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, top: 5, bottom: 5),
+                        child: Text(
+                          vacancies[index].title,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, top: 5, bottom: 10),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Category: ',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.left,
+                            ),
+                            Text(
+                              vacancies[index].categoryName,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 19,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, top: 5, bottom: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Employment Type: ',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.left,
+                            ),
+                            Text(
+                              vacancies[index].employmentType,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 19,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 5, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "By: ",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            CircleAvatar(
+                              radius: 20,
+                              child: ClipOval(
+                                  child: Image.network(
+                                "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
+                                fit: BoxFit.cover,
+                                width: 90.0,
+                                height: 90.0,
+                              )),
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.black,
+                                size: 19,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 19,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                FontAwesomeIcons.solidComments,
+                                color: Color.fromRGBO(0, 0, 255, 1),
+                                size: 19,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/vacancyDetail',
+                                      arguments: {'id': vacancies[index].id});
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).buttonColor,
+                                ),
+                                child: Text(
+                                  "Vacancy Detail",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'At: ',
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    vacancies[index]
+                                            .createdDate
+                                            .substring(0, 10) +
+                                        ', ' +
+                                        vacancies[index]
+                                            .createdDate
+                                            .substring(11, 16) +
+                                        ' p.m.',
+                                    style: TextStyle(
+                                        fontSize: 17.0, color: Colors.black87),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+        itemCount: vacancies.length,
+      ),
+    );
   }
 }

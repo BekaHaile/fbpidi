@@ -27,12 +27,16 @@ class _HomeState extends State<Home> {
   }
 
   writeStatus() async {
-    await storage.read(key: 'loginStatus').then((value) async {
-      if (value.isEmpty)
-        await storage.write(key: 'loginStatus', value: 'false');
-      else
-        isLoggedIn = value;
-    });
+    try {
+      await storage.read(key: 'loginStatus').then((value) async {
+        if (value.isEmpty)
+          await storage.write(key: 'loginStatus', value: 'false');
+        else
+          isLoggedIn = value;
+      });
+    } catch (e) {
+      await storage.write(key: 'loginStatus', value: 'false');
+    }
   }
 
   PageController pageController = PageController(initialPage: 0);
@@ -48,7 +52,7 @@ class _HomeState extends State<Home> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: LoginPage(),
                 );
               } else {
                 if (snapshot.data == 'false')
