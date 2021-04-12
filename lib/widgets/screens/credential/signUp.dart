@@ -309,6 +309,8 @@ class _SignUpState extends State<SignUp> {
       ),
       padding: EdgeInsets.only(left: 10),
       child: TextField(
+          obscureText:
+              hint == "Password" || hint == "Confirm Password" ? true : false,
           controller: controller,
           decoration: InputDecoration(
               hintText: hint,

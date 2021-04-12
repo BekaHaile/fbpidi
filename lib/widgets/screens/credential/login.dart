@@ -263,6 +263,7 @@ class _LoginSevenPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                obscureText: true,
                 controller: controllerPassword,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
