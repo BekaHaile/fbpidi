@@ -1,11 +1,27 @@
+import 'package:fbpidi/models/user.dart';
+import 'package:fbpidi/services/user_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  TextEditingController controllerFirst = TextEditingController(),
+      controllerLast = TextEditingController(),
+      controllerUser = TextEditingController(),
+      controllerEmail = TextEditingController(),
+      controllerPhone = TextEditingController(),
+      controllerPassword = TextEditingController(),
+      controllerConfirm = TextEditingController();
+  bool isError = false;
+  String message = 'Error in your data';
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade400,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -21,20 +37,88 @@ class SignUp extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        _textInput(hint: "First Name", icon: Icons.person),
-                        _textInput(hint: "Last Name", icon: Icons.person),
-                        _textInput(hint: "Username", icon: Icons.person),
-                        _textInput(hint: "Email", icon: Icons.email),
-                        _textInput(hint: "Phone Number", icon: Icons.call),
-                        _textInput(hint: "Password", icon: Icons.vpn_key),
                         _textInput(
-                            hint: "Confirm Password", icon: Icons.vpn_key),
+                            hint: "First Name",
+                            icon: Icons.person,
+                            controller: controllerFirst),
+                        _textInput(
+                            hint: "Last Name",
+                            icon: Icons.person,
+                            controller: controllerLast),
+                        _textInput(
+                            hint: "Username",
+                            icon: Icons.person,
+                            controller: controllerUser),
+                        _textInput(
+                            hint: "Email",
+                            icon: Icons.email,
+                            controller: controllerEmail),
+                        _textInput(
+                            hint: "Phone Number",
+                            icon: Icons.call,
+                            controller: controllerPhone),
+                        _textInput(
+                            hint: "Password",
+                            icon: Icons.vpn_key,
+                            controller: controllerPassword),
+                        _textInput(
+                            hint: "Confirm Password",
+                            icon: Icons.vpn_key,
+                            controller: controllerConfirm),
+                        isError
+                            ? Text(
+                                message,
+                                style:
+                                    TextStyle(fontSize: 18, color: Colors.red),
+                              )
+                            : Container(),
                         Expanded(
                           child: Center(
                             child: ButtonWidget(
-                              btnText: "SIGNUP",
-                              onClick: () {
-                                Navigator.pop(context);
+                              btnText: "Register",
+                              onClick: () async {
+                                if (controllerConfirm.text ==
+                                    controllerPassword.text) {
+                                  User user = User(
+                                      firstName: controllerFirst.text,
+                                      lastName: controllerLast.text,
+                                      username: controllerUser.text,
+                                      email: controllerEmail.text,
+                                      phoneNumber: controllerPhone.text,
+                                      password: controllerPassword.text);
+                                  try {
+                                    await UserApi()
+                                        .registerUser(user)
+                                        .then((response) async {
+                                      print(response + '*************');
+                                      print(response['error'] +
+                                          ' ' +
+                                          response['token']);
+                                      if (response['error'] == false) {
+                                        final storage =
+                                            new FlutterSecureStorage();
+                                        await storage
+                                            .write(
+                                                key: 'token',
+                                                value: response['token'])
+                                            .then((value) async {
+                                          Navigator.pushNamed(
+                                              context, '/login');
+                                        });
+                                      } else {
+                                        print('Error');
+                                        setState(() {
+                                          isError = true;
+                                        });
+                                      }
+                                    });
+                                  } catch (e) {
+                                    setState(() {
+                                      message = e.toString();
+                                      isError = true;
+                                    });
+                                  }
+                                }
                               },
                             ),
                           ),
@@ -47,11 +131,12 @@ class SignUp extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.black)),
                               TextSpan(
-                                  text: "SIGNIN",
+                                  text: "Sign In",
                                   style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromRGBO(44, 52, 155, 1),
-                                  )),
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      decoration: TextDecoration.underline)),
                             ]),
                           ),
                           onTap: () {
@@ -230,14 +315,21 @@ class SignUp extends StatelessWidget {
         color: Colors.white,
       ),
       padding: EdgeInsets.only(left: 10),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hint,
-          prefixIcon: Icon(icon),
-        ),
-      ),
+      child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+              hintText: hint,
+              prefixIcon: Material(
+                elevation: 0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(
+                  icon,
+                  color: Color.fromRGBO(255, 136, 25, 1),
+                ),
+              ),
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13))),
     );
   }
 }
@@ -268,12 +360,16 @@ class HeaderContainer extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               )),
           Center(
-            child: Image.asset(
-              "assets/frontpages/images/brand/logo2.png",
-              height: 300,
-              width: 300,
-            ),
-          ),
+              child: Text(
+            'FBPIDI',
+            style: TextStyle(color: Colors.white, fontSize: 35),
+          )
+              // Image.asset(
+              //   "assets/frontpages/images/brand/logo2.png",
+              //   height: 300,
+              //   width: 300,
+              // ),
+              ),
         ],
       ),
     );
@@ -294,11 +390,7 @@ class ButtonWidget extends StatelessWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color.fromRGBO(44, 52, 155, 1),
-            Color.fromRGBO(76, 45, 141, 1),
-            Color.fromRGBO(97, 39, 131, 1),
-          ], end: Alignment.centerLeft, begin: Alignment.centerRight),
+          color: Color.fromRGBO(255, 136, 25, 1),
           borderRadius: BorderRadius.all(
             Radius.circular(100),
           ),

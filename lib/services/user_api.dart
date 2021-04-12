@@ -3,11 +3,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserApi {
+  String baseUrl = "http://192.168.1.159:8000";
+
   //Get profile data
   Future<User> getProfile() async {
-    var response = await http.get(
-        Uri.encodeFull("http://127.0.0.1:8000/client/mydash/"), //uri of api
-        headers: {"Accept": "application/json"});
+    var response =
+        await http.get(Uri.encodeFull("$baseUrl/client/mydash/"), //uri of api
+            headers: {"Accept": "application/json"});
 
     //ToDo - add token into the api call
 
@@ -18,7 +20,7 @@ class UserApi {
   }
 
 //user registration
-  registerUser(User user) async {
+  Future<dynamic> registerUser(User user) async {
     Map<dynamic, String> data = {
       "username": user.username,
       "first_name": user.firstName,
@@ -26,37 +28,35 @@ class UserApi {
       "phone_number": user.phoneNumber,
       "email": user.email,
       "password": user.password,
-      "password2": user.password
+      "password2": user.password,
     };
     var response;
     try {
       response = await http.post(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/accounts/register/"), //uri of api
+        Uri.encodeFull("$baseUrl/api/accounts/register/"), //uri of api
         headers: {
-          "Accept": "application/json; charset=UTF-8",
+          "Content-Type": "application/json;",
         },
         body: jsonEncode(data),
       );
     } catch (e) {
-      print(e + 'has occured ****');
+      print(e.toString() + 'has occured ****');
     }
     return response.body;
   }
 
   //user login
-  userLogin(username, password) async {
+  Future<Map<dynamic, dynamic>> userLogin(username, password) async {
     Map<dynamic, String> data = {
       "username": username,
-      "password": username.password,
+      "password": password,
     };
     var response;
     try {
       response = await http.post(
-        Uri.encodeFull(
-            "http://192.168.1.115:8000/client/accounts/login/"), //uri of api
+        Uri.encodeFull("$baseUrl/api/accounts/login/"), //uri of api
         headers: {
-          "Accept": "application/json; charset=UTF-8",
+          "Content-Type": "application/json",
         },
         body: jsonEncode(data),
       );

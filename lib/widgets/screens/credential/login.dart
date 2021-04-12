@@ -1,3 +1,4 @@
+import 'package:fbpidi/services/user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginSevenPageState extends State<LoginPage> {
+  TextEditingController controllerUser = TextEditingController(),
+      controllerPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,22 +47,27 @@ class _LoginSevenPageState extends State<LoginPage> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 40,
+                        height: 80,
                       ),
-                      Image.asset(
-                        "assets/frontpages/images/brand/logo2.png",
-                        height: 100,
-                        width: 300,
+                      Center(
+                        child: Text(
+                          'FBPIDI',
+                          style: TextStyle(color: Colors.white, fontSize: 35),
+                        ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.5),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 26),
+                        ),
                       ),
                     ],
                   ),
@@ -67,8 +75,9 @@ class _LoginSevenPageState extends State<LoginPage> {
                   height: 300,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                    Color.fromRGBO(255, 136, 25, 1),
-                    Color.fromRGBO(255, 175, 101, 1)
+                    Color.fromRGBO(44, 52, 155, 1),
+                    Color.fromRGBO(76, 45, 141, 1),
+                    Color.fromRGBO(97, 39, 131, 1),
                   ])),
                 ),
               ),
@@ -223,6 +232,7 @@ class _LoginSevenPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: controllerUser,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -250,6 +260,7 @@ class _LoginSevenPageState extends State<LoginPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextField(
+                controller: controllerPassword,
                 onChanged: (String value) {},
                 cursorColor: Colors.deepOrange,
                 decoration: InputDecoration(
@@ -287,9 +298,21 @@ class _LoginSevenPageState extends State<LoginPage> {
                         fontSize: 18),
                   ),
                   onPressed: () async {
-                    final storage = new FlutterSecureStorage();
-                    await storage.write(key: 'loginStatus', value: 'true');
-                    Navigator.pushNamed(context, '/homePage');
+                    UserApi()
+                        .userLogin(controllerUser.text, controllerPassword.text)
+                        .then((response) async {
+                      print('is repsonse ' + response.toString());
+                      if (response['token'] != null) {
+                        print(response['token']);
+                        final storage = new FlutterSecureStorage();
+                        await storage.write(
+                            key: 'token', value: response['token']);
+                        await storage.write(key: 'loginStatus', value: 'true');
+                        Navigator.pushNamed(context, '/homePage');
+                      } else {
+                        print(response['non_field_errors']);
+                      }
+                    });
                   },
                 ),
               )),

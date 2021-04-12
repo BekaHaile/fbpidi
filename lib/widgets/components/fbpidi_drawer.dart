@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FbpidiDrawer extends StatefulWidget {
@@ -118,6 +119,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 _buildRow(FontAwesomeIcons.poll, "Polls", 15),
                 _buildDivider(),
                 _buildRow(FontAwesomeIcons.infoCircle, "Help and Support", 15),
+                _buildRow(FontAwesomeIcons.powerOff, "Logout", 15)
               ],
             ),
           ),
@@ -145,7 +147,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     final TextStyle tStyle = TextStyle(
         color: selected ? Colors.white : Colors.black87, fontSize: 17.0);
     return InkWell(
-      onTap: () {
+      onTap: () async {
         Navigator.pop(context);
         if (title == "Products")
           Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
@@ -199,7 +201,13 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             context,
             "/researches",
           );
-        else if (title == "Manufacturers")
+        else if (title == "Logout") {
+          final storage = new FlutterSecureStorage();
+          await storage.delete(key: 'loginStatus').then((value) async {
+            await storage.write(key: 'loginStatus', value: 'false');
+            Navigator.pushNamed(context, '/signUp');
+          });
+        } else if (title == "Manufacturers")
           Navigator.pushNamed(context, "/companies",
               arguments: {'type': 'all'});
         else if (title == "Products")
