@@ -39,22 +39,22 @@ class User {
       this.password});
 
   User.fromMap(Map<dynamic, dynamic> map) {
-    id = map["user_detail"]["user"]["id"];
-    username = map["user_detail"]["user"]["username"];
-    firstName = map["user_detail"]["user"]["first_name"];
-    lastName = map["user_detail"]["user"]["last_name"];
-    email = map["user_detail"]["user"]["email"];
-    phoneNumber = map["user_detail"]["user"]["phone_number"];
-    profileImage = map["user_detail"]["user"]["profile_image"];
-    address = map["user_detail"]["address"];
-    city = map["user_detail"]["city"];
-    postalCode = map["user_detail"]["postal_code"];
-    country = map["user_detail"]["country"];
-    facebookLink = map["user_detail"]["facebook_link"];
-    twiterLink = map["user_detail"]["twiter_link"];
-    googleLink = map["user_detail"]["google_link"];
-    pintrestLink = map["user_detail"]["pintrest_link"];
-    bio = map["user_detail"]["bio"];
-    timeStamp = map["user_detail"]["time_stamp"];
+    id = map["user"]["id"].toString();
+    username = map["user"]["username"].toString();
+    firstName = map["user"]["first_name"].toString();
+    lastName = map["user"]["last_name"].toString();
+    email = map["user"]["email"].toString();
+    phoneNumber = map["user"]["phone_number"].toString();
+    profileImage = map["user"]["profile_image"].toString();
+    address = map["address"].toString();
+    city = map["city"].toString();
+    postalCode = map["postal_code"].toString();
+    country = map["country"].toString();
+    facebookLink = map["facebook_link"].toString();
+    twiterLink = map["twiter_link"].toString();
+    googleLink = map["google_link"].toString();
+    pintrestLink = map["pintrest_link"].toString();
+    bio = map["bio"].toString();
+    timeStamp = map["time_stamp"].toString();
   }
 }

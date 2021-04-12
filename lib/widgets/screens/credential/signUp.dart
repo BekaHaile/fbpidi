@@ -25,278 +25,271 @@ class _SignUpState extends State<SignUp> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height * 1.2,
             padding: EdgeInsets.only(bottom: 30),
             child: Column(
               children: <Widget>[
                 HeaderContainer("Signup For Free"),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        _textInput(
-                            hint: "First Name",
-                            icon: Icons.person,
-                            controller: controllerFirst),
-                        _textInput(
-                            hint: "Last Name",
-                            icon: Icons.person,
-                            controller: controllerLast),
-                        _textInput(
-                            hint: "Username",
-                            icon: Icons.person,
-                            controller: controllerUser),
-                        _textInput(
-                            hint: "Email",
-                            icon: Icons.email,
-                            controller: controllerEmail),
-                        _textInput(
-                            hint: "Phone Number",
-                            icon: Icons.call,
-                            controller: controllerPhone),
-                        _textInput(
-                            hint: "Password",
-                            icon: Icons.vpn_key,
-                            controller: controllerPassword),
-                        _textInput(
-                            hint: "Confirm Password",
-                            icon: Icons.vpn_key,
-                            controller: controllerConfirm),
-                        isError
-                            ? Text(
+                Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      _textInput(
+                          hint: "First Name",
+                          icon: Icons.person,
+                          controller: controllerFirst),
+                      _textInput(
+                          hint: "Last Name",
+                          icon: Icons.person,
+                          controller: controllerLast),
+                      _textInput(
+                          hint: "Username",
+                          icon: Icons.person,
+                          controller: controllerUser),
+                      _textInput(
+                          hint: "Email",
+                          icon: Icons.email,
+                          controller: controllerEmail),
+                      _textInput(
+                          hint: "Phone Number",
+                          icon: Icons.call,
+                          controller: controllerPhone),
+                      _textInput(
+                          hint: "Password",
+                          icon: Icons.vpn_key,
+                          controller: controllerPassword),
+                      _textInput(
+                          hint: "Confirm Password",
+                          icon: Icons.vpn_key,
+                          controller: controllerConfirm),
+                      isError
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
                                 message,
                                 style:
                                     TextStyle(fontSize: 18, color: Colors.red),
-                              )
-                            : Container(),
-                        Expanded(
-                          child: Center(
-                            child: ButtonWidget(
-                              btnText: "Register",
-                              onClick: () async {
-                                if (controllerConfirm.text ==
-                                    controllerPassword.text) {
-                                  User user = User(
-                                      firstName: controllerFirst.text,
-                                      lastName: controllerLast.text,
-                                      username: controllerUser.text,
-                                      email: controllerEmail.text,
-                                      phoneNumber: controllerPhone.text,
-                                      password: controllerPassword.text);
-                                  try {
-                                    await UserApi()
-                                        .registerUser(user)
-                                        .then((response) async {
-                                      print(response + '*************');
-                                      print(response['error'] +
-                                          ' ' +
-                                          response['token']);
-                                      if (response['error'] == false) {
-                                        final storage =
-                                            new FlutterSecureStorage();
-                                        await storage
-                                            .write(
-                                                key: 'token',
-                                                value: response['token'])
-                                            .then((value) async {
-                                          Navigator.pushNamed(
-                                              context, '/login');
-                                        });
-                                      } else {
-                                        print('Error');
-                                        setState(() {
-                                          isError = true;
-                                        });
-                                      }
-                                    });
-                                  } catch (e) {
-                                    setState(() {
-                                      message = e.toString();
-                                      isError = true;
-                                    });
-                                  }
+                              ),
+                            )
+                          : Container(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Center(
+                          child: ButtonWidget(
+                            btnText: "Register",
+                            onClick: () async {
+                              if (controllerConfirm.text ==
+                                  controllerPassword.text) {
+                                User user = User(
+                                    firstName: controllerFirst.text,
+                                    lastName: controllerLast.text,
+                                    username: controllerUser.text,
+                                    email: controllerEmail.text,
+                                    phoneNumber: controllerPhone.text,
+                                    password: controllerPassword.text);
+                                try {
+                                  await UserApi()
+                                      .registerUser(user)
+                                      .then((response) async {
+                                    if (response['error'] == false) {
+                                      final storage =
+                                          new FlutterSecureStorage();
+                                      await storage.delete(key: 'token');
+                                      await storage
+                                          .write(
+                                              key: 'token',
+                                              value: response['token'])
+                                          .then((value) async {
+                                        Navigator.pushNamed(context, '/login');
+                                      });
+                                    } else {
+                                      print('Error');
+                                      setState(() {
+                                        isError = true;
+                                        message = response['message'][0][0];
+                                      });
+                                    }
+                                  });
+                                } catch (e) {
+                                  setState(() {
+                                    message = e.toString();
+                                    isError = true;
+                                  });
                                 }
-                              },
-                            ),
+                              }
+                            },
                           ),
                         ),
-                        InkWell(
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: "Already have an account? ",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.black)),
-                              TextSpan(
-                                  text: "Sign In",
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15,
-                                      decoration: TextDecoration.underline)),
-                            ]),
+                      ),
+                      InkWell(
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: "Already have an account? ",
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black)),
+                            TextSpan(
+                                text: "Sign In",
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    decoration: TextDecoration.underline)),
+                          ]),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, "/login");
+                        },
+                      ),
+                      Text("OR",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          )),
+                      Text("Login with",
+                          style: TextStyle(
+                            fontSize: 23,
+                            color: Colors.black,
+                          )),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.37,
+                              height: 50.0,
+                              child: SizedBox.expand(
+                                child: ElevatedButton(
+                                  key: Key('raised'),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(7.0),
+                                    ),
+                                    primary: Color.fromRGBO(221, 75, 57, 1),
+                                    onPrimary: Theme.of(context).disabledColor,
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.googlePlusG,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Google",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          onTap: () {
-                            Navigator.pushNamed(context, "/login");
-                          },
-                        ),
-                        Text("OR",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            )),
-                        Text("Login with",
-                            style: TextStyle(
-                              fontSize: 23,
-                              color: Colors.black,
-                            )),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.37,
-                                height: 50.0,
-                                child: SizedBox.expand(
-                                  child: ElevatedButton(
-                                    key: Key('raised'),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(7.0),
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              height: 50.0,
+                              child: SizedBox.expand(
+                                child: ElevatedButton(
+                                  key: Key('raised'),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(7.0),
+                                    ),
+                                    primary: Color.fromRGBO(29, 161, 242, 1),
+                                    onPrimary: Theme.of(context).disabledColor,
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.twitter,
+                                        color: Colors.white,
+                                        size: 21,
                                       ),
-                                      primary: Color.fromRGBO(221, 75, 57, 1),
-                                      onPrimary:
-                                          Theme.of(context).disabledColor,
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.googlePlusG,
-                                          color: Colors.white,
-                                        ),
-                                        Text(
-                                          "Google",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.13,
-                                height: 50.0,
-                                child: SizedBox.expand(
-                                  child: ElevatedButton(
-                                    key: Key('raised'),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(7.0),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              height: 50.0,
+                              child: SizedBox.expand(
+                                child: ElevatedButton(
+                                  key: Key('raised'),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(7.0),
+                                    ),
+                                    primary: Color.fromRGBO(59, 89, 152, 1),
+                                    onPrimary: Theme.of(context).disabledColor,
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.facebook,
+                                        color: Colors.white,
+                                        size: 21,
                                       ),
-                                      primary: Color.fromRGBO(29, 161, 242, 1),
-                                      onPrimary:
-                                          Theme.of(context).disabledColor,
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.twitter,
-                                          color: Colors.white,
-                                          size: 21,
-                                        ),
-                                      ],
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.13,
-                                height: 50.0,
-                                child: SizedBox.expand(
-                                  child: ElevatedButton(
-                                    key: Key('raised'),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(7.0),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              height: 50.0,
+                              child: SizedBox.expand(
+                                child: ElevatedButton(
+                                  key: Key('raised'),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(7.0),
+                                    ),
+                                    primary: Color.fromRGBO(24, 23, 23, 1),
+                                    onPrimary: Theme.of(context).disabledColor,
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.gitAlt,
+                                        color: Colors.white,
+                                        size: 21,
                                       ),
-                                      primary: Color.fromRGBO(59, 89, 152, 1),
-                                      onPrimary:
-                                          Theme.of(context).disabledColor,
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.facebook,
-                                          color: Colors.white,
-                                          size: 21,
-                                        ),
-                                      ],
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.13,
-                                height: 50.0,
-                                child: SizedBox.expand(
-                                  child: ElevatedButton(
-                                    key: Key('raised'),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(7.0),
-                                      ),
-                                      primary: Color.fromRGBO(24, 23, 23, 1),
-                                      onPrimary:
-                                          Theme.of(context).disabledColor,
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.gitAlt,
-                                          color: Colors.white,
-                                          size: 21,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 )
               ],

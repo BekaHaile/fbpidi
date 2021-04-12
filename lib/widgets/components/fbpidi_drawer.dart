@@ -13,6 +13,8 @@ class FbpidiDrawer extends StatefulWidget {
 class _FbpidiDrawerState extends State<FbpidiDrawer> {
   final Color active = Color.fromRGBO(115, 115, 115, 1);
   // int _currentSelected = 0;
+  final storage = new FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     return _buildDrawer();
@@ -60,10 +62,19 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                         ),
                       ),
                       SizedBox(height: 5.0),
-                      Text(
-                        "Mukesh Mitiku",
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
-                      ),
+                      FutureBuilder<String>(
+                          future: storage.read(key: 'name'),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData)
+                              return CircularProgressIndicator();
+                            else {
+                              return Text(
+                                snapshot.data,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18.0),
+                              );
+                            }
+                          }),
                       SizedBox(height: 10.0),
                     ],
                   ),
@@ -205,7 +216,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           final storage = new FlutterSecureStorage();
           await storage.delete(key: 'loginStatus').then((value) async {
             await storage.write(key: 'loginStatus', value: 'false');
-            Navigator.pushNamed(context, '/signUp');
+            Navigator.pushNamed(context, '/login');
           });
         } else if (title == "Manufacturers")
           Navigator.pushNamed(context, "/companies",

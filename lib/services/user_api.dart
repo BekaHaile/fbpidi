@@ -6,22 +6,25 @@ class UserApi {
   String baseUrl = "http://192.168.1.159:8000";
 
   //Get profile data
-  Future<User> getProfile() async {
+  Future<User> getProfile(token) async {
+    print(token + ' ****is the token');
     var response =
-        await http.get(Uri.encodeFull("$baseUrl/client/mydash/"), //uri of api
-            headers: {"Accept": "application/json"});
+        await http.get(Uri.encodeFull("$baseUrl/api/mydash/"), //uri of api
+            headers: {
+          "Authorization": "Token $token",
+        });
 
-    //ToDo - add token into the api call
+    print(response.body);
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    User user = User.fromMap(data);
+    User user = User.fromMap(data['user_detail']);
     return user;
   }
 
 //user registration
   Future<dynamic> registerUser(User user) async {
-    Map<dynamic, String> data = {
+    Map<dynamic, dynamic> data = {
       "username": user.username,
       "first_name": user.firstName,
       "last_name": user.lastName,
@@ -35,14 +38,16 @@ class UserApi {
       response = await http.post(
         Uri.encodeFull("$baseUrl/api/accounts/register/"), //uri of api
         headers: {
-          "Content-Type": "application/json;",
+          "Content-Type": "application/json",
         },
         body: jsonEncode(data),
       );
     } catch (e) {
       print(e.toString() + 'has occured ****');
     }
-    return response.body;
+    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
+    print(data2);
+    return data2;
   }
 
   //user login
@@ -63,6 +68,7 @@ class UserApi {
     } catch (e) {
       print(e + 'has occured ****');
     }
-    return response.body;
+    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
+    return data2;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/services/user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,6 +12,8 @@ class LoginPage extends StatefulWidget {
 class _LoginSevenPageState extends State<LoginPage> {
   TextEditingController controllerUser = TextEditingController(),
       controllerPassword = TextEditingController();
+  bool isError = false;
+  String message = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -282,6 +285,21 @@ class _LoginSevenPageState extends State<LoginPage> {
           SizedBox(
             height: 25,
           ),
+          isError
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    child: Text(
+                      message,
+                      style: TextStyle(fontSize: 18, color: Colors.red),
+                    ),
+                  ),
+                )
+              : Container(),
+          SizedBox(
+            height: 10,
+          ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Container(
@@ -301,16 +319,24 @@ class _LoginSevenPageState extends State<LoginPage> {
                     UserApi()
                         .userLogin(controllerUser.text, controllerPassword.text)
                         .then((response) async {
-                      print('is repsonse ' + response.toString());
                       if (response['token'] != null) {
                         print(response['token']);
+                        User user =
+                            await UserApi().getProfile(response['token']);
                         final storage = new FlutterSecureStorage();
+                        await storage.write(
+                            key: 'name',
+                            value: "${user.firstName} ${user.lastName}");
                         await storage.write(
                             key: 'token', value: response['token']);
                         await storage.write(key: 'loginStatus', value: 'true');
                         Navigator.pushNamed(context, '/homePage');
                       } else {
                         print(response['non_field_errors']);
+                        setState(() {
+                          message = response['non_field_errors'][0];
+                          isError = true;
+                        });
                       }
                     });
                   },
