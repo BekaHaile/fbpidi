@@ -193,7 +193,9 @@ class ResearchDetail extends StatelessWidget {
             height: 40.0,
             child: SizedBox.expand(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addResearch');
+                },
                 child: Text(
                   "Add new Research",
                   style: TextStyle(

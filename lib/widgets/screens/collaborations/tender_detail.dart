@@ -95,6 +95,13 @@ class TenderDetail extends StatelessWidget {
                                           SizedBox(
                                             width: 5,
                                           ),
+                                          tender.tenderType == "Paid"
+                                              ? Text(
+                                                  'Price:- ${tender.documentPrice}',
+                                                  style:
+                                                      TextStyle(fontSize: 17),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     ),
@@ -114,13 +121,17 @@ class TenderDetail extends StatelessWidget {
                                           const EdgeInsets.only(left: 20.0),
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: Color.fromRGBO(0, 128, 0, 1),
+                                          primary: tender.status == "Upcoming"
+                                              ? Colors.yellow
+                                              : Color.fromRGBO(0, 128, 0, 1),
                                         ),
                                         onPressed: () {},
                                         child: Text(
                                           tender.status,
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: tender.status == "Upcoming"
+                                                  ? Colors.black87
+                                                  : Colors.white,
                                               fontSize: 17),
                                         ),
                                       ),
@@ -131,19 +142,34 @@ class TenderDetail extends StatelessWidget {
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          primary:
-                                              Theme.of(context).buttonColor,
-                                        ),
-                                        child: Text(
-                                          "Participate in Tender",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17),
-                                        ),
-                                      ),
+                                      child: tender.status == "Upcoming"
+                                          ? Text(
+                                              "This tender is now in Upcoming status. So, you can't participate in this tender.",
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 17),
+                                            )
+                                          : tender.tenderType == "Paid"
+                                              ? Text(
+                                                  "This Tender is not Free, You can read the description below and attend the tender in person!",
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 17),
+                                                )
+                                              : ElevatedButton(
+                                                  onPressed: () {},
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    primary: Theme.of(context)
+                                                        .buttonColor,
+                                                  ),
+                                                  child: Text(
+                                                    "Participate in Tender",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 17),
+                                                  ),
+                                                ),
                                     ),
                                     SizedBox(
                                       height: 15.0,

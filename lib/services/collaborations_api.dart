@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.1.159:8000";
+  String baseUrl = "http://192.168.1.33:8000";
 
   //Get all projects
   Future<List<Project>> getProjects() async {
@@ -73,6 +73,32 @@ class CollaborationsApi {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');
     }
+  }
+
+  //research registration
+  Future<dynamic> addResearch(Research research) async {
+    Map<dynamic, dynamic> data = {
+      "title": research.title,
+      "status": research.status,
+      "category": research.category,
+      "description": research.description,
+    };
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/create_research"), //uri of api
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print(e.toString() + 'has occured ****');
+    }
+    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
+    print(data2);
+    return data2;
   }
 
   //Get all vacancies
@@ -155,6 +181,26 @@ class CollaborationsApi {
       print("Error: " + e.toString());
       throw Exception(e);
     }
+  }
+
+  //Apply for vacancy
+  Future<dynamic> vacancyApply(Map<String, dynamic> userApplying) async {
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/create_research"), //uri of api
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(userApplying),
+      );
+    } catch (e) {
+      print(e.toString() + 'has occured ****');
+    }
+    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
+    print(data2);
+    return data2;
   }
 
   //Get all tenders

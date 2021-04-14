@@ -237,7 +237,11 @@ class VacancyDetail extends StatelessWidget {
                                     ),
                                     primary: Theme.of(context).buttonColor,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, "/vacancyApply",
+                                        arguments: {"id": data['id']});
+                                  },
                                   child: Text(
                                     "Apply",
                                     style: TextStyle(

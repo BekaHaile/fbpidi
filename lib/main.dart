@@ -1,5 +1,5 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
-import 'package:fbpidi/widgets/screens/collaborations/apply_for_vacancy.dart';
+import 'package:fbpidi/widgets/screens/collaborations/add_research.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blog_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blogs.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
@@ -15,6 +15,7 @@ import 'package:fbpidi/widgets/screens/collaborations/researches.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tender_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/tenders.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancies.dart';
+import 'package:fbpidi/widgets/screens/collaborations/vacancy_apply.dart';
 import 'package:fbpidi/widgets/screens/collaborations/vacancy_detail.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_detail.dart';
 import 'package:fbpidi/widgets/screens/company_and_product/company_list.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           '/events': (BuildContext context) => Events(),
           '/projects': (BuildContext context) => Projects(),
           '/researches': (BuildContext context) => Researches(),
+          '/addResearch': (BuildContext context) => AddResearch(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
@@ -130,9 +132,9 @@ class MyApp extends StatelessWidget {
                   builder: (_) => ResearchDetail(
                         requests,
                       ));
-            case '/applyForVacancy':
+            case '/vacancyApply':
               return MaterialPageRoute(
-                  builder: (_) => ApplyForVacancy(
+                  builder: (_) => VacancyApply(
                         requests,
                       ));
 

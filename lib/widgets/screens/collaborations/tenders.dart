@@ -184,7 +184,6 @@ class _TendersState extends State<Tenders> {
     return FutureBuilder<List<Tender>>(
         future: CollaborationsApi().getTenders(),
         builder: (BuildContext context, snapshot) {
-          print(snapshot.data);
           if (!snapshot.hasData)
             return Center(
               child: Padding(
@@ -274,12 +273,18 @@ class _TendersState extends State<Tenders> {
                         padding: const EdgeInsets.only(left: 20.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(0, 128, 0, 1),
+                            primary: tenders[index].status == "Upcoming"
+                                ? Colors.yellow
+                                : Color.fromRGBO(0, 128, 0, 1),
                           ),
                           onPressed: () {},
                           child: Text(
                             tenders[index].status,
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: TextStyle(
+                                color: tenders[index].status == "Upcoming"
+                                    ? Colors.black87
+                                    : Colors.white,
+                                fontSize: 17),
                           ),
                         ),
                       ),

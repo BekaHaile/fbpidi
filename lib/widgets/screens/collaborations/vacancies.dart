@@ -394,7 +394,7 @@ class _VacanciesState extends State<Vacancies> {
                                   primary: Theme.of(context).buttonColor,
                                 ),
                                 child: Text(
-                                  "Vacancy Detail",
+                                  "View job details",
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
