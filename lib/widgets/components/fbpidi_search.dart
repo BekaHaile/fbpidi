@@ -25,9 +25,9 @@ class FbpidiSearch extends StatelessWidget {
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
                 ),
-                // onChanged: (val) {
-                //   callback(val);
-                // },
+                onChanged: (val) {
+                  if (val == "") callback(val);
+                },
               ),
             ),
             ElevatedButton(

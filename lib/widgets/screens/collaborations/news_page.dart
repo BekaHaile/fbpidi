@@ -15,6 +15,8 @@ class _NewsState extends State<NewsPage> {
   List<News> news, searchedNews = [];
   bool isBeingSearhced = false;
 
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,9 @@ class _NewsState extends State<NewsPage> {
           padding: const EdgeInsets.only(top: 18.0),
           child: Column(
             children: [
-              FbpidiSearch(callback: searchCallback),
+              FbpidiSearch(
+                  callback: searchCallback,
+                  editingController: editingController),
               _sortList(context),
               _buildNewsList(context),
             ],
@@ -39,9 +43,11 @@ class _NewsState extends State<NewsPage> {
   }
 
   void searchCallback(String searchValue) {
+    searchedNews.clear();
     if (news.length > 0) {
       news.forEach((element) {
-        if (element.title.contains(searchValue)) searchedNews.add(element);
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedNews.add(element);
       });
 
       setState(() {

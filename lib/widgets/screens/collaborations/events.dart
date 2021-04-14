@@ -43,16 +43,38 @@ class _EventsState extends State<Events> {
   }
 
   void searchCallback(String searchValue) {
+    searchedEvents.clear();
     if (events.length > 0) {
       events.forEach((element) {
-        if (element.title.contains(searchValue) ||
-            element.status.contains(searchValue) ||
-            element.company.name.contains(searchValue))
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.status.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.company.name
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()))
           searchedEvents.add(element);
       });
 
       setState(() {
         isBeingSearhced = true;
+      });
+    }
+  }
+
+  void filter(String searchValue) {
+    searchedEvents.clear();
+    if (events != null && searchValue != "All") {
+      events.forEach((element) {
+        print("filtering " + searchValue + " in " + element.status);
+        if (element.status.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedEvents.add(element);
+      });
+
+      setState(() {
+        isBeingSearhced = true;
+      });
+    } else {
+      setState(() {
+        isBeingSearhced = false;
       });
     }
   }
@@ -104,6 +126,8 @@ class _EventsState extends State<Events> {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
+
+                    filter("All");
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -159,6 +183,17 @@ class _EventsState extends State<Events> {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
+            switch (title) {
+              case "Upcoming Events":
+                filter("Upcoming");
+                break;
+              case "New Events":
+                filter("New");
+                break;
+              default:
+                filter("All");
+                break;
+            }
           },
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
@@ -265,6 +300,26 @@ class _EventsState extends State<Events> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: events[index].status == "Upcoming"
+                                  ? Colors.yellow
+                                  : Color.fromRGBO(0, 128, 0, 1),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              events[index].status,
+                              style: TextStyle(
+                                  color: events[index].status == "Upcoming"
+                                      ? Colors.black87
+                                      : Colors.white,
+                                  fontSize: 17),
                             ),
                           ),
                         ),

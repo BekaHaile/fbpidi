@@ -54,9 +54,11 @@ class _ProductsState extends State<Products> {
   }
 
   void searchCallback(String searchValue) {
+    searchedProducts.clear();
     if (products.length > 0) {
       products.forEach((element) {
-        if (element.name.contains(searchValue)) searchedProducts.add(element);
+        if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedProducts.add(element);
       });
 
       setState(() {

@@ -44,10 +44,13 @@ class _ResearchesState extends State<Researches> {
   }
 
   void searchCallback(String searchValue) {
-    if (researches.length > 0) {
+    searchedResearches.clear();
+    if (researches != null) {
       researches.forEach((element) {
-        if (element.title.contains(searchValue) ||
-            element.categoryName.contains(searchValue))
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.categoryName
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()))
           searchedResearches.add(element);
       });
 
@@ -157,7 +160,7 @@ class _ResearchesState extends State<Researches> {
               ),
             );
           else {
-            List<Research> researches = snapshot.data;
+            researches = snapshot.data;
             if (researches.length == 0)
               return Center(
                   child: Padding(

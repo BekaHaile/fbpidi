@@ -43,16 +43,28 @@ class _VacanciesState extends State<Vacancies> {
   }
 
   void searchCallback(String searchValue) {
-    if (vacancies.length > 0) {
+    searchedVacancies.clear();
+    if (vacancies.length > 0 && searchValue != "") {
       vacancies.forEach((element) {
-        if (element.title.contains(searchValue) ||
-            element.categoryName.contains(searchValue) ||
-            element.company.name.contains(searchValue))
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.categoryName
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()) ||
+            element.company.name
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()) ||
+            element.employmentType
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()))
           searchedVacancies.add(element);
       });
 
       setState(() {
         isBeingSearhced = true;
+      });
+    } else {
+      setState(() {
+        isBeingSearhced = false;
       });
     }
   }

@@ -53,9 +53,11 @@ class _CompanyState extends State<CompanyPage> {
   }
 
   void searchCallback(String searchValue) {
+    searchedCompanies.clear();
     if (companies.length > 0) {
       companies.forEach((element) {
-        if (element.name.contains(searchValue)) searchedCompanies.add(element);
+        if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedCompanies.add(element);
       });
 
       setState(() {

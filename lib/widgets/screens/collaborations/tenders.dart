@@ -15,6 +15,8 @@ class _TendersState extends State<Tenders> {
   List<Tender> tenders, searchedTenders = [];
   bool isBeingSearhced = false;
 
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,8 @@ class _TendersState extends State<Tenders> {
           child: Column(
             children: [
               FbpidiSearch(
-                callback: searchedTenders,
+                callback: searchCallback,
+                editingController: editingController,
               ),
               _sortList(context),
               _buildTenderList(context),
@@ -41,16 +44,41 @@ class _TendersState extends State<Tenders> {
   }
 
   void searchCallback(String searchValue) {
-    if (tenders.length > 0) {
+    searchedTenders.clear();
+    if (tenders != null) {
       tenders.forEach((element) {
-        if (element.title.contains(searchValue) ||
-            element.status.contains(searchValue) ||
-            element.company.name.contains(searchValue))
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.status.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.company.name
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()))
           searchedTenders.add(element);
       });
 
       setState(() {
         isBeingSearhced = true;
+      });
+    }
+  }
+
+  void filter(String searchValue) {
+    searchedTenders.clear();
+    if (tenders != null && searchValue != "All") {
+      tenders.forEach((element) {
+        print("filtering " + searchValue + " in " + element.status);
+        if (element.tenderType
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()) ||
+            element.status.toLowerCase().contains(searchValue.toLowerCase()))
+          searchedTenders.add(element);
+      });
+
+      setState(() {
+        isBeingSearhced = true;
+      });
+    } else {
+      setState(() {
+        isBeingSearhced = false;
       });
     }
   }
@@ -110,6 +138,7 @@ class _TendersState extends State<Tenders> {
                       for (int i = 0; i < 4; i++) selected[i] = false;
                       selected[0] = true;
                     });
+                    filter("All");
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -158,6 +187,20 @@ class _TendersState extends State<Tenders> {
               for (int i = 0; i < 4; i++) selected[i] = false;
               selected[index] = true;
             });
+            switch (title) {
+              case "Free only":
+                filter("Free");
+                break;
+              case "Paid only":
+                filter("Paid");
+                break;
+              case "Open only":
+                filter("open");
+                break;
+              default:
+                filter("All");
+                break;
+            }
           },
           style: ElevatedButton.styleFrom(
             primary: Colors.white,

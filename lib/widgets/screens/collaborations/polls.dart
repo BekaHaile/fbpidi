@@ -44,11 +44,16 @@ class _PollsState extends State<Polls> {
   }
 
   void searchCallback(String searchValue) {
+    searchedPolls.clear();
     if (polls.length > 0) {
       polls.forEach((element) {
-        if (element.title.contains(searchValue) ||
-            element.noOfVotes.contains(searchValue) ||
-            element.company.name.contains(searchValue))
+        if (element.title.toLowerCase().contains(searchValue.toLowerCase()) ||
+            element.noOfVotes
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()) ||
+            element.company.name
+                .toLowerCase()
+                .contains(searchValue.toLowerCase()))
           searchedPolls.add(element);
       });
 
