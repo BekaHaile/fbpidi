@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserApi {
-  String baseUrl = "http://192.168.1.33:8000";
+  String baseUrl = "http://192.168.0.26:8000";
 
   //Get profile data
   Future<User> getProfile(token) async {

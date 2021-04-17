@@ -1,5 +1,7 @@
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/models/company.dart';
+import 'package:fbpidi/models/research.dart';
+import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +59,8 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
         children: [
           _buildCategoriesGrid(),
-          _buildHorizontalList("Companies", Color.fromRGBO(203, 217, 230, 1)),
+          _buildHorizontalList(
+              "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
           _buildHorizontalList(
               "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
           _buildHorizontalList("Researches", Color.fromRGBO(217, 226, 241, 1)),
@@ -183,9 +186,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Icon(FontAwesomeIcons.chevronCircleLeft),
                 Expanded(
-                  child: FutureBuilder<List<Company>>(
-                    future: CompanyAndProductAPI()
-                        .getCompanies("manufacturer", "all"),
+                  child: FutureBuilder<List<dynamic>>(
+                    future: title == "Manufacturer"
+                        ? CompanyAndProductAPI()
+                            .getCompanies("manufacturer", "all")
+                        : CollaborationsApi().getResearches(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
                         return Center(
@@ -195,8 +200,20 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       else {
-                        List<Company> companies = snapshot.data;
-                        if (companies.length == 0)
+                        List<Company> companies = [];
+                        List<Research> researches = [];
+                        if (title == "Manufacturer")
+                          companies = snapshot.data;
+                        else
+                          researches = snapshot.data;
+                        if (title == "Manufacturer" && companies.length == 0)
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("No data"),
+                          ));
+                        else if (title != "Manufacturer" &&
+                            researches.length == 0)
                           return Center(
                               child: Padding(
                             padding: const EdgeInsets.all(20.0),
@@ -204,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                           ));
                         else
                           return Container(
-                            height: 135,
+                            height: 175,
                             child: GridView.builder(
                                 physics: ScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
@@ -218,25 +235,86 @@ class _HomePageState extends State<HomePage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Container(
-                                            width: 105,
-                                            height: 110,
-                                            child: FittedBox(
-                                              child: Image.network(
-                                                title ==
-                                                        "Investment Opportunities"
-                                                    ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
-                                                    : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
-                                              ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          )),
+                                      InkWell(
+                                        onTap: () {
+                                          if (title == "Manufacturer")
+                                            Navigator.pushNamed(
+                                                context, '/companyDetail',
+                                                arguments: {
+                                                  "id": companies[index].id
+                                                });
+                                          else if (title == "Researches")
+                                            Navigator.pushNamed(
+                                                context, '/researchDetail',
+                                                arguments: {
+                                                  "id": researches[index].id
+                                                });
+                                        },
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 105,
+                                                  height: 110,
+                                                  child: FittedBox(
+                                                    child: Image.network(
+                                                      title ==
+                                                              "Investment Opportunities"
+                                                          ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
+                                                          : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Container(
+                                                    width: 80,
+                                                    child: Text(
+                                                      title == "Manufacturer"
+                                                          ? companies[index]
+                                                                      .name
+                                                                      .length >
+                                                                  12
+                                                              ? companies[index]
+                                                                      .name
+                                                                      .substring(
+                                                                          0,
+                                                                          12) +
+                                                                  '..'
+                                                              : companies[index]
+                                                                  .name
+                                                          : researches[index]
+                                                                      .title
+                                                                      .length >
+                                                                  12
+                                                              ? researches[
+                                                                          index]
+                                                                      .title
+                                                                      .substring(
+                                                                          0,
+                                                                          12) +
+                                                                  '..'
+                                                              : researches[
+                                                                      index]
+                                                                  .title,
+                                                      style: TextStyle(
+                                                          fontSize: 16),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ),
                                     ],
                                   );
                                 },
-                                itemCount: companies.length),
+                                itemCount: title == "Manufacturer"
+                                    ? companies.length
+                                    : researches.length),
                           );
                       }
                     },
