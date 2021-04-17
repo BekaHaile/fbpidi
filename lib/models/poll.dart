@@ -40,7 +40,7 @@ class Poll {
     titleAm = map["title_am"].toString();
     totalVotes = map["total_votes"].toString();
     noOfChoices = map["no_of_choices"].toString();
-    company = map["company_info"];
+    company = Company.fromMap(map["company"]);
     createdDate = map["created_date"].toString();
     createdBy = map["created_by"];
     choices = map["choices"]; //should have a class of its own

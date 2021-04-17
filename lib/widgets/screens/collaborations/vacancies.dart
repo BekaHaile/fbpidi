@@ -248,12 +248,13 @@ class _VacanciesState extends State<Vacancies> {
                         child: Stack(
                           children: [
                             Container(
-                              height: 200,
+                              height: 280,
                               width: MediaQuery.of(context).size.width * 0.95,
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.network(
-                                  "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                  CollaborationsApi().baseUrl +
+                                      vacancies[index].company.logo,
                                 ),
                               ),
                             ),
@@ -341,7 +342,8 @@ class _VacanciesState extends State<Vacancies> {
                               radius: 20,
                               child: ClipOval(
                                   child: Image.network(
-                                "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
+                                CollaborationsApi().baseUrl +
+                                    vacancies[index].company.logo,
                                 fit: BoxFit.cover,
                                 width: 90.0,
                                 height: 90.0,

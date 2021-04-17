@@ -357,16 +357,14 @@ class CollaborationsApi {
 
   //Get all polls
   Future<List<Poll>> getPolls() async {
-    var response = await http.get(
-        Uri.encodeFull("$baseUrl/client/collaborations/polls/"), //uri of api
-        headers: {"Accept": "application/json"});
+    var response = await http
+        .get(Uri.encodeFull("$baseUrl/api/collaborations/polls/"), //uri of api
+            headers: {"Accept": "application/json"});
 
-    //ToDo - add token into the api call
+    Map<dynamic, dynamic> data = jsonDecode(response.body);
 
-    List<dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
     List<Poll> polls = [];
-    data.forEach((poll) {
+    data["polls"].forEach((poll) {
       polls.add(Poll.fromMap(poll));
     });
     return polls;

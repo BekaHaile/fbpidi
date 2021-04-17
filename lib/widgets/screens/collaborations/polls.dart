@@ -1,6 +1,5 @@
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
-import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
@@ -216,7 +215,6 @@ class _PollsState extends State<Polls> {
   Widget _listviewBuildPolls(List<Poll> polls) {
     return Container(
       alignment: Alignment.center,
-      height: 1800,
       width: MediaQuery.of(context).size.width * 0.95,
       padding: EdgeInsets.symmetric(vertical: 1.0),
       child: ListView.builder(
@@ -234,22 +232,22 @@ class _PollsState extends State<Polls> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 30.0, left: 5, right: 5),
+                        padding: const EdgeInsets.only(bottom: 30.0),
                         child: Container(
-                          height: 160,
+                          height: 260,
                           width: MediaQuery.of(context).size.width * 0.95,
                           child: FittedBox(
                             fit: BoxFit.fill,
                             child: Image.network(
-                              "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                              CollaborationsApi().baseUrl +
+                                  polls[index].company.logo,
                             ),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 20.0, top: 5, bottom: 10),
+                            left: 20.0, top: 5, bottom: 5),
                         child: Text(
                           polls[index].title,
                           style: TextStyle(
@@ -263,8 +261,7 @@ class _PollsState extends State<Polls> {
                         width: 5.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, top: 5, bottom: 20),
+                        padding: const EdgeInsets.only(left: 20.0, bottom: 5),
                         child: Text(
                           polls[index].noOfChoices + ' choice',
                           style: TextStyle(
@@ -273,6 +270,28 @@ class _PollsState extends State<Polls> {
                           ),
                           textAlign: TextAlign.left,
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, bottom: 5),
+                        child: Row(
+                          children: [
+                            Text(
+                              polls[index].noOfVotes + ' Vote',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 19,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(FontAwesomeIcons.handPointUp)
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.0,
                       ),
                       Divider(
                         height: 3,
@@ -294,7 +313,8 @@ class _PollsState extends State<Polls> {
                               radius: 20,
                               child: ClipOval(
                                   child: Image.network(
-                                "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NXx8d3JpdGVyfGVufDB8fDB8&ixlib=rb-1.2.1&w=1000&q=80",
+                                CollaborationsApi().baseUrl +
+                                    polls[index].company.logo,
                                 fit: BoxFit.cover,
                                 width: 90.0,
                                 height: 90.0,
@@ -333,6 +353,21 @@ class _PollsState extends State<Polls> {
                             SizedBox(
                               width: 5.0,
                             ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                FontAwesomeIcons.solidComments,
+                                color: Colors.blue,
+                                size: 19,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
@@ -341,8 +376,7 @@ class _PollsState extends State<Polls> {
                                   primary: Theme.of(context).buttonColor,
                                 ),
                                 child: Text(
-                                  RemoveTag().removeAllHtmlTags(
-                                      polls[index].description),
+                                  "Poll Detail",
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -387,6 +421,9 @@ class _PollsState extends State<Polls> {
                             ),
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        width: 25.0,
                       ),
                     ],
                   ),

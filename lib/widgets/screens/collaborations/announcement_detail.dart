@@ -95,14 +95,15 @@ class AnnouncementDetail extends StatelessWidget {
                                                 0.05,
                                       ),
                                       child: Container(
-                                        height: 200,
+                                        height: 260,
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.8,
                                         child: FittedBox(
                                           fit: BoxFit.fill,
                                           child: Image.network(
-                                            "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                            CollaborationsApi().baseUrl +
+                                                announcement.company.logo,
                                           ),
                                         ),
                                       ),
@@ -224,7 +225,7 @@ class AnnouncementDetail extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
-                    "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                    CollaborationsApi().baseUrl + event.company.logo,
                   ),
                   radius: MediaQuery.of(context).size.width * 0.23,
                 ),

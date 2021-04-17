@@ -106,12 +106,13 @@ class _BlogsState extends State<Blogs> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: 180,
+                        height: 250,
                         width: MediaQuery.of(context).size.width * 0.95,
                         child: FittedBox(
                           fit: BoxFit.fill,
                           child: Image.network(
-                            "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                            CollaborationsApi().baseUrl +
+                                blogs[index].blogImage,
                           ),
                         ),
                       ),

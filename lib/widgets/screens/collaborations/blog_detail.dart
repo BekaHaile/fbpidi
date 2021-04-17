@@ -1,7 +1,6 @@
 import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
-import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,9 +12,8 @@ class BlogDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Blogs")),
       appBar: AppBar(
-        title: Text("Blogs"),
+        title: Text("Blog Detail"),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -80,7 +78,7 @@ class BlogDetail extends StatelessWidget {
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.network(
-                                  "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                  CollaborationsApi().baseUrl + blog.blogImage,
                                 ),
                               ),
                             ),
