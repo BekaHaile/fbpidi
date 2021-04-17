@@ -6,8 +6,10 @@ import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/models/research.dart';
+import 'package:fbpidi/models/researchCategory.dart';
 import 'package:fbpidi/models/tender.dart';
 import 'package:fbpidi/models/vacancy.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -35,7 +37,7 @@ class CollaborationsApi {
     }
   }
 
-  //Get all projects
+  //Get all researches
   Future<List<Research>> getResearches() async {
     try {
       var response = await http.get(
@@ -44,7 +46,7 @@ class CollaborationsApi {
           headers: {"Accept": "application/json"});
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Research> researches = [];
       data['researchs'].forEach((research) {
         researches.add(Research.fromMap(research));
@@ -65,7 +67,7 @@ class CollaborationsApi {
           headers: {"Accept": "application/json"});
 
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Research research = Research.fromMap(data["research"]);
 
       return research;
@@ -75,30 +77,82 @@ class CollaborationsApi {
     }
   }
 
+  //Get research category
+  Future<List<ResearchCategory>> getResearchCategory() async {
+    try {
+      final storage = new FlutterSecureStorage();
+      String token = await storage.read(key: 'token');
+
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/create_research"), //uri of api
+          headers: {"Authorization": "Token " + token});
+
+      List<ResearchCategory> categories = [];
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+
+      data['category'].forEach((category) {
+        categories.add(ResearchCategory.fromMap(category));
+      });
+      return categories;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
   //research registration
-  Future<dynamic> addResearch(Research research) async {
-    Map<dynamic, dynamic> data = {
-      "title": research.title,
-      "status": research.status,
-      "category": research.category,
-      "description": research.description,
-    };
+  Future<dynamic> addResearch(Research research, String path) async {
+    // Map<dynamic, dynamic> data = {
+    //   "title": research.title,
+    //   "status": research.status,
+    //   "category": research.category,
+    //   "description": research.description,
+    // };
     var response;
     try {
-      response = await http.post(
-        Uri.encodeFull(
-            "$baseUrl/api/collaborations/create_research"), //uri of api
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(data),
-      );
+      var uri = Uri.parse("$baseUrl/api/collaborations/create_research/");
+      var request = http.MultipartRequest('POST', uri);
+      print('data is the following ***** = ' +
+          research.title +
+          ' ' +
+          research.status +
+          ' ' +
+          research.category +
+          ' ' +
+          research.description +
+          ' ' +
+          path);
+      request.files.add(await http.MultipartFile.fromPath('file', path));
+      request.fields['title'] = research.title;
+      request.fields['status'] = research.status;
+      request.fields['category'] = research.category;
+      request.fields['description'] = research.description;
+      // request.fields['detail'] = research.detail;
+      final storage = new FlutterSecureStorage();
+      String token = await storage.read(key: 'token');
+
+      request.headers['Authorization'] = "Token " + token;
+
+      response = await request.send();
+      print("about to decode response /////////");
+      final respStr = await response.stream.bytesToString();
+      // Map<dynamic, dynamic> data2 = jsonDecode(response);
+      print("******" + respStr + "is the response *****");
+      return respStr;
+
+      // response = await http.post(
+      //   Uri.encodeFull(
+      //       "$baseUrl/api/collaborations/create_research"), //uri of api
+      //   headers: {
+      //     "Authorization": "application/json",
+      //   },
+      //   body: jsonEncode(data),
+      // );
     } catch (e) {
       print(e.toString() + 'has occured ****');
     }
-    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
-    print(data2);
-    return data2;
   }
 
   //Get all vacancies
@@ -187,14 +241,31 @@ class CollaborationsApi {
   Future<dynamic> vacancyApply(Map<String, dynamic> userApplying) async {
     var response;
     try {
-      response = await http.post(
-        Uri.encodeFull(
-            "$baseUrl/api/collaborations/create_research"), //uri of api
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(userApplying),
-      );
+      var uri = Uri.parse("$baseUrl/api/collaborations/vacancy_apply/");
+      var request = http.MultipartRequest('POST', uri);
+      request.files
+          .add(await http.MultipartFile.fromPath('CV', userApplying['CV']));
+      request.files.add(await http.MultipartFile.fromPath(
+          'Documents', userApplying['Documents']));
+      request.fields['id'] = userApplying['id'];
+      request.fields['institiute'] = userApplying['institiute'];
+      request.fields['grade'] = userApplying['grade'];
+      request.fields['field'] = userApplying['field'];
+      request.fields['status'] = userApplying['status'];
+      request.fields['bio'] = userApplying['bio'];
+      request.fields['experience'] = userApplying['experience'];
+
+      final storage = new FlutterSecureStorage();
+      String token = await storage.read(key: 'token');
+
+      request.headers['Authorization'] = "Token " + token;
+
+      response = await request.send();
+      print("about to decode response /////////");
+      final respStr = await response.stream.bytesToString();
+      // Map<dynamic, dynamic> data2 = jsonDecode(response);
+      print("******" + respStr + "is the response *****");
+      return respStr;
     } catch (e) {
       print(e.toString() + 'has occured ****');
     }

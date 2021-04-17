@@ -19,6 +19,7 @@ class _SignUpState extends State<SignUp> {
       controllerConfirm = TextEditingController();
   bool isError = false;
   String message = 'Error in your data';
+  String path;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                                     password: controllerPassword.text);
                                 try {
                                   await UserApi()
-                                      .registerUser(user)
+                                      .registerUser(user, path)
                                       .then((response) async {
                                     if (response['error'] == false) {
                                       final storage =

@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class BlogDetail extends StatelessWidget {
   final data;
   BlogDetail(this.data);
+  TextEditingController commentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,6 +182,10 @@ class BlogDetail extends StatelessWidget {
                     ),
                   ),
                   _buildCommentList(context, []),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildCommentField(context),
                 ],
               ),
             );
@@ -209,118 +215,204 @@ class BlogDetail extends StatelessWidget {
                 height: 3,
                 color: Theme.of(context).scaffoldBackgroundColor,
               ),
-              Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (_, int index) {
-                    return Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey)),
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.person,
-                                        color: Colors.black54,
-                                        size: 18,
+              comments.length == 0
+                  ? Container(
+                      height: 40,
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (_, int index) {
+                          return Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey)),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.person,
+                                              color: Colors.black54,
+                                              size: 18,
+                                            ),
+                                            SizedBox(
+                                              width: 5.0,
+                                            ),
+                                            Text(
+                                              'Post',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.black),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                            SizedBox(
+                                              width: 8.0,
+                                            ),
+                                            Icon(
+                                              Icons.calendar_today,
+                                              color: Colors.black54,
+                                              size: 18,
+                                            ),
+                                            SizedBox(
+                                              width: 5.0,
+                                            ),
+                                            Text(
+                                              comments[index]['created_date']
+                                                      .substring(0, 10) +
+                                                  ', ' +
+                                                  comments[index]
+                                                          ['created_date']
+                                                      .substring(12, 16) +
+                                                  ' a.m.',
+                                              style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.black),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
-                                        width: 5.0,
+                                        height: 5.0,
                                       ),
-                                      Text(
-                                        'Post',
-                                        style: TextStyle(
-                                            fontSize: 15.0,
-                                            color: Colors.black),
-                                        textAlign: TextAlign.justify,
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20.0, right: 5),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: Text(
+                                            comments[index]['content'],
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.black),
+                                          ),
+                                        ),
                                       ),
-                                      SizedBox(
-                                        width: 8.0,
-                                      ),
-                                      Icon(
-                                        Icons.calendar_today,
-                                        color: Colors.black54,
-                                        size: 18,
-                                      ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        comments[index]['created_date']
-                                                .substring(0, 10) +
-                                            ', ' +
-                                            comments[index]['created_date']
-                                                .substring(12, 16) +
-                                            ' a.m.',
-                                        style: TextStyle(
-                                            fontSize: 15.0,
-                                            color: Colors.black),
-                                        textAlign: TextAlign.justify,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: TextButton(
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.reply_all),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text('Reply')
+                                            ],
+                                          ),
+                                          onPressed: () {},
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5.0,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20.0, right: 5),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.85,
-                                    child: Text(
-                                      comments[index]['content'],
-                                      style: TextStyle(
-                                          fontSize: 15.0, color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: TextButton(
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.reply_all),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text('Reply')
-                                      ],
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: comments.length,
-                ),
-              ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: comments.length,
+                      ),
+                    ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCommentField(context) {
+    return Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width * 0.95,
+      padding: EdgeInsets.symmetric(vertical: 1.0),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              'Add a comment',
+              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Container(
+              height: 3,
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Container(
+                decoration: BoxDecoration(border: Border.all()),
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: TextField(
+                  controller: commentController,
+                  minLines: 15,
+                  maxLines: 30,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(5),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.5),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: 40.0,
+                child: SizedBox.expand(
+                  child: ElevatedButton(
+                    onPressed: () async {},
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      onPrimary: Theme.of(context).disabledColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ]),
         ),
       ),
     );

@@ -25,7 +25,6 @@ import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
 import 'package:fbpidi/widgets/screens/products_page.dart';
-import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Home(),
         routes: {
-          '/homePage': (BuildContext context) => HomePage(),
+          '/homePage': (BuildContext context) => Home(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
           '/blogs': (BuildContext context) => Blogs(),

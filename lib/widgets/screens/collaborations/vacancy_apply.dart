@@ -1,4 +1,5 @@
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,6 +24,10 @@ class _VacancyApplyState extends State<VacancyApply> {
       gradeController = TextEditingController(),
       experienceController = TextEditingController(),
       descriptionController = TextEditingController();
+  String cvFilename = "Filename";
+  String cvPath = "";
+  String documentFilename = "Filename";
+  String documentPath = "";
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +133,122 @@ class _VacancyApplyState extends State<VacancyApply> {
                                   "Introduce yourself and write why you are applying",
                               hintStyle: TextStyle(fontSize: 18)),
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        "CV *",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Text(
+                              cvFilename,
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                FilePickerResult result =
+                                    await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'pdf', 'doc'],
+                                );
+
+                                if (result != null) {
+                                  PlatformFile file = result.files.first;
+
+                                  print(file.name);
+                                  print(file.path);
+                                  setState(() {
+                                    cvFilename = file.name;
+                                  });
+                                  cvPath = file.path;
+                                } else {
+                                  // User canceled the picker
+                                }
+                              },
+                              child: Text(
+                                "Pick File",
+                                style: TextStyle(fontSize: 16),
+                              ))
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        "Documents *",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Text(
+                              documentFilename,
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                FilePickerResult result =
+                                    await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['jpg', 'pdf', 'doc'],
+                                );
+
+                                if (result != null) {
+                                  PlatformFile file = result.files.first;
+
+                                  print(file.name);
+                                  print(file.path);
+                                  setState(() {
+                                    documentFilename = file.name;
+                                  });
+                                  documentPath = file.path;
+                                } else {
+                                  // User canceled the picker
+                                }
+                              },
+                              child: Text(
+                                "Pick File",
+                                style: TextStyle(fontSize: 16),
+                              ))
+                        ],
                       ),
                     ),
                     SizedBox(
