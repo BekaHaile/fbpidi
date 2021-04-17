@@ -261,8 +261,19 @@ class _HomePageState extends State<HomePage> {
                                                     child: Image.network(
                                                       title ==
                                                               "Investment Opportunities"
-                                                          ? "https://researchleap.com/wp-content/uploads/2019/12/2019-12-13-17.13.50.jpg"
-                                                          : "http://www.akabi.eu/Content/images/black-and-white-city-man-people.jpg",
+                                                          ? CollaborationsApi()
+                                                                  .baseUrl +
+                                                              "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg"
+                                                          : title ==
+                                                                  "Manufacturer"
+                                                              ? CollaborationsApi()
+                                                                      .baseUrl +
+                                                                  companies[
+                                                                          index]
+                                                                      .logo
+                                                              : CollaborationsApi()
+                                                                      .baseUrl +
+                                                                  "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg",
                                                     ),
                                                     fit: BoxFit.fill,
                                                   ),

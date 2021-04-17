@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class BlogDetail extends StatelessWidget {
   final data;
   BlogDetail(this.data);
-  TextEditingController commentController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

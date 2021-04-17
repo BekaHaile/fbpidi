@@ -1,5 +1,7 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
 import 'package:fbpidi/widgets/screens/collaborations/add_research.dart';
+import 'package:fbpidi/widgets/screens/collaborations/announcement_detail.dart';
+import 'package:fbpidi/widgets/screens/collaborations/announcements.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blog_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/blogs.dart';
 import 'package:fbpidi/widgets/screens/collaborations/events.dart';
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
           '/homePage': (BuildContext context) => Home(),
           '/signUp': (BuildContext context) => SignUp(),
           '/login': (BuildContext context) => LoginPage(),
+          '/announcements': (BuildContext context) => Announcements(),
           '/blogs': (BuildContext context) => Blogs(),
           '/forums': (BuildContext context) => Forums(),
           '/news': (BuildContext context) => NewsPage(),
@@ -129,6 +132,11 @@ class MyApp extends StatelessWidget {
             case '/researchDetail':
               return MaterialPageRoute(
                   builder: (_) => ResearchDetail(
+                        requests,
+                      ));
+            case '/announcementDetail':
+              return MaterialPageRoute(
+                  builder: (_) => AnnouncementDetail(
                         requests,
                       ));
             case '/vacancyApply':

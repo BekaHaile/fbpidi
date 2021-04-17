@@ -125,6 +125,8 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 ),
                 _buildRow(FontAwesomeIcons.newspaper, "News", 15),
                 _buildRow(FontAwesomeIcons.calendarDay, "Events", 15),
+
+                _buildRow(FontAwesomeIcons.bullhorn, "Announcements", 15),
                 _buildRow(FontAwesomeIcons.blog, "Blogs", 15),
                 _buildRow(FontAwesomeIcons.forumbee, "Forums", 15),
                 _buildRow(FontAwesomeIcons.poll, "Polls", 15),
@@ -166,6 +168,11 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           Navigator.pushNamed(
             context,
             "/homePage",
+          );
+        else if (title == "Announcements")
+          Navigator.pushNamed(
+            context,
+            "/announcements",
           );
         else if (title == "Blogs")
           Navigator.pushNamed(

@@ -1,23 +1,23 @@
-import 'package:fbpidi/models/event.dart';
+import 'package:fbpidi/models/announcement.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class EventDetail extends StatelessWidget {
+class AnnouncementDetail extends StatelessWidget {
   final data;
-  EventDetail(this.data);
+  AnnouncementDetail(this.data);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Detail'),
+        title: Text('Announcement Detail'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FutureBuilder<Event>(
-                future: CollaborationsApi().getEventDetail(data['id']),
+            FutureBuilder<Announcement>(
+                future: CollaborationsApi().getAnnouncementDetail(data['id']),
                 builder: (BuildContext context, snapshot) {
                   // _fetchLanguage(context);
                   if (!snapshot.hasData)
@@ -28,7 +28,7 @@ class EventDetail extends StatelessWidget {
                       ),
                     );
                   else {
-                    Event event = snapshot.data;
+                    Announcement announcement = snapshot.data;
                     return Center(
                       child: Container(
                         alignment: Alignment.center,
@@ -50,7 +50,7 @@ class EventDetail extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           left: 20.0, top: 15, bottom: 10),
                                       child: Text(
-                                        event.title,
+                                        announcement.title,
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 24,
@@ -62,7 +62,7 @@ class EventDetail extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        'By: ${event.company.name}',
+                                        'By: ${announcement.company.name}',
                                         style: TextStyle(fontSize: 17),
                                       ),
                                     ),
@@ -72,14 +72,15 @@ class EventDetail extends StatelessWidget {
                                     _productIcons(
                                         context,
                                         FontAwesomeIcons.calendar,
-                                        "Start Date: ${event.startDate.substring(0, 10)}"),
+                                        announcement.createdDate
+                                                .substring(0, 10) +
+                                            ", " +
+                                            announcement.createdDate
+                                                .substring(11, 16) +
+                                            " p.m."),
                                     SizedBox(
                                       height: 7.0,
                                     ),
-                                    _productIcons(
-                                        context,
-                                        FontAwesomeIcons.calendarAlt,
-                                        'End Date: ${event.endDate.substring(0, 10)}'),
                                     SizedBox(
                                       height: 7.0,
                                     ),
@@ -113,7 +114,7 @@ class EventDetail extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        "Event Description",
+                                        "Announcement Description",
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 23,
@@ -134,7 +135,7 @@ class EventDetail extends StatelessWidget {
                                           left: 20.0, top: 10.0),
                                       child: Text(
                                         RemoveTag().removeAllHtmlTags(
-                                            event.description),
+                                            announcement.description),
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 18,
@@ -149,23 +150,7 @@ class EventDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: Text(
-                                  "Other Events from ${event.company.name}",
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ),
-                            _otherEvent(context),
-                            _companyCard(context, event),
+                            _companyCard(context, announcement),
                             SizedBox(
                               height: 25,
                             )
@@ -212,7 +197,7 @@ class EventDetail extends StatelessWidget {
     );
   }
 
-  Widget _companyCard(context, Event event) {
+  Widget _companyCard(context, Announcement event) {
     return Card(
       color: Colors.white,
       child: Container(
@@ -291,57 +276,6 @@ class EventDetail extends StatelessWidget {
               SizedBox(
                 height: 25.0,
               ),
-            ]),
-      ),
-    );
-  }
-
-  Widget _otherEvent(context) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 30.0,
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.network(
-                          "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
-                child: Text(
-                  'Event name',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              _productIcons(context, Icons.location_on, "Ethiopia"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.calendar_today, "March 14, 2021"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.person, "MelfanTech"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.phone, "+251-92458-9558"),
-              SizedBox(height: 20),
             ]),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:fbpidi/models/announcement.dart';
 import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/forum.dart';
@@ -483,6 +484,46 @@ class CollaborationsApi {
         body: {"email": email, "notify_in": notifyIn});
 
     return response.body;
+  }
+
+  //Get all announcements
+  Future<List<Announcement>> getAnnuoncement() async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/announcement-list/"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      // print(data); //Response from the api
+      List<Announcement> announcements = [];
+      data['object_list'].forEach((announcement) {
+        announcements.add(Announcement.fromMap(announcement));
+      });
+      return announcements;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  ///Pass an id of a announcement to get the detail
+  Future<Announcement> getAnnouncementDetail(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/announcement-detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      // print(data); //Response from the api
+      Announcement announcement = Announcement.fromMap(data["announcement"]);
+
+      return announcement;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Get list of blogs
