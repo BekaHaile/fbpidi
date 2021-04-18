@@ -45,7 +45,7 @@ class User {
     lastName = map["user"]["last_name"].toString();
     email = map["user"]["email"].toString();
     phoneNumber = map["user"]["phone_number"].toString();
-    profileImage = map["user"]["profile_image"].toString();
+    profileImage = map["profile_image"].toString();
     address = map["address"].toString();
     city = map["city"].toString();
     postalCode = map["postal_code"].toString();

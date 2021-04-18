@@ -13,7 +13,7 @@ class CompanyAndProductAPI {
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/company/comp-by-main-category/?company_type=$type&product_category=$productCategory"), //uri of api
+            "$baseUrl/api/company/comp-by-main-category/?main_category=$productCategory"), //uri of api
         headers: {"Accept": "application/json"},
       );
       Map<String, dynamic> data = jsonDecode(response.body);

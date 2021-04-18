@@ -27,6 +27,7 @@ import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
 import 'package:fbpidi/widgets/screens/products_page.dart';
+import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
           '/projects': (BuildContext context) => Projects(),
           '/researches': (BuildContext context) => Researches(),
           '/addResearch': (BuildContext context) => AddResearch(),
+          '/profile': (BuildContext context) => Profile(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
+import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -74,9 +75,7 @@ class _HomeState extends State<Home> {
                       Center(
                         child: Text('News'),
                       ),
-                      Center(
-                        child: Text('Account'),
-                      ),
+                      Profile(),
                     ],
                   );
               }

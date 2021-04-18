@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                                       print('Error');
                                       setState(() {
                                         isError = true;
-                                        message = response['message'][0][0];
+                                        message = response['message'];
                                       });
                                     }
                                   });
