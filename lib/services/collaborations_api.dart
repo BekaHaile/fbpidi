@@ -125,7 +125,8 @@ class CollaborationsApi {
           research.description +
           ' ' +
           path);
-      request.files.add(await http.MultipartFile.fromPath('file', path));
+      request.files
+          .add(await http.MultipartFile.fromPath('attachements', path));
       request.fields['title'] = research.title;
       request.fields['status'] = research.status;
       request.fields['category'] = research.category;
