@@ -3,12 +3,20 @@ import 'package:fbpidi/widgets/screens/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends StatefulWidget {
   final data;
   ProductsPage(this.data);
 
+  @override
+  _ProductsPageState createState() => _ProductsPageState();
+}
+
+class _ProductsPageState extends State<ProductsPage> {
   final Color primaryColor = Color(0xffFD6592);
+
   final Color secondaryColor = Color(0xff324558);
+
+  String type = "list";
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,7 @@ class ProductsPage extends StatelessWidget {
                   border: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: data["isSubcategory"] ? data["name"] : "Products",
+                  hintText: "Products",
                   prefixIcon: Icon(Icons.search),
                   hintStyle: TextStyle(color: Colors.black, fontSize: 18),
                   filled: true,
@@ -91,9 +99,17 @@ class ProductsPage extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(
-                        FontAwesomeIcons.thLarge,
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.thLarge),
                         color: Colors.black54,
+                        onPressed: () {
+                          setState(() {
+                            if (type == "list")
+                              type = "grid";
+                            else
+                              type = "list";
+                          });
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -126,7 +142,7 @@ class ProductsPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("All 20,022 Products"),
                   ),
-                  ProductsList("list"),
+                  ProductsList(type),
                 ],
               )),
               SingleChildScrollView(

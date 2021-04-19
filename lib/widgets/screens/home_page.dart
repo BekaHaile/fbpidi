@@ -188,8 +188,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: FutureBuilder<List<dynamic>>(
                     future: title == "Manufacturer"
-                        ? CompanyAndProductAPI()
-                            .getCompanies("manufacturer", "all")
+                        ? CompanyAndProductAPI().getCompanies("all")
                         : CollaborationsApi().getResearches(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)

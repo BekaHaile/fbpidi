@@ -1,103 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../models/company.dart';
+import '../../services/company_and_product_api.dart';
+
 class ManufacturerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Container(
-        height: 1800,
-        padding: EdgeInsets.symmetric(vertical: 1.0),
-        child: ListView.builder(
-          shrinkWrap: true,
-          primary: false,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (_, int index) {
-            return Card(
-              color: Colors.white,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+    return FutureBuilder<List<Company>>(
+        future: CompanyAndProductAPI().getCompanies("all"),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          else {
+            List<Company> companies = snapshot.data;
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 1.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (_, int index) {
+                  return Card(
+                    color: Colors.white,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, top: 10.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Text(
-                                'We-young industrial & Trading Co. Ltd.',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 12.0, right: 5),
-                            child: Text(
-                              'Member Since: 2008',
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.black54),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Icon(FontAwesomeIcons.mapMarkerAlt,
-                                    color: Colors.black54),
-                                SizedBox(
-                                  width: 3.0,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, top: 10.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Text(
+                                      companies[index].name,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                  'Nanjing, Jiangsu, China',
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.black54, fontSize: 16),
-                                  textAlign: TextAlign.left,
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12.0, right: 5),
+                                  child: Text(
+                                    'Member Since: 2008',
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.black54),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(FontAwesomeIcons.mapMarkerAlt,
+                                          color: Colors.black54),
+                                      SizedBox(
+                                        width: 3.0,
+                                      ),
+                                      Text(
+                                        companies[index].companyAddress["city"],
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 16),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 10.0,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              productByManufacturer(context),
+                              productByManufacturer(context),
+                              productByManufacturer(context),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        productByManufacturer(context),
-                        productByManufacturer(context),
-                        productByManufacturer(context),
-                      ],
-                    ),
-                  ],
-                ),
+                  );
+                },
+                itemCount: companies.length,
               ),
             );
-          },
-          itemCount: 10,
-        ),
-      ),
-    );
+          }
+        });
   }
 
   Widget productByManufacturer(context) {

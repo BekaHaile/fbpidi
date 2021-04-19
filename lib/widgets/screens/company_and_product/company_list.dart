@@ -200,7 +200,7 @@ class _CompanyState extends State<CompanyPage> {
   Widget _buildCompanyList(context) {
     return FutureBuilder<List<Company>>(
         future: CompanyAndProductAPI()
-            .getCompanies("manufacturer", widget.data['type']),
+            .getCompanies(widget.data['type']),
         builder: (BuildContext context, snapshot) {
           // _fetchLanguage(context);
           if (!snapshot.hasData)

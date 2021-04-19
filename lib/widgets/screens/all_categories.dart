@@ -1,4 +1,3 @@
-import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:flutter/material.dart';
 
@@ -8,11 +7,7 @@ class AllCategories extends StatelessWidget {
   final Color active = Color.fromRGBO(115, 115, 115, 1);
   @override
   Widget build(BuildContext context) {
-    List<String> list = [
-      "Agriculture and Food",
-      "Apparel and Accessories",
-      "Arts and crafts"
-    ];
+    List<dynamic> list = [];
     return Scaffold(
       appBar: AppBar(
         title:
@@ -28,10 +23,9 @@ class AllCategories extends StatelessWidget {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          FutureBuilder<List<Product>>(
-            future: CompanyAndProductAPI().getProductsByMainCategory("main"),
+          FutureBuilder<List<dynamic>>(
+            future: CompanyAndProductAPI().getProductsCategory("all"),
             builder: (BuildContext context, snapshot) {
-              // _fetchLanguage(context);
               if (!snapshot.hasData)
                 return Center(
                   child: Padding(
@@ -40,6 +34,11 @@ class AllCategories extends StatelessWidget {
                   ),
                 );
               else {
+                list = snapshot.data;
+                if (list.length == 0)
+                  return Center(
+                    child: Text("No data"),
+                  );
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   color: Colors.white,
@@ -79,12 +78,12 @@ class AllCategories extends StatelessWidget {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 20.0);
     return TextButton(
       onPressed: () {
-        if (type["type"] == "sub")
-          Navigator.pushNamed(context, "/productsPage",
-              arguments: {"isSubcategory": true, "name": title});
-        else
-          Navigator.pushNamed(context, "/allCategories",
-              arguments: {"type": "sub"});
+        // if (type["type"] == "sub")
+        Navigator.pushNamed(context, "/productsPage",
+            arguments: {"category": title});
+        // else
+        //   Navigator.pushNamed(context, "/allCategories",
+        //       arguments: {"type": "sub"});
       },
       child: Container(
         child: Row(children: [

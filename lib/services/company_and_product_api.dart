@@ -9,7 +9,7 @@ class CompanyAndProductAPI {
   //Get list of companies
   /// company_type = manufacturer or supplier
   /// product_category = all or Beverage or Food or Pharmaceuticals
-  Future<List<Company>> getCompanies(type, productCategory) async {
+  Future<List<Company>> getCompanies(productCategory) async {
     try {
       var response = await http.get(
         Uri.encodeFull(
@@ -69,6 +69,26 @@ class CompanyAndProductAPI {
         products.add(Product.fromMap(prod));
       });
       return products;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //Get list of products based on main category
+  Future<List<dynamic>> getProductsCategory(category) async {
+    // category: Beverage or Food or Pharmaceutical  or all
+    try {
+      var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/product/product-by-main-category/?category=$category"), //uri of api
+        headers: {"Accept": "application/json"},
+      );
+
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data); //Response from the api
+
+      return data["categories"];
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

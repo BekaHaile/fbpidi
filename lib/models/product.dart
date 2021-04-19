@@ -1,10 +1,12 @@
 // import 'package:fbpidi/models/company.dart';
 
+import 'company.dart';
+
 class Product {
   String id;
   String category;
   String categoryName;
-  String company;
+  Company company;
   // List<String> moreImages;
   String name;
   String nameAm;
@@ -36,7 +38,7 @@ class Product {
     category = map["category"].toString();
     categoryName = map["category_name"].toString();
     // Category.fromMap(map["category"]);
-    company = map["company"].toString();
+    company = Company.fromMap(map["company"]);
     // Company.fromMap(map["company"]);
     // moreImages = map["moreImages"];
     name = map["name"].toString();
