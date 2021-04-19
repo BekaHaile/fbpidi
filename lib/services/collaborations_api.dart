@@ -179,18 +179,20 @@ class CollaborationsApi {
     }
   }
 
-  //Get all vacancies
-  Future<List<dynamic>> getCategories() async {
+  //Get all vacancy category
+  Future<Map<dynamic, dynamic>> getVacancyStatus(id) async {
     try {
+      final storage = new FlutterSecureStorage();
+      String token = await storage.read(key: 'token');
+
       var response = await http.get(
           Uri.encodeFull(
-              "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
-          headers: {"Accept": "application/json"});
+              "$baseUrl/api/collaborations/vacancy_apply/?id=$id"), //uri of api
+          headers: {"Authorization": "Token " + token});
 
       Map<dynamic, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-
-      return data['jobcategory'];
+      return data;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception(e);
@@ -244,19 +246,31 @@ class CollaborationsApi {
   Future<dynamic> vacancyApply(Map<String, dynamic> userApplying) async {
     var response;
     try {
+      print(userApplying['cv'] +
+          userApplying['documents'] +
+          userApplying['id'] +
+          userApplying['institiute'] +
+          userApplying['grade'] +
+          userApplying['field'] +
+          userApplying['status'] +
+          userApplying['bio'] +
+          userApplying['experiance'] +
+          '**********');
+
       var uri = Uri.parse("$baseUrl/api/collaborations/vacancy_apply/");
       var request = http.MultipartRequest('POST', uri);
+
       request.files
-          .add(await http.MultipartFile.fromPath('CV', userApplying['CV']));
+          .add(await http.MultipartFile.fromPath('cv', userApplying['cv']));
       request.files.add(await http.MultipartFile.fromPath(
-          'Documents', userApplying['Documents']));
+          'documents', userApplying['documents']));
       request.fields['id'] = userApplying['id'];
       request.fields['institiute'] = userApplying['institiute'];
       request.fields['grade'] = userApplying['grade'];
       request.fields['field'] = userApplying['field'];
       request.fields['status'] = userApplying['status'];
       request.fields['bio'] = userApplying['bio'];
-      request.fields['experience'] = userApplying['experience'];
+      request.fields['experiance'] = userApplying['experiance'];
 
       final storage = new FlutterSecureStorage();
       String token = await storage.read(key: 'token');
@@ -271,10 +285,8 @@ class CollaborationsApi {
       return respStr;
     } catch (e) {
       print(e.toString() + 'has occured ****');
+      throw (e);
     }
-    Map<dynamic, dynamic> data2 = jsonDecode(response.body);
-    print(data2);
-    return data2;
   }
 
   //Get all tenders

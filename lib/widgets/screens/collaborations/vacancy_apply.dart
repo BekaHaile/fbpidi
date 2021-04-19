@@ -11,8 +11,8 @@ class VacancyApply extends StatefulWidget {
 }
 
 class _VacancyApplyState extends State<VacancyApply> {
-  List<String> statusList = ['JUST GRADAUTED', 'WORKING', 'LOOKING FOR JOB'];
-  String statusValue = "JUST GRADAUTED";
+  List<String> statusList = ["Select Current Status"];
+  String statusValue = "Select Current Status";
   List<String> categoryList = [
     '-------',
     'Coca Research Category',
@@ -28,6 +28,8 @@ class _VacancyApplyState extends State<VacancyApply> {
   String cvPath = "";
   String documentFilename = "Filename";
   String documentPath = "";
+  String message = "";
+  bool error = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,22 @@ class _VacancyApplyState extends State<VacancyApply> {
         appBar: AppBar(
           title: Text('Applying for vacancy'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildDetail(context),
-            ],
-          ),
-        ));
+        body: error
+            ? Center(
+                child: Text(
+                message,
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.red,
+                ),
+              ))
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildDetail(context),
+                  ],
+                ),
+              ));
   }
 
   Widget _buildDetail(context) {
@@ -78,7 +89,8 @@ class _VacancyApplyState extends State<VacancyApply> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    _buildStatusDropdown(context, "Status *"),
+                    _buildStatusDropdown(
+                        context, "Status *", widget.data['id']),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -268,53 +280,80 @@ class _VacancyApplyState extends State<VacancyApply> {
     );
   }
 
-  Widget _buildStatusDropdown(context, String title) {
-    return Container(
-      padding: EdgeInsets.only(left: 20),
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$title: ',
-            style: TextStyle(
-                color: Colors.black87,
-                fontSize: 19,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: Container(
-                width: MediaQuery.of(context).size.width * 0.75,
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(border: Border.all()),
-                child: DropdownButton<String>(
-                  value: statusValue,
-                  isExpanded: true,
-                  icon: const Icon(FontAwesomeIcons.chevronDown),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black, fontSize: 18),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      statusValue = newValue;
-                    });
-                  },
-                  items:
-                      statusList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                )),
-          ),
-        ],
-      ),
-    );
+  Widget _buildStatusDropdown(context, String title, String id) {
+    return FutureBuilder<Map<dynamic, dynamic>>(
+        future: CollaborationsApi().getVacancyStatus(id),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return CircularProgressIndicator();
+          else {
+            if (snapshot.data["error"])
+              setState(() {
+                error = true;
+                message = snapshot.data["message"];
+              });
+            statusList.clear();
+            statusList.add("Select Current Status");
+            List<dynamic> statuses = snapshot.data["current_status"];
+            int count = 0;
+
+            statuses.forEach((status) {
+              if (count == 0) {
+                statusList.add(status[1]);
+              } else {
+                statusList.add(status[0]);
+              }
+              count++;
+            });
+            return Container(
+              padding: EdgeInsets.only(left: 20),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$title: ',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: DropdownButton<String>(
+                          value: statusValue,
+                          isExpanded: true,
+                          icon: const Icon(FontAwesomeIcons.chevronDown),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 18),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              statusValue = newValue;
+                            });
+                          },
+                          items: statusList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
   }
 
   Widget _buildTextFields(
@@ -369,11 +408,14 @@ class _VacancyApplyState extends State<VacancyApply> {
                 "status": statusValue,
                 "bio": descriptionController.text,
                 "grade": gradeController.text,
-                "experience": experienceController.text
+                "experiance": experienceController.text,
+                "cv": cvPath,
+                "documents": documentPath
               };
+
               await CollaborationsApi()
                   .vacancyApply(userApplying)
-                  .then((value) => Navigator.pushNamed(context, '/vacancies'));
+                  .then((value) => Navigator.pushNamed(context, "/vacancy"));
             },
             child: Text(
               "Submit",
