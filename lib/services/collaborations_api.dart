@@ -10,12 +10,13 @@ import 'package:fbpidi/models/research.dart';
 import 'package:fbpidi/models/researchCategory.dart';
 import 'package:fbpidi/models/tender.dart';
 import 'package:fbpidi/models/vacancy.dart';
+import 'package:fbpidi/strings/strings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CollaborationsApi {
-  String baseUrl = "http://192.168.0.26:8000";
+  String baseUrl = Strings().baseUrl;
 
   //Get all projects
   Future<List<Project>> getProjects() async {

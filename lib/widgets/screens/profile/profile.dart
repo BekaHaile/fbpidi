@@ -20,6 +20,8 @@ class MapScreenState extends State<Profile>
       controller4 = TextEditingController();
   String token = "";
   final storage = new FlutterSecureStorage();
+  String profilePath =
+      'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png';
 
   @override
   void initState() {
@@ -44,129 +46,122 @@ class MapScreenState extends State<Profile>
                   );
                 else {
                   token = snapshot.data;
-                  return Column(
-                    children: <Widget>[
-                      new Container(
-                        height: 250.0,
-                        color: Colors.white,
-                        child: new Column(
-                          children: <Widget>[
-                            // Padding(
-                            //     padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                            //     child: new Row(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: <Widget>[
-                            //         new Icon(
-                            //           Icons.arrow_back_ios,
-                            //           color: Colors.black,
-                            //           size: 22.0,
-                            //         ),
-                            //         Padding(
-                            //           padding: EdgeInsets.only(left: 25.0),
-                            //           child: new Text('PROFILE',
-                            //               style: TextStyle(
-                            //                   fontWeight: FontWeight.bold,
-                            //                   fontSize: 20.0,
-                            //                   fontFamily: 'sans-serif-light',
-                            //                   color: Colors.black)),
-                            //         )
-                            //       ],
-                            //     )),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: new Stack(fit: StackFit.loose, children: <
-                                  Widget>[
-                                new Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                  return FutureBuilder<User>(
+                      future: UserApi().getProfile(token),
+                      builder: (BuildContext context, snapshot) {
+                        if (!snapshot.hasData)
+                          return CircularProgressIndicator();
+                        else {
+                          User user = snapshot.data;
+                          controller.text = user.firstName;
+                          controller1.text = user.lastName;
+                          controller2.text = user.phoneNumber;
+                          controller3.text = user.username;
+                          controller4.text = user.email;
+                          if (user.profileImage != null)
+                            profilePath = user.profileImage;
+                          return Column(
+                            children: <Widget>[
+                              new Container(
+                                height: 250.0,
+                                color: Colors.white,
+                                child: new Column(
                                   children: <Widget>[
-                                    new Container(
-                                        width: 140.0,
-                                        height: 140.0,
-                                        decoration: new BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: new DecorationImage(
-                                            image: new NetworkImage(
-                                                'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 20.0),
+                                      child: new Stack(
+                                          fit: StackFit.loose,
+                                          children: <Widget>[
+                                            new Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                new Container(
+                                                    width: 140.0,
+                                                    height: 140.0,
+                                                    decoration:
+                                                        new BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image:
+                                                          new DecorationImage(
+                                                        image: new NetworkImage(
+                                                            profilePath),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    )),
+                                              ],
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 90.0, right: 100.0),
+                                                child: new Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    new CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.deepPurple,
+                                                      radius: 25.0,
+                                                      child: new Icon(
+                                                        Icons.camera_alt,
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
+                                          ]),
+                                    )
                                   ],
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 90.0, right: 100.0),
-                                    child: new Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        new CircleAvatar(
-                                          backgroundColor: Colors.deepPurple,
-                                          radius: 25.0,
-                                          child: new Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              ]),
-                            )
-                          ],
-                        ),
-                      ),
-                      new Container(
-                        color: Color(0xffFFFFFF),
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 25.0),
-                          child: new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 25.0),
-                                  child: new Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.max,
+                              ),
+                              new Container(
+                                color: Color(0xffFFFFFF),
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 25.0),
+                                  child: new Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      new Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          new Text(
-                                            'Personal Information',
-                                            style: TextStyle(
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                      new Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          _status
-                                              ? _getEditIcon()
-                                              : new Container(),
-                                        ],
-                                      )
-                                    ],
-                                  )),
-                              FutureBuilder<User>(
-                                  future: UserApi().getProfile(token),
-                                  builder: (BuildContext context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      User user = snapshot.data;
-                                      controller.text = user.firstName;
-                                      controller1.text = user.lastName;
-                                      controller2.text = user.phoneNumber;
-                                      controller3.text = user.username;
-                                      controller4.text = user.email;
-                                      return Column(
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 25.0,
+                                              right: 25.0,
+                                              top: 25.0),
+                                          child: new Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              new Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    'Personal Information',
+                                                    style: TextStyle(
+                                                        fontSize: 18.0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              new Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  _status
+                                                      ? _getEditIcon()
+                                                      : new Container(),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -381,17 +376,18 @@ class MapScreenState extends State<Profile>
                                                 ],
                                               )),
                                         ],
-                                      );
-                                    } else
-                                      return CircularProgressIndicator();
-                                  }),
-                              !_status ? _getActionButtons() : new Container(),
+                                      ),
+                                      !_status
+                                          ? _getActionButtons()
+                                          : new Container(),
+                                    ],
+                                  ),
+                                ),
+                              )
                             ],
-                          ),
-                        ),
-                      )
-                    ],
-                  );
+                          );
+                        }
+                      });
                 }
               }),
         ],

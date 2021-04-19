@@ -6,7 +6,7 @@ class Research {
   String description;
   String detail;
   String createdDate;
-  String attachements;
+  List<dynamic> attachements;
   String createdBy;
   String status;
   String category;
@@ -40,7 +40,7 @@ class Research {
     description = map["description"].toString();
     detail = map["detail"].toString();
     createdDate = map["created_date"].toString();
-    attachements = map["attachements"].toString();
+    attachements = map["attachements"];
     createdBy = map["created_by"].toString();
     status = map["status"].toString();
     category = map["category"].toString();

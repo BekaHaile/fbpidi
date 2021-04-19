@@ -1,11 +1,41 @@
+import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:fbpidi/models/research.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class ResearchDetail extends StatelessWidget {
+class ResearchDetail extends StatefulWidget {
   final data;
   ResearchDetail(this.data);
+
+  @override
+  _ResearchDetailState createState() => _ResearchDetailState();
+}
+
+class _ResearchDetailState extends State<ResearchDetail> {
+  ReceivePort receivePort = ReceivePort();
+  @override
+  void initState() {
+    IsolateNameServer.registerPortWithName(
+        receivePort.sendPort, "Downloading File");
+    receivePort.listen((message) {
+      print(message);
+    });
+    FlutterDownloader.registerCallback(downloadCallback);
+    super.initState();
+  }
+
+  static downloadCallback(id, status, progress) {
+    SendPort sendPort = IsolateNameServer.lookupPortByName("Downloading File");
+    sendPort.send(progress);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +52,7 @@ class ResearchDetail extends StatelessWidget {
   Widget _buildDetail(context) {
     return Center(
       child: FutureBuilder<Research>(
-          future: CollaborationsApi().getResearchDetail(data['id']),
+          future: CollaborationsApi().getResearchDetail(widget.data['id']),
           builder: (BuildContext context, snapshot) {
             // _fetchLanguage(context);
             if (!snapshot.hasData)
@@ -34,6 +64,10 @@ class ResearchDetail extends StatelessWidget {
               );
             else {
               Research research = snapshot.data;
+              File file = File(CollaborationsApi().baseUrl +
+                  research.attachements[0]["attachement"]);
+
+              String basename = file.path.split("/").last;
               return Padding(
                 padding: const EdgeInsets.only(top: 18.0),
                 child: Card(
@@ -102,10 +136,39 @@ class ResearchDetail extends StatelessWidget {
                                       top: 10, left: 20.0, bottom: 15.0),
                                   child: Text(
                                     'Research Files',
-                                    style: TextStyle(fontSize: 18),
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600),
                                   )),
                               SizedBox(
                                 height: 5.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        basename,
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          _downloadFile(file.path, basename);
+                                        },
+                                        child: Text(
+                                          "Download File",
+                                          style: TextStyle(fontSize: 16),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 25,
                               ),
                             ],
                           ),
@@ -118,6 +181,21 @@ class ResearchDetail extends StatelessWidget {
             }
           }),
     );
+  }
+
+  void _downloadFile(url, filename) async {
+    final status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      final baseStorage = await getExternalStorageDirectory();
+
+      print(baseStorage.path + '********************');
+
+      await FlutterDownloader.enqueue(
+          url: url, savedDir: baseStorage.path, fileName: filename);
+    } else {
+      print("Permission denied");
+    }
   }
 
   Widget _buildContent(context, title, content, background) {

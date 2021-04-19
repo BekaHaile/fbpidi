@@ -1,11 +1,11 @@
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/models/product.dart';
+import 'package:fbpidi/strings/strings.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CompanyAndProductAPI {
-  String baseUrl = "http://192.168.0.26:8000";
-
+  String baseUrl = Strings().baseUrl;
   //Get list of companies
   /// company_type = manufacturer or supplier
   /// product_category = all or Beverage or Food or Pharmaceuticals

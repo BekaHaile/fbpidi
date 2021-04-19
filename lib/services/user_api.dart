@@ -1,9 +1,10 @@
 import 'package:fbpidi/models/user.dart';
+import 'package:fbpidi/strings/strings.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserApi {
-  String baseUrl = "http://192.168.0.26:8000";
+  String baseUrl = Strings().baseUrl;
 
   //Get profile data
   Future<User> getProfile(token) async {
