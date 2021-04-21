@@ -123,7 +123,7 @@ class _PollsState extends State<Polls> {
                         left: MediaQuery.of(context).size.width * 0.32),
                     child: Row(children: [
                       Text(
-                        "Recent",
+                        "All",
                         style: TextStyle(
                             color: selected[0]
                                 ? Theme.of(context).buttonColor
@@ -141,7 +141,7 @@ class _PollsState extends State<Polls> {
                 ),
               ),
             ),
-            _sortButton("No of votes", context, 1),
+            _sortButton("Highest votes", context, 1),
             SizedBox(
               height: 20.0,
             ),
@@ -234,7 +234,7 @@ class _PollsState extends State<Polls> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30.0),
                         child: Container(
-                          height: 260,
+                          height: 280,
                           width: MediaQuery.of(context).size.width * 0.95,
                           child: FittedBox(
                             fit: BoxFit.fill,
@@ -432,7 +432,7 @@ class _PollsState extends State<Polls> {
             ],
           );
         },
-        itemCount: 10,
+        itemCount: polls.length,
       ),
     );
   }

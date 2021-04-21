@@ -329,6 +329,28 @@ class CollaborationsApi {
     }
   }
 
+  ///Apply for a tender
+  Future<dynamic> participateInTender(data) async {
+    var response;
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    try {
+      response = await http.post(
+        Uri.encodeFull("$baseUrl/api/collaborations/poll_detail/"), //uri of api
+        headers: {
+          "Authorization": "Token " + token,
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print("Error:" + e.toString());
+    }
+
+    print(response.body);
+
+    return response.body;
+  }
+
   //Get all forums
   Future<List<Forum>> getForums() async {
     try {
