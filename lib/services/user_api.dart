@@ -7,7 +7,7 @@ class UserApi {
   String baseUrl = Strings().baseUrl;
 
   //Get profile data
-  Future<User> getProfile(token) async {
+  Future<Map<String, dynamic>> getProfile(token) async {
     print(token + ' ****is the token');
     var response =
         await http.get(Uri.encodeFull("$baseUrl/api/mydash/"), //uri of api
@@ -19,8 +19,8 @@ class UserApi {
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    User user = User.fromMap(data['user_detail']);
-    return user;
+
+    return data;
   }
 
 //user registration

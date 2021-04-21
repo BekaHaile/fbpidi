@@ -101,13 +101,14 @@ class _SignUpState extends State<SignUp> {
                                               key: 'token',
                                               value: response['token'])
                                           .then((value) async {
-                                        Navigator.pushNamed(context, '/login');
+                                        _signUpDialogue(context);
                                       });
                                     } else {
                                       print('Error');
                                       setState(() {
                                         isError = true;
-                                        message = response['message'];
+                                        if (response["message"] != null)
+                                          message = response['message'];
                                       });
                                     }
                                   });
@@ -326,6 +327,26 @@ class _SignUpState extends State<SignUp> {
               border: InputBorder.none,
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 25, vertical: 13))),
+    );
+  }
+
+  Widget _signUpDialogue(context) {
+    return AlertDialog(
+      title: Text(
+          'A verification email has been sent to you email address, please verify your email to login to the app'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+            Navigator.pop(context);
+          },
+          child: Text(
+            'Continue',
+            style:
+                TextStyle(color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+          ),
+        ),
+      ],
     );
   }
 }

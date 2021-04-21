@@ -321,17 +321,25 @@ class _LoginSevenPageState extends State<LoginPage> {
                         .userLogin(controllerUser.text, controllerPassword.text)
                         .then((response) async {
                       if (response['token'] != null) {
-                        print(response['token']);
-                        User user =
+                        Map<String, dynamic> data =
                             await UserApi().getProfile(response['token']);
-                        final storage = new FlutterSecureStorage();
-                        await storage.write(
-                            key: 'name',
-                            value: "${user.firstName} ${user.lastName}");
-                        await storage.write(
-                            key: 'token', value: response['token']);
-                        await storage.write(key: 'loginStatus', value: 'true');
-                        Navigator.pushNamed(context, '/homePage');
+                        if (data["error"]) {
+                          setState(() {
+                            message = data['message'];
+                            isError = true;
+                          });
+                        } else {
+                          User user = User.fromMap(data["user_detail"]);
+                          final storage = new FlutterSecureStorage();
+                          await storage.write(
+                              key: 'name',
+                              value: "${user.firstName} ${user.lastName}");
+                          await storage.write(
+                              key: 'token', value: response['token']);
+                          await storage.write(
+                              key: 'loginStatus', value: 'true');
+                          Navigator.pushNamed(context, '/homePage');
+                        }
                       } else {
                         print(response['non_field_errors']);
                         setState(() {

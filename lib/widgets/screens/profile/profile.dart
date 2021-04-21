@@ -46,13 +46,14 @@ class MapScreenState extends State<Profile>
                   );
                 else {
                   token = snapshot.data;
-                  return FutureBuilder<User>(
+                  return FutureBuilder<Map<String, dynamic>>(
                       future: UserApi().getProfile(token),
                       builder: (BuildContext context, snapshot) {
                         if (!snapshot.hasData)
                           return CircularProgressIndicator();
                         else {
-                          User user = snapshot.data;
+                          User user =
+                              User.fromMap(snapshot.data["user_detail"]);
                           controller.text = user.firstName;
                           controller1.text = user.lastName;
                           controller2.text = user.phoneNumber;
