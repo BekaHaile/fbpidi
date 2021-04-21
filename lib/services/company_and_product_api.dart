@@ -129,7 +129,7 @@ class CompanyAndProductAPI {
 
       Map<String, dynamic> data = jsonDecode(response.body);
       print(data); //Response from the api
-      Product product = Product.fromMap(data);
+      Product product = Product.fromMap(data["product"]);
       return product;
     } catch (e) {
       print("Error: " + e.toString());

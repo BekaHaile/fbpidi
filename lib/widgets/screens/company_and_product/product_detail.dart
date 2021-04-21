@@ -16,9 +16,8 @@ class ProductDetail extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FutureBuilder<List<Product>>(
-                // future: CompanyAndProductAPI().getProduct(data['id']),
-                future: CompanyAndProductAPI().getProductsByMainCategory("all"),
+            FutureBuilder<Product>(
+                future: CompanyAndProductAPI().getProduct(data['id']),
                 builder: (BuildContext context, snapshot) {
                   // _fetchLanguage(context);
                   if (!snapshot.hasData)
@@ -29,7 +28,7 @@ class ProductDetail extends StatelessWidget {
                       ),
                     );
                   else {
-                    List<Product> products = snapshot.data;
+                    Product products = snapshot.data;
                     return Center(
                       child: Container(
                         alignment: Alignment.center,
@@ -51,8 +50,7 @@ class ProductDetail extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           left: 20.0, top: 5, bottom: 10),
                                       child: Text(
-                                        products[int.parse(data['id']) - 1]
-                                            .name,
+                                        products.name,
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 24,
@@ -68,8 +66,7 @@ class ProductDetail extends StatelessWidget {
                                     _productIcons(
                                         context,
                                         FontAwesomeIcons.suitcase,
-                                        products[int.parse(data['id']) - 1]
-                                            .categoryName),
+                                        products.categoryName),
                                     SizedBox(
                                       height: 7.0,
                                     ),
@@ -180,8 +177,8 @@ class ProductDetail extends StatelessWidget {
                                                             .withOpacity(0.7),
                                                       ),
                                                       child: Text(
-                                                        products[0]
-                                                            .categoryName,
+                                                        products
+                                                            .brand.brandName,
                                                         style: TextStyle(
                                                             color:
                                                                 Colors.white),
@@ -250,7 +247,7 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  Widget overviewCard(context, List<Product> products) {
+  Widget overviewCard(context, Product products) {
     return Card(
       color: Colors.white,
       child: Container(
@@ -275,8 +272,7 @@ class ProductDetail extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     left: 20.0, top: 15, bottom: 15, right: 15),
                 child: Text(
-                  RemoveTag().removeAllHtmlTags(
-                      products[int.parse(data['id']) - 1].description),
+                  RemoveTag().removeAllHtmlTags(products.description),
                   style: TextStyle(
                     color: Colors.black87,
                     fontSize: 17,

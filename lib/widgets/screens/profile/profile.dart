@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/services/user_api.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -22,6 +23,8 @@ class MapScreenState extends State<Profile>
   final storage = new FlutterSecureStorage();
   String profilePath =
       'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png';
+  String path = "";
+  bool isLocal = false;
 
   @override
   void initState() {
@@ -59,7 +62,8 @@ class MapScreenState extends State<Profile>
                           controller2.text = user.phoneNumber;
                           controller3.text = user.username;
                           controller4.text = user.email;
-                          if (user.profileImage != null)
+                          print(user.profileImage);
+                          if (user.profileImage != "null")
                             profilePath = user.profileImage;
                           return Column(
                             children: <Widget>[
@@ -87,7 +91,7 @@ class MapScreenState extends State<Profile>
                                                       shape: BoxShape.circle,
                                                       image:
                                                           new DecorationImage(
-                                                        image: new NetworkImage(
+                                                        image: NetworkImage(
                                                             profilePath),
                                                         fit: BoxFit.cover,
                                                       ),
@@ -101,13 +105,44 @@ class MapScreenState extends State<Profile>
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    new CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.deepPurple,
-                                                      radius: 25.0,
-                                                      child: new Icon(
-                                                        Icons.camera_alt,
-                                                        color: Colors.white,
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        FilePickerResult
+                                                            result =
+                                                            await FilePicker
+                                                                .platform
+                                                                .pickFiles(
+                                                          type: FileType.custom,
+                                                          allowedExtensions: [
+                                                            'jpg',
+                                                            'png',
+                                                          ],
+                                                        );
+
+                                                        if (result != null) {
+                                                          PlatformFile file =
+                                                              result
+                                                                  .files.first;
+
+                                                          print(file.name);
+                                                          print(file.path);
+                                                          setState(() {
+                                                            profilePath =
+                                                                file.path;
+                                                            isLocal = true;
+                                                          });
+                                                        } else {
+                                                          // User canceled the picker
+                                                        }
+                                                      },
+                                                      child: new CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.deepPurple,
+                                                        radius: 25.0,
+                                                        child: new Icon(
+                                                          Icons.camera_alt,
+                                                          color: Colors.white,
+                                                        ),
                                                       ),
                                                     )
                                                   ],

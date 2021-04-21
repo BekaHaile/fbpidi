@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: FutureBuilder<List<dynamic>>(
                     future: title == "Manufacturer"
-                        ? CompanyAndProductAPI().getCompanies("all")
+                        ? CompanyAndProductAPI().getCompanies("All")
                         : CollaborationsApi().getResearches(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
@@ -419,7 +419,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildProductGrid(context) {
     return FutureBuilder<List<Product>>(
-      future: CompanyAndProductAPI().getProductsByMainCategory("all"),
+      future: CompanyAndProductAPI().getProductsByMainCategory("All"),
       builder: (BuildContext context, snapshot) {
         if (!snapshot.hasData)
           return Center(
@@ -446,7 +446,7 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 5.0,
-                    childAspectRatio: 0.58),
+                    childAspectRatio: 0.7),
                 itemBuilder: (_, int index) {
                   return InkWell(
                     onTap: () {
@@ -459,9 +459,10 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.only(bottom: 10.0),
                             child: Image.network(
-                              "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                              CompanyAndProductAPI().baseUrl +
+                                  products[index].image,
                               height: 150,
                             ),
                           ),
@@ -472,7 +473,7 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text(
-                                  products[index].categoryName,
+                                  products[index].brand.brandName,
                                   softWrap: true,
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 16),
@@ -506,24 +507,28 @@ class _HomePageState extends State<HomePage> {
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: Image.network(
-                                      "https://media.istockphoto.com/photos/oil-refinery-chemical-petrochemical-plant-picture-id932140864?k=6&m=932140864&s=612x612&w=0&h=UujqNqhSsXBOHMd2x-X3YmkMOBLv7g1FZCCr52rC6b4=",
-                                      height: 20,
-                                    ),
+                                        CompanyAndProductAPI().baseUrl +
+                                            products[index].company.logo,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.08),
                                   ),
                                   Column(
                                     children: [
                                       Text(
-                                        'Manufacturer Company',
+                                        products[index].company.name,
                                         softWrap: true,
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 11),
+                                            color: Colors.black, fontSize: 13),
                                         textAlign: TextAlign.left,
                                       ),
                                       Text(
-                                        'Phone Number',
+                                        products[index]
+                                            .company
+                                            .companyAddress["phone_number"],
                                         softWrap: true,
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 11),
+                                            color: Colors.black, fontSize: 13),
                                         textAlign: TextAlign.left,
                                       ),
                                     ],
