@@ -100,7 +100,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(FontAwesomeIcons.thLarge),
+                        icon: type == "list"
+                            ? Icon(FontAwesomeIcons.thLarge)
+                            : Icon(FontAwesomeIcons.stream),
                         color: Colors.black54,
                         onPressed: () {
                           setState(() {
@@ -140,7 +142,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("All 20,022 Products"),
+                    child: Text("All Products"),
                   ),
                   ProductsList(type),
                 ],
@@ -151,7 +153,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("All 20,022+ Suppliers"),
+                      child: Text("All Companies"),
                     ),
                     ManufacturerList()
                   ],

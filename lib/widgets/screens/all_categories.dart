@@ -24,7 +24,7 @@ class AllCategories extends StatelessWidget {
             ),
           ),
           FutureBuilder<List<dynamic>>(
-            future: CompanyAndProductAPI().getProductsCategory("all"),
+            future: CompanyAndProductAPI().getProductsCategory("All"),
             builder: (BuildContext context, snapshot) {
               if (!snapshot.hasData)
                 return Center(
@@ -49,7 +49,7 @@ class AllCategories extends StatelessWidget {
                           children: [
                             _buildRow(
                               "https://img.icons8.com/ios/452/corn.png",
-                              list[index],
+                              list[index]["category_name"],
                               context,
                             ),
                             _buildDivider()

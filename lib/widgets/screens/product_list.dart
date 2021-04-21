@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import '../../models/product.dart';
 import '../../services/company_and_product_api.dart';
 
-class ProductsList extends StatelessWidget {
+class ProductsList extends StatefulWidget {
   final String type;
   ProductsList(this.type);
+
+  @override
+  _ProductsListState createState() => _ProductsListState();
+}
+
+class _ProductsListState extends State<ProductsList> {
+  List<Product> mainProducts = [];
   @override
   Widget build(BuildContext context) {
-    if (type == "grid")
+    if (widget.type == "grid")
       return gridView(context);
     else
       return listView(context);
@@ -16,7 +23,7 @@ class ProductsList extends StatelessWidget {
 
   Widget listView(context) {
     return FutureBuilder<List<Product>>(
-        future: CompanyAndProductAPI().getProductsByMainCategory("all"),
+        future: CompanyAndProductAPI().getProductsByMainCategory("All"),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -24,6 +31,7 @@ class ProductsList extends StatelessWidget {
             );
           else {
             List<Product> products = snapshot.data;
+            mainProducts = products;
             return Container(
               padding: EdgeInsets.symmetric(vertical: 1.0),
               child: ListView.builder(
@@ -75,45 +83,56 @@ class ProductsList extends StatelessWidget {
                                   height: 10.0,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 5),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'ET birr 1-10 ',
-                                        style: TextStyle(
-                                            fontSize: 19.0, color: Colors.red),
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                      Text(
-                                        '/ KG',
-                                        style: TextStyle(
-                                          fontSize: 19.0,
-                                        ),
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 7.0,
-                                ),
-                                Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Text(
-                                      'Min. Order 1,000KG',
-                                      softWrap: true,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 18),
-                                      textAlign: TextAlign.left,
+                                  child: Container(
+                                    color: Colors.grey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text(
+                                        products[index].brand.brandName,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                        textAlign: TextAlign.left,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   height: 10.0,
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 5),
+                                  child: Text(
+                                    products[index].latestPrice != "null"
+                                        ? 'ET birr ' +
+                                            products[index].latestPrice
+                                        : 'ET birr',
+                                    style: TextStyle(
+                                        fontSize: 19.0, color: Colors.red),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 7.0,
+                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(left: 8.0),
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(3.0),
+                                //     child: Text(
+                                //       'Min. Order 1,000KG',
+                                //       softWrap: true,
+                                //       style: TextStyle(
+                                //           color: Colors.black, fontSize: 18),
+                                //       textAlign: TextAlign.left,
+                                //     ),
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 10.0,
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: Container(
@@ -124,8 +143,12 @@ class ProductsList extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Image.network(
-                                            products[index].company.logo,
-                                            height: 20,
+                                            CompanyAndProductAPI().baseUrl +
+                                                products[index].company.logo,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
                                           ),
                                         ),
                                         Column(
@@ -137,7 +160,7 @@ class ProductsList extends StatelessWidget {
                                               softWrap: true,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 12,
+                                                  fontSize: 13,
                                                   fontWeight: FontWeight.w600),
                                               textAlign: TextAlign.left,
                                             ),
@@ -149,7 +172,7 @@ class ProductsList extends StatelessWidget {
                                               softWrap: true,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 12,
+                                                  fontSize: 13,
                                                   fontWeight: FontWeight.w600),
                                               textAlign: TextAlign.left,
                                             ),
@@ -176,9 +199,15 @@ class ProductsList extends StatelessWidget {
                                         elevation: 0,
                                       ),
                                       key: Key('raised'),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, "/companyDetail",
+                                            arguments: {
+                                              "id": products[index].company.id
+                                            });
+                                      },
                                       child: Text(
-                                        "Contact Manufacturer",
+                                        "View Manufacturer",
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -203,15 +232,15 @@ class ProductsList extends StatelessWidget {
   }
 
   Widget gridView(context) {
+    List<Product> products = mainProducts;
     return Container(
-      height: 1800,
       padding: EdgeInsets.symmetric(vertical: 1.0),
       child: GridView.builder(
         shrinkWrap: true,
         primary: false,
         scrollDirection: Axis.vertical,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 5.0, childAspectRatio: 0.58),
+            crossAxisCount: 2, mainAxisSpacing: 5.0, childAspectRatio: 0.7),
         itemBuilder: (_, int index) {
           return Card(
             color: Colors.white,
@@ -219,9 +248,9 @@ class ProductsList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.only(bottom: 10.0),
                   child: Image.network(
-                    "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                    CompanyAndProductAPI().baseUrl + products[index].image,
                     height: 150,
                   ),
                 ),
@@ -232,7 +261,7 @@ class ProductsList extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(3.0),
                       child: Text(
-                        'Product Category',
+                        products[index].brand.brandName,
                         softWrap: true,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                         textAlign: TextAlign.left,
@@ -246,7 +275,7 @@ class ProductsList extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0, right: 5),
                   child: Text(
-                    'Tomato Paste for Benin 2200g Tomato Paste ...',
+                    products[index].name,
                     style: TextStyle(
                       fontSize: 17.0,
                     ),
@@ -264,24 +293,27 @@ class ProductsList extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Image.network(
-                            "https://media.istockphoto.com/photos/oil-refinery-chemical-petrochemical-plant-picture-id932140864?k=6&m=932140864&s=612x612&w=0&h=UujqNqhSsXBOHMd2x-X3YmkMOBLv7g1FZCCr52rC6b4=",
-                            height: 20,
+                            CompanyAndProductAPI().baseUrl +
+                                products[index].company.logo,
+                            height: MediaQuery.of(context).size.width * 0.08,
                           ),
                         ),
                         Column(
                           children: [
                             Text(
-                              'Manufacturer Company',
+                              products[index].company.name,
                               softWrap: true,
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 11),
+                                  TextStyle(color: Colors.black, fontSize: 13),
                               textAlign: TextAlign.left,
                             ),
                             Text(
-                              'Phone Number',
+                              products[index]
+                                  .company
+                                  .companyAddress["phone_number"],
                               softWrap: true,
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 11),
+                                  TextStyle(color: Colors.black, fontSize: 13),
                               textAlign: TextAlign.left,
                             ),
                           ],
@@ -290,20 +322,11 @@ class ProductsList extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Text(
-                    'Product Category',
-                    softWrap: true,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
               ],
             ),
           );
         },
-        itemCount: 10,
+        itemCount: products.length,
       ),
     );
   }

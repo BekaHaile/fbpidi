@@ -8,7 +8,7 @@ class ManufacturerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Company>>(
-        future: CompanyAndProductAPI().getCompanies("all"),
+        future: CompanyAndProductAPI().getCompanies("All"),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -57,7 +57,8 @@ class ManufacturerList extends StatelessWidget {
                                   padding: const EdgeInsets.only(
                                       left: 12.0, right: 5),
                                   child: Text(
-                                    'Member Since: 2008',
+                                    'Member Since: ' +
+                                        companies[index].establishedYear,
                                     style: TextStyle(
                                         fontSize: 16.0, color: Colors.black54),
                                     textAlign: TextAlign.justify,
@@ -76,7 +77,8 @@ class ManufacturerList extends StatelessWidget {
                                         width: 3.0,
                                       ),
                                       Text(
-                                        companies[index].companyAddress["city"],
+                                        companies[index]
+                                            .companyAddress["city_town"],
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.black54,
