@@ -22,7 +22,7 @@ class _ProductsState extends State<Products> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: widget.data['type'] == 'all'
+        child: widget.data['type'] == 'All'
             ? FbpidiDrawer(
                 "Products",
               )

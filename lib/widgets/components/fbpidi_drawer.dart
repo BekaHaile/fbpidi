@@ -163,7 +163,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       onTap: () async {
         Navigator.pop(context);
         if (title == "Products")
-          Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
+          Navigator.pushNamed(context, "/products", arguments: {'type': 'All'});
         else if (title == "Home")
           Navigator.pushNamed(
             context,
@@ -227,9 +227,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           });
         } else if (title == "Manufacturers")
           Navigator.pushNamed(context, "/companies",
-              arguments: {'type': 'all'});
-        else if (title == "Products")
-          Navigator.pushNamed(context, "/products", arguments: {'type': 'all'});
+              arguments: {'type': 'All'});
         else if (title == "Beverage") {
           if (mainMenu == "Manufacturers")
             Navigator.pushNamed(context, "/companies",
