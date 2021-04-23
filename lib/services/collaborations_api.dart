@@ -401,25 +401,23 @@ class CollaborationsApi {
 
     List<Poll> polls = [];
     data["polls"].forEach((poll) {
-      polls.add(Poll.fromMap(poll));
+      polls.add(Poll.fromMap(poll, false));
     });
     return polls;
   }
 
   //Get poll detail
   Future<Poll> getPollDetail(id) async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
     var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/client/collaborations/poll_detail/$id/"), //uri of api
-        headers: {
-          "Authorization Token": "99b43761704f6994a5bd6cd0fc93b1f542db5e73"
-        });
-
-    //ToDo - add token into the api call
+            "$baseUrl/api/collaborations/poll_detail/?id=$id"), //uri of api
+        headers: {"Authorization": "Token " + token});
 
     Map<String, dynamic> data = jsonDecode(response.body);
     print(data); //Response from the api
-    Poll poll = Poll.fromMap(data["data"]);
+    Poll poll = Poll.fromMap(data["data"], true);
 
     return poll;
   }

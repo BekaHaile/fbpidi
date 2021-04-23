@@ -10,6 +10,7 @@ import 'package:fbpidi/widgets/screens/collaborations/forum_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/forums.dart';
 import 'package:fbpidi/widgets/screens/collaborations/news_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
+import 'package:fbpidi/widgets/screens/collaborations/poll_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/polls.dart';
 import 'package:fbpidi/widgets/screens/collaborations/projects.dart';
 import 'package:fbpidi/widgets/screens/collaborations/research_detail.dart';
@@ -149,7 +150,11 @@ class MyApp extends StatelessWidget {
                   builder: (_) => VacancyApply(
                         requests,
                       ));
-
+            case '/pollDetail':
+              return MaterialPageRoute(
+                  builder: (_) => PollDetail(
+                        requests,
+                      ));
             default:
               return null;
           }

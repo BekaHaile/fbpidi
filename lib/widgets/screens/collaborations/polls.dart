@@ -371,7 +371,10 @@ class _PollsState extends State<Polls> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/pollDetail',
+                                      arguments: {'id': polls[index].id});
+                                },
                                 style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).buttonColor,
                                 ),
