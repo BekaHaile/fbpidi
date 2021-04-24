@@ -183,7 +183,6 @@ class _PollDetailState extends State<PollDetail> {
                                                         groupValue.toString(),
                                                         editingController.text)
                                                     .then((value) {
-                                                  print(value.toString());
                                                   if (value["error"])
                                                     _confirmationDialogue(
                                                         context,
@@ -366,17 +365,19 @@ class _PollDetailState extends State<PollDetail> {
     );
   }
 
-  _confirmationDialogue(context, message, isError) {
+  _confirmationDialogue(mainContext, message, isError) {
     showDialog(
-        context: context,
+        context: mainContext,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(message),
             actions: [
               TextButton(
                 onPressed: () {
-                  if (!isError) Navigator.pushNamed(context, '/polls');
-                  Navigator.pop(context);
+                  if (!isError)
+                    Navigator.pushNamed(mainContext, '/polls');
+                  else
+                    Navigator.pop(context);
                 },
                 child: Text(
                   isError ? 'Close' : 'Continue',

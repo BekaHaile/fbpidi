@@ -437,7 +437,6 @@ class CollaborationsApi {
       "selected_choice": selectedChoice
     };
 
-    print("request being sent: " + data.toString());
     var response;
     try {
       response = await http.post(
@@ -451,8 +450,6 @@ class CollaborationsApi {
     } catch (e) {
       print("Error:" + e.toString());
     }
-
-    //ToDo - add token into the api call
 
     Map<String, dynamic> data2 = jsonDecode(response.body);
     print(data2); //Response from the api
@@ -609,13 +606,32 @@ class CollaborationsApi {
   }
 
   //Comment on a blog
-  commentOnBlog(id, content) async {
-    var response = await http.post(
-        Uri.encodeFull(
-            " http://127.0.0.1:8000/client/collaborations/blog-comment/ "), //uri of api
-        headers: {"Accept": "application/json"},
-        body: {"id": id, "content": content});
+  Future<Map<String, dynamic>> commentOnBlog(id, content, option) async {
+    String token = await getToken();
+    Map<String, dynamic> data = {
+      "blog": id,
+      "content": content,
+      "option": option
+    };
 
-    return response.body;
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/blog-comment/"), //uri of api
+        headers: {
+          "Authorization": "Token " + token,
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print("Error:" + e.toString());
+    }
+
+    Map<String, dynamic> data2 = jsonDecode(response.body);
+    print(data2); //Response from the api
+
+    return data2;
   }
 }

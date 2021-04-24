@@ -183,7 +183,7 @@ class BlogDetail extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  _buildCommentField(context),
+                  _buildCommentField(context, blog.id),
                 ],
               ),
             );
@@ -341,7 +341,7 @@ class BlogDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentField(context) {
+  Widget _buildCommentField(context, id) {
     return Container(
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width * 0.95,
@@ -391,7 +391,18 @@ class BlogDetail extends StatelessWidget {
                 height: 40.0,
                 child: SizedBox.expand(
                   child: ElevatedButton(
-                    onPressed: () async {},
+                    onPressed: () async {
+                      await CollaborationsApi()
+                          .commentOnBlog(id, commentController.text, "create")
+                          .then((value) {
+                        if (value["error"])
+                          _confirmationDialogue(
+                              context, value["message"], true);
+                        else
+                          _confirmationDialogue(
+                              context, value["message"], false);
+                      });
+                    },
                     child: Text(
                       "Submit",
                       style: TextStyle(
@@ -414,5 +425,30 @@ class BlogDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError)
+                    Navigator.pushNamed(mainContext, '/blogs');
+                  else
+                    Navigator.of(context).pop();
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
