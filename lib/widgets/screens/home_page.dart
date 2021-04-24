@@ -186,9 +186,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Icon(FontAwesomeIcons.chevronCircleLeft),
                 Expanded(
-                  child: FutureBuilder<List<dynamic>>(
+                  child: FutureBuilder<Map<String, dynamic>>(
                     future: title == "Manufacturer"
-                        ? CompanyAndProductAPI().getCompanies("All")
+                        ? CompanyAndProductAPI().getCompanies("All", "1")
                         : CollaborationsApi().getResearches(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
@@ -202,9 +202,9 @@ class _HomePageState extends State<HomePage> {
                         List<Company> companies = [];
                         List<Research> researches = [];
                         if (title == "Manufacturer")
-                          companies = snapshot.data;
+                          companies = snapshot.data["companies"];
                         else
-                          researches = snapshot.data;
+                          researches = snapshot.data["researches"];
                         if (title == "Manufacturer" && companies.length == 0)
                           return Center(
                               child: Padding(

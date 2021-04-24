@@ -48,7 +48,7 @@ class CollaborationsApi {
   }
 
   //Get all researches
-  Future<List<Research>> getResearches() async {
+  Future<Map<String, dynamic>> getResearches() async {
     try {
       var response = await http.get(
           Uri.encodeFull(
@@ -61,7 +61,14 @@ class CollaborationsApi {
       data['researchs'].forEach((research) {
         researches.add(Research.fromMap(research));
       });
-      return researches;
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "researches": researches,
+        "paginator": paginator
+      };
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

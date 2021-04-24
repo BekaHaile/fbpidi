@@ -7,15 +7,15 @@ import '../../services/company_and_product_api.dart';
 class ManufacturerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Company>>(
-        future: CompanyAndProductAPI().getCompanies("All"),
+    return FutureBuilder<Map<String, dynamic>>(
+        future: CompanyAndProductAPI().getCompanies("All", "1"),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
               child: CircularProgressIndicator(),
             );
           else {
-            List<Company> companies = snapshot.data;
+            List<Company> companies = snapshot.data["companies"];
             return Container(
               padding: EdgeInsets.symmetric(vertical: 1.0),
               child: ListView.builder(

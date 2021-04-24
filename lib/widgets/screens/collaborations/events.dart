@@ -15,8 +15,9 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
   List selected = [true, false, false, false];
   List<Event> events, searchedEvents = [];
-  bool isBeingSearhced = false, addingMore = false;
+  bool isBeingSearhced = false;
   TextEditingController editingController = TextEditingController();
+  bool addingMore = false;
   Paginator paginator;
   String loadMore = "Load More";
 

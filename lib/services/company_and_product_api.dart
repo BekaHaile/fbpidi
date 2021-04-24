@@ -1,4 +1,5 @@
 import 'package:fbpidi/models/company.dart';
+import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/strings/strings.dart';
 import 'package:http/http.dart' as http;
@@ -9,15 +10,15 @@ class CompanyAndProductAPI {
   //Get list of companies
   /// company_type = manufacturer or supplier
   /// product_category = all or Beverage or Food or Pharmaceuticals
-  Future<List<Company>> getCompanies(productCategory) async {
+  Future<Map<String, dynamic>> getCompanies(productCategory, page) async {
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/company/comp-by-main-category/?main_category=$productCategory"), //uri of api
+            "$baseUrl/api/company/comp-by-main-category/?main_category=$productCategory&page=$page"), //uri of api
         headers: {"Accept": "application/json"},
       );
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Company> companies = [];
       try {
         data["companies"].forEach((com) {
@@ -27,7 +28,14 @@ class CompanyAndProductAPI {
         print(e.toString());
         throw Exception('Unable to convert data from map to model.');
       }
-      return companies;
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "companies": companies,
+        "paginator": paginator
+      };
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

@@ -149,7 +149,7 @@ class _ResearchesState extends State<Researches> {
   }
 
   Widget _buildResearchList(context) {
-    return FutureBuilder<List<Research>>(
+    return FutureBuilder<Map<String, dynamic>>(
         future: CollaborationsApi().getResearches(),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
@@ -160,7 +160,7 @@ class _ResearchesState extends State<Researches> {
               ),
             );
           else {
-            researches = snapshot.data;
+            researches = snapshot.data["researches"];
             if (researches.length == 0)
               return Center(
                   child: Padding(

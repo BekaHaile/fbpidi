@@ -148,22 +148,22 @@ class CompanyDetail extends StatelessWidget {
                                   SizedBox(
                                     height: 15.0,
                                   ),
-                                  Row(
-                                    children: [
-                                      _iconButton(
-                                          Icons.bookmark,
-                                          Color.fromRGBO(10, 178, 230, 1),
-                                          "Add Bookmark"),
-                                      _iconButton(
-                                          Icons.star,
-                                          Color.fromRGBO(16, 212, 3, 1),
-                                          "Write Review"),
-                                    ],
-                                  ),
-                                  _iconButton(
-                                      FontAwesomeIcons.exclamationCircle,
-                                      Color.fromRGBO(214, 15, 2, 1),
-                                      "Report Abuse"),
+                                  // Row(
+                                  //   children: [
+                                  //     _iconButton(
+                                  //         Icons.bookmark,
+                                  //         Color.fromRGBO(10, 178, 230, 1),
+                                  //         "Add Bookmark"),
+                                  //     _iconButton(
+                                  //         Icons.star,
+                                  //         Color.fromRGBO(16, 212, 3, 1),
+                                  //         "Write Review"),
+                                  //   ],
+                                  // ),
+                                  // _iconButton(
+                                  //     FontAwesomeIcons.exclamationCircle,
+                                  //     Color.fromRGBO(214, 15, 2, 1),
+                                  //     "Report Abuse"),
                                   SizedBox(
                                     height: 15,
                                   ),
@@ -185,7 +185,11 @@ class CompanyDetail extends StatelessWidget {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text("Mp-214, New York, NY 10012")
+                                        Text(company
+                                                .companyAddress["city_town"] +
+                                            ", " +
+                                            company
+                                                .companyAddress["local_area"])
                                       ],
                                     ),
                                   ),
@@ -236,43 +240,43 @@ class CompanyDetail extends StatelessWidget {
     );
   }
 
-  Widget _iconButton(icon, color, text) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 45,
-        width: 175,
-        child: SizedBox.expand(
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              onPrimary: color,
-              primary: color.withOpacity(0.7),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(color: Colors.white, fontSize: 17),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _iconButton(icon, color, text) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Container(
+  //       height: 45,
+  //       width: 175,
+  //       child: SizedBox.expand(
+  //         child: ElevatedButton(
+  //           onPressed: () {},
+  //           style: ElevatedButton.styleFrom(
+  //             onPrimary: color,
+  //             primary: color.withOpacity(0.7),
+  //             padding: EdgeInsets.symmetric(horizontal: 16),
+  //             shape: const RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(2)),
+  //             ),
+  //           ),
+  //           child: Row(
+  //             children: [
+  //               Icon(
+  //                 icon,
+  //                 color: Colors.white,
+  //               ),
+  //               SizedBox(
+  //                 width: 5,
+  //               ),
+  //               Text(
+  //                 text,
+  //                 style: TextStyle(color: Colors.white, fontSize: 17),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _iconWithCircleBackground(icon, color) {
     return Padding(
