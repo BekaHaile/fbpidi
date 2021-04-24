@@ -1,9 +1,11 @@
 import 'package:fbpidi/models/announcement.dart';
 import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/models/event.dart';
+import 'package:fbpidi/models/faq.dart';
 import 'package:fbpidi/models/forum.dart';
 import 'package:fbpidi/models/jobcategory.dart';
 import 'package:fbpidi/models/news.dart';
+import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/models/poll.dart';
 import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/models/research.dart';
@@ -631,6 +633,27 @@ class CollaborationsApi {
 
     Map<String, dynamic> data2 = jsonDecode(response.body);
     print(data2); //Response from the api
+
+    return data2;
+  }
+
+  //Get all FAQs
+  Future<Map<String, dynamic>> getFaqs(page) async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/faqs/?page=$page"), //uri of api
+        headers: {"Accept": "application/json"});
+
+    print(response.body);
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    List<Faq> faqs = [];
+    data["faqs"].forEach((faq) {
+      faqs.add(Faq.fromMap(faq));
+    });
+
+    Paginator paginator = Paginator.fromMap(data["paginator"]);
+    Map<String, dynamic> data2 = {"faqs": faqs, "paginator": paginator};
 
     return data2;
   }
