@@ -330,24 +330,28 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _signUpDialogue(context) {
-    return AlertDialog(
-      title: Text(
-          'A verification email has been sent to you email address, please verify your email to login to the app'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/login');
-            Navigator.pop(context);
-          },
-          child: Text(
-            'Continue',
-            style:
-                TextStyle(color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
-          ),
-        ),
-      ],
-    );
+  _signUpDialogue(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+                'A verification email has been sent to you email address, please verify your email to login to the app'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
 

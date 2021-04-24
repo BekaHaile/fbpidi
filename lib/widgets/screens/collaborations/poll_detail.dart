@@ -13,6 +13,9 @@ class PollDetail extends StatefulWidget {
 }
 
 class _PollDetailState extends State<PollDetail> {
+  int groupValue = -1;
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +130,92 @@ class _PollDetailState extends State<PollDetail> {
                                               )
                                             ],
                                           );
-                                        })
+                                        }),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: Text(
+                                        "Any Remarks?",
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 30.0, bottom: 15),
+                                      child: Container(
+                                        decoration:
+                                            BoxDecoration(border: Border.all()),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        child: TextField(
+                                          controller: editingController,
+                                          minLines: 15,
+                                          maxLines: 30,
+                                          decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.all(5),
+                                              hintText: "Remark",
+                                              hintStyle:
+                                                  TextStyle(fontSize: 18)),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.35,
+                                        height: 40.0,
+                                        child: SizedBox.expand(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              if (groupValue != -1)
+                                                await CollaborationsApi()
+                                                    .voteForAPoll(
+                                                        poll.id,
+                                                        groupValue.toString(),
+                                                        editingController.text)
+                                                    .then((value) {
+                                                  print(value.toString());
+                                                  if (value["error"])
+                                                    _confirmationDialogue(
+                                                        context,
+                                                        value["message"],
+                                                        true);
+                                                  else
+                                                    _confirmationDialogue(
+                                                        context,
+                                                        value["message"],
+                                                        false);
+                                                });
+                                            },
+                                            child: Text(
+                                              "Submit Vote",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Theme.of(context)
+                                                  .primaryColor,
+                                              onPrimary: Theme.of(context)
+                                                  .disabledColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 25.0,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -245,18 +333,26 @@ class _PollDetailState extends State<PollDetail> {
                   textAlign: TextAlign.left,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {});
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).buttonColor,
-                  ),
-                  child: Text(
-                    "Vote",
-                    style: TextStyle(color: Colors.white),
+              Container(
+                color: Theme.of(context).buttonColor,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Radio(
+                          value: int.parse(choice.id),
+                          groupValue: groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              groupValue = value;
+                            });
+                          }),
+                      Text(
+                        "Select Vote",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -268,5 +364,28 @@ class _PollDetailState extends State<PollDetail> {
         ),
       ),
     );
+  }
+
+  _confirmationDialogue(context, message, isError) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError) Navigator.pushNamed(context, '/polls');
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

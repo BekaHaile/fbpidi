@@ -18,6 +18,12 @@ import 'dart:convert';
 class CollaborationsApi {
   String baseUrl = Strings().baseUrl;
 
+  getToken() async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    return token;
+  }
+
   //Get all projects
   Future<List<Project>> getProjects() async {
     try {
@@ -423,20 +429,35 @@ class CollaborationsApi {
   }
 
   //vote for a specific poll
-  voteForAPoll(id, selectedChoice, remark) async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/poll_detail/$id/?selected_choice=$selectedChoice&remark=$remark"), //uri of api
+  Future<Map<String, dynamic>> voteForAPoll(id, selectedChoice, remark) async {
+    String token = await getToken();
+    Map<String, dynamic> data = {
+      "id": id,
+      "remark": remark,
+      "selected_choice": selectedChoice
+    };
+
+    print("request being sent: " + data.toString());
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull("$baseUrl/api/collaborations/poll_detail/"), //uri of api
         headers: {
-          "Authorization Token": "99b43761704f6994a5bd6cd0fc93b1f542db5e73"
-        });
+          "Authorization": "Token " + token,
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print("Error:" + e.toString());
+    }
 
     //ToDo - add token into the api call
 
-    Map<String, dynamic> data = jsonDecode(response.body);
-    print(data); //Response from the api
+    Map<String, dynamic> data2 = jsonDecode(response.body);
+    print(data2); //Response from the api
 
-    return data;
+    return data2;
   }
 
 //Get list of news
