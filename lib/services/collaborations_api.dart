@@ -489,10 +489,11 @@ class CollaborationsApi {
   }
 
 //Get list of events
-  Future<List<Event>> getEvents() async {
+  Future<Map<String, dynamic>> getEvents(page) async {
     try {
       var response = await http.get(
-          Uri.encodeFull("$baseUrl/api/collaborations/events/"), //uri of api
+          Uri.encodeFull(
+              "$baseUrl/api/collaborations/events/?page=$page"), //uri of api
           headers: {"Accept": "application/json"});
 
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -501,7 +502,11 @@ class CollaborationsApi {
       data["event_list"].forEach((event) {
         events.add(Event.fromMap(event));
       });
-      return events;
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {"events": events, "paginator": paginator};
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

@@ -234,7 +234,7 @@ class _NewsState extends State<NewsPage> {
                           child: Stack(
                             children: [
                               Container(
-                                height: 200,
+                                height: 280,
                                 width: MediaQuery.of(context).size.width * 0.95,
                                 child: FittedBox(
                                   fit: BoxFit.fill,

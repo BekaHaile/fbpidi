@@ -1,5 +1,7 @@
 import 'package:fbpidi/models/event.dart';
+import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,10 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
   List selected = [true, false, false, false];
   List<Event> events, searchedEvents = [];
-  bool isBeingSearhced = false;
+  bool isBeingSearhced = false, addingMore = false;
   TextEditingController editingController = TextEditingController();
+  Paginator paginator;
+  String loadMore = "Load More";
 
   @override
   Widget build(BuildContext context) {
@@ -217,8 +221,8 @@ class _EventsState extends State<Events> {
   }
 
   Widget _buildEventList(context) {
-    return FutureBuilder<List<Event>>(
-        future: CollaborationsApi().getEvents(),
+    return FutureBuilder<Map<String, dynamic>>(
+        future: CollaborationsApi().getEvents("1"),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -228,7 +232,11 @@ class _EventsState extends State<Events> {
               ),
             );
           else {
-            events = snapshot.data;
+            if (!addingMore) {
+              events = snapshot.data["events"];
+              paginator = snapshot.data["paginator"];
+            }
+
             if (events.length == 0)
               return Center(
                   child: Padding(
@@ -237,248 +245,286 @@ class _EventsState extends State<Events> {
               ));
             else
               return isBeingSearhced
-                  ? _listviewBuildEvents(searchedEvents)
-                  : _listviewBuildEvents(events);
+                  ? _listviewBuildEvents(searchedEvents, paginator)
+                  : _listviewBuildEvents(events, paginator);
           }
         });
   }
 
-  Widget _listviewBuildEvents(List<Event> events) {
-    return Container(
-      alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width * 0.95,
-      padding: EdgeInsets.symmetric(vertical: 1.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        primary: false,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (_, int index) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              children: [
-                Card(
-                  color: Colors.white,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.94,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 30.0,
-                          ),
-                          child: Container(
-                            height: 280,
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            child: FittedBox(
-                              fit: BoxFit.fill,
-                              child: Image.network(
-                                CollaborationsApi().baseUrl +
-                                    events[index].image,
+  Widget _listviewBuildEvents(List<Event> events, Paginator paginator) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width * 0.95,
+          padding: EdgeInsets.symmetric(vertical: 1.0),
+          child: ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (_, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Column(
+                  children: [
+                    Card(
+                      color: Colors.white,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.94,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 30.0,
                               ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 5, bottom: 10),
-                          child: Text(
-                            events[index].title,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(
-                            events[index].startDate.substring(0, 10) +
-                                ' - ' +
-                                events[index].endDate.substring(0, 10),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: events[index].status == "Upcoming"
-                                  ? Colors.yellow
-                                  : Color.fromRGBO(0, 128, 0, 1),
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              events[index].status,
-                              style: TextStyle(
-                                  color: events[index].status == "Upcoming"
-                                      ? Colors.black87
-                                      : Colors.white,
-                                  fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Container(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          height: 3,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 5, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "By: ",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              CircleAvatar(
-                                radius: 20,
-                                child: ClipOval(
-                                    child: Image.network(
-                                  CollaborationsApi().baseUrl +
-                                      events[index].company.logo,
-                                  fit: BoxFit.cover,
-                                  width: 90.0,
-                                  height: 90.0,
-                                )),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: Colors.black,
-                                  size: 19,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.black,
-                                  size: 19,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  FontAwesomeIcons.solidComments,
-                                  color: Color.fromRGBO(0, 0, 255, 1),
-                                  size: 19,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, "/eventDetail",
-                                        arguments: {'id': events[index].id});
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    onPrimary: Theme.of(context)
-                                        .buttonColor
-                                        .withOpacity(0.3),
-                                    primary: Theme.of(context).buttonColor,
-                                  ),
-                                  child: Text(
-                                    "Event Detail",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                              child: Container(
+                                height: 280,
+                                width: MediaQuery.of(context).size.width * 0.95,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Image.network(
+                                    CollaborationsApi().baseUrl +
+                                        events[index].image,
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                height: 20.0,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20.0, right: 5),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "At: ",
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, top: 5, bottom: 10),
+                              child: Text(
+                                RemoveTag()
+                                    .removeAllHtmlTags(events[index].title),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                events[index].startDate.substring(0, 10) +
+                                    ' - ' +
+                                    events[index].endDate.substring(0, 10),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: events[index].status == "Upcoming"
+                                      ? Colors.yellow
+                                      : Color.fromRGBO(0, 128, 0, 1),
+                                ),
+                                onPressed: () {},
+                                child: Text(
+                                  events[index].status,
+                                  style: TextStyle(
+                                      color: events[index].status == "Upcoming"
+                                          ? Colors.black87
+                                          : Colors.white,
+                                      fontSize: 17),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Container(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              height: 3,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 5, top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "By: ",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  CircleAvatar(
+                                    radius: 20,
+                                    child: ClipOval(
+                                        child: Image.network(
+                                      CollaborationsApi().baseUrl +
+                                          events[index].company.logo,
+                                      fit: BoxFit.cover,
+                                      width: 90.0,
+                                      height: 90.0,
+                                    )),
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Container(
+                                    height: 34,
+                                    width: 34,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(247, 247, 251, 1),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.black,
+                                      size: 19,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Container(
+                                    height: 34,
+                                    width: 34,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(247, 247, 251, 1),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      color: Colors.black,
+                                      size: 19,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Container(
+                                    height: 34,
+                                    width: 34,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(247, 247, 251, 1),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      FontAwesomeIcons.solidComments,
+                                      color: Color.fromRGBO(0, 0, 255, 1),
+                                      size: 19,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, "/eventDetail",
+                                            arguments: {
+                                              'id': events[index].id
+                                            });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        onPrimary: Theme.of(context)
+                                            .buttonColor
+                                            .withOpacity(0.3),
+                                        primary: Theme.of(context).buttonColor,
+                                      ),
+                                      child: Text(
+                                        "Event Detail",
                                         style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold),
+                                            color: Colors.white, fontSize: 18),
                                       ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        events[index]
-                                                .createdDate
-                                                .substring(0, 10) +
-                                            ', ' +
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 5),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "At: ",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text(
                                             events[index]
-                                                .createdDate
-                                                .substring(11, 16) +
-                                            ' a.m.',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ]),
-                              )
-                            ],
-                          ),
+                                                    .createdDate
+                                                    .substring(0, 10) +
+                                                ', ' +
+                                                events[index]
+                                                    .createdDate
+                                                    .substring(11, 16) +
+                                                ' a.m.',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ]),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 25.0,
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          height: 25.0,
-                        )
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              );
+            },
+            itemCount: events.length,
+          ),
+        ),
+        Center(
+          child: TextButton(
+            child: Text(
+              loadMore,
+              style: TextStyle(fontSize: 17),
             ),
-          );
-        },
-        itemCount: events.length,
-      ),
+            onPressed: () {
+              if (paginator.next != null)
+                _loadMore(paginator.next);
+              else
+                setState(() {
+                  loadMore = "No more data";
+                });
+            },
+          ),
+        )
+      ],
     );
+  }
+
+  Future<bool> _loadMore(page) async {
+    await CollaborationsApi().getEvents(page).then((value) {
+      events.addAll(value["events"]);
+      setState(() {
+        paginator = value["paginator"];
+        addingMore = true;
+      });
+    });
+
+    return true;
   }
 }
