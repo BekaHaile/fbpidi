@@ -65,7 +65,7 @@ class BlogDetail extends StatelessWidget {
                               blog.title,
                               style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 19,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.left,
                             ),

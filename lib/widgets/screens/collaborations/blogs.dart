@@ -117,116 +117,159 @@ class _BlogsState extends State<Blogs> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, top: 20),
+                        padding: const EdgeInsets.only(
+                            left: 18.0, top: 20, bottom: 20),
                         child: Text(
                           blogs[index].title,
                           style: TextStyle(
                               color: Colors.black87,
-                              fontSize: 19,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.left,
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        height: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 5, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 10.0,
+                            Text(
+                              "By: ",
+                              style: TextStyle(fontSize: 18),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black87,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    blogs[index].createdDate.substring(0, 10) +
-                                        ', ' +
-                                        blogs[index]
-                                            .createdDate
-                                            .substring(12, 16) +
-                                        ' a.m.',
-                                    style: TextStyle(
-                                        fontSize: 15.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Icon(
-                                    Icons.person,
-                                    color: Colors.black87,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    'Pepsi',
-                                    style: TextStyle(
-                                        fontSize: 15.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            CircleAvatar(
+                              radius: 20,
+                              child: ClipOval(
+                                  child: Image.network(
+                                CollaborationsApi().baseUrl +
+                                    blogs[index].blogImage,
+                                fit: BoxFit.cover,
+                                width: 90.0,
+                                height: 90.0,
+                              )),
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.black,
+                                size: 19,
                               ),
                             ),
                             SizedBox(
-                              height: 7.0,
+                              width: 5.0,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.comment,
-                                    color: Colors.black87,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                        fontSize: 15.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                                size: 19,
                               ),
                             ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Container(
+                              height: 34,
+                              width: 34,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 247, 251, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                FontAwesomeIcons.solidComments,
+                                color: Color.fromRGBO(0, 0, 255, 1),
+                                size: 19,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20.0, bottom: 15.0),
+                              padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/blogDetail',
+                                  Navigator.pushNamed(context, "/blogDetail",
                                       arguments: {'id': blogs[index].id});
                                 },
                                 style: ElevatedButton.styleFrom(
+                                  onPrimary: Theme.of(context)
+                                      .buttonColor
+                                      .withOpacity(0.3),
                                   primary: Theme.of(context).buttonColor,
                                 ),
                                 child: Text(
-                                  "Read More",
-                                  style: TextStyle(color: Colors.white),
+                                  "Blog Detail",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             )
                           ],
                         ),
                       ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 5),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "At: ",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      blogs[index]
+                                              .createdDate
+                                              .substring(0, 10) +
+                                          ', ' +
+                                          blogs[index]
+                                              .createdDate
+                                              .substring(11, 16) +
+                                          ' a.m.',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ]),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25.0,
+                      )
                     ],
                   ),
                 ),
