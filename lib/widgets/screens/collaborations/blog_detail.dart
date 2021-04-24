@@ -155,7 +155,10 @@ class BlogDetail extends StatelessWidget {
                                         width: 5.0,
                                       ),
                                       Text(
-                                        '0',
+                                        blog.commentsList != null
+                                            ? blog.commentsList.length
+                                                .toString()
+                                            : '0',
                                         style: TextStyle(
                                             fontSize: 15.0,
                                             color: Colors.black87),
@@ -179,7 +182,7 @@ class BlogDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _buildCommentList(context, []),
+                  _buildCommentList(context, blog.commentsList),
                   SizedBox(
                     height: 15,
                   ),
@@ -217,121 +220,86 @@ class BlogDetail extends StatelessWidget {
                   ? Container(
                       height: 40,
                     )
-                  : Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (_, int index) {
-                          return Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey)),
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.person,
-                                              color: Colors.black54,
-                                              size: 18,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              'Post',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                            SizedBox(
-                                              width: 8.0,
-                                            ),
-                                            Icon(
-                                              Icons.calendar_today,
-                                              color: Colors.black54,
-                                              size: 18,
-                                            ),
-                                            SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text(
-                                              comments[index]['created_date']
-                                                      .substring(0, 10) +
-                                                  ', ' +
-                                                  comments[index]
-                                                          ['created_date']
-                                                      .substring(12, 16) +
-                                                  ' a.m.',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  color: Colors.black),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 5),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.85,
-                                          child: Text(
-                                            comments[index]['content'],
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: TextButton(
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (_, int index) {
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey)),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 5),
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
-                                              Icon(Icons.reply_all),
-                                              SizedBox(
-                                                width: 5,
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: Colors.black54,
+                                                size: 18,
                                               ),
-                                              Text('Reply')
+                                              SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text(
+                                                comments[index]['created_date']
+                                                    .substring(0, 10),
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    color: Colors.black),
+                                                textAlign: TextAlign.justify,
+                                              ),
                                             ],
                                           ),
-                                          onPressed: () {},
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, right: 5),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            child: Text(
+                                              comments[index]['content'],
+                                              style: TextStyle(
+                                                  fontSize: 17.0,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                            ],
-                          );
-                        },
-                        itemCount: comments.length,
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                              ],
+                            );
+                          },
+                          itemCount: comments.length,
+                        ),
                       ),
                     ),
             ],

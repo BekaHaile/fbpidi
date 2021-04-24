@@ -50,6 +50,6 @@ class Blog {
     expired = map["expired"];
     company = map["company"].toString();
     lastUpdatedBy = map["last_updated_by"].toString();
-    commentsList = map["comments"];
+    commentsList = map["comments_list"];
   }
 }
