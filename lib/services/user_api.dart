@@ -17,7 +17,9 @@ class UserApi {
 
     print(response.body);
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
 
     return data;

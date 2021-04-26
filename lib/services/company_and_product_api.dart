@@ -17,7 +17,9 @@ class CompanyAndProductAPI {
             "$baseUrl/api/company/comp-by-main-category/?main_category=$productCategory&page=$page"), //uri of api
         headers: {"Accept": "application/json"},
       );
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       List<Company> companies = [];
       try {
@@ -50,7 +52,9 @@ class CompanyAndProductAPI {
               "$baseUrl/api/company/company-detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       Company company = Company.fromMap(data);
       return company;
@@ -70,7 +74,9 @@ class CompanyAndProductAPI {
         headers: {"Accept": "application/json"},
       );
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       List<Product> products = [];
       data["products"].forEach((prod) {
@@ -100,7 +106,9 @@ class CompanyAndProductAPI {
         headers: {"Accept": "application/json"},
       );
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
 
       return data["categories"];
@@ -120,7 +128,9 @@ class CompanyAndProductAPI {
         headers: {"Accept": "application/json"},
       );
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Product> products = [];
       data["products"].forEach((prod) {
@@ -142,7 +152,9 @@ class CompanyAndProductAPI {
               "$baseUrl/api/product/product-detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       Product product = Product.fromMap(data["product"]);
       return product;

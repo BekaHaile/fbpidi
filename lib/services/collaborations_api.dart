@@ -34,7 +34,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/projects_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Project> projects = [];
       data['projects'].forEach((project) {
@@ -55,7 +57,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/research_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       List<Research> researches = [];
       data['researchs'].forEach((research) {
@@ -83,7 +87,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/research_detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       Research research = Research.fromMap(data["research"]);
 
@@ -107,7 +113,9 @@ class CollaborationsApi {
 
       List<ResearchCategory> categories = [];
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
 
       data['category'].forEach((category) {
         categories.add(ResearchCategory.fromMap(category));
@@ -181,7 +189,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Vacancy> vacancies = [];
       data['vacancies'].forEach((vacancy) {
@@ -205,7 +215,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/vacancy_apply/?id=$id"), //uri of api
           headers: {"Authorization": "Token " + token});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       return data;
     } catch (e) {
@@ -222,7 +234,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/vacancy_detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       Vacancy vacancy = Vacancy.fromMap(data["vacancy"]);
 
@@ -240,7 +254,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/vacancy_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Vacancy> vacancies = [];
       data['vacancies'].forEach((vacancy) {
@@ -312,7 +328,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/tender_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Tender> tenders = [];
       data['tenders'].forEach((tender) {
@@ -333,7 +351,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/tender_detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       Tender tender = Tender.fromMap(data["tender"]);
 
@@ -374,7 +394,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/forum_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Forum> forums = [];
       data['forums'].forEach((forum) {
@@ -395,7 +417,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/forum_detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       Forum forum = Forum.fromMap(data["forum"]);
 
@@ -412,7 +436,9 @@ class CollaborationsApi {
         .get(Uri.encodeFull("$baseUrl/api/collaborations/polls/"), //uri of api
             headers: {"Accept": "application/json"});
 
-    Map<dynamic, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
 
     List<Poll> polls = [];
     data["polls"].forEach((poll) {
@@ -430,7 +456,9 @@ class CollaborationsApi {
             "$baseUrl/api/collaborations/poll_detail/?id=$id"), //uri of api
         headers: {"Authorization": "Token " + token});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
     Poll poll = Poll.fromMap(data["data"], true);
 
@@ -472,7 +500,9 @@ class CollaborationsApi {
         .get(Uri.encodeFull("$baseUrl/api/collaborations/news/"), //uri of api
             headers: {"Accept": "application/json"});
 
-    Map<dynamic, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
     List<News> newsList = [];
     data['news_list'].forEach((news) {
@@ -488,7 +518,9 @@ class CollaborationsApi {
             "$baseUrl/api/collaborations/news_detail/?id=$id"), //uri of api
         headers: {"Accept": "application/json"});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
     News news = News.fromMap(data['news']);
 
@@ -503,7 +535,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/events/?page=$page"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       List<Event> events = [];
       data["event_list"].forEach((event) {
@@ -528,7 +562,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/event_detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       print(data); //Response from the api
       Event event = Event.fromMap(data["event"]);
 
@@ -558,7 +594,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/announcement-list/"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<dynamic, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       List<Announcement> announcements = [];
       data['object_list'].forEach((announcement) {
@@ -579,7 +617,9 @@ class CollaborationsApi {
               "$baseUrl/api/collaborations/announcement-detail/?id=$id"), //uri of api
           headers: {"Accept": "application/json"});
 
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
       Announcement announcement = Announcement.fromMap(data["announcement"]);
 
@@ -596,7 +636,9 @@ class CollaborationsApi {
         Uri.encodeFull("$baseUrl/api/collaborations/blog-list/"), //uri of api
         headers: {"Accept": "application/json"});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
     List<Blog> blogs = [];
     data["blogs"].forEach((blog) {
@@ -612,7 +654,9 @@ class CollaborationsApi {
             "$baseUrl/api/collaborations/blog-details/?id=$id"), //uri of api
         headers: {"Accept": "application/json"});
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
     print(data); //Response from the api
     Blog blog = Blog.fromMap(data["blog"]);
     //todo: return comments for the blog using a map<String, dynamic> and combining with the blog
@@ -657,7 +701,9 @@ class CollaborationsApi {
         headers: {"Accept": "application/json"});
 
     print(response.body);
-    Map<String, dynamic> data = jsonDecode(response.body);
+    String body = utf8.decode(response.bodyBytes);
+
+    Map<String, dynamic> data = jsonDecode(body);
 
     List<Faq> faqs = [];
     data["faqs"].forEach((faq) {
