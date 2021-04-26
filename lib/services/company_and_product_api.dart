@@ -77,7 +77,7 @@ class CompanyAndProductAPI {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Product> products = [];
       data["products"].forEach((prod) {
         products.add(Product.fromMap(prod));

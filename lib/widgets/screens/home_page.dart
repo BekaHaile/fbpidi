@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                   child: FutureBuilder<Map<String, dynamic>>(
                     future: title == "Manufacturer"
                         ? CompanyAndProductAPI().getCompanies("All", "1")
-                        : CollaborationsApi().getResearches(),
+                        : CollaborationsApi().getResearches("1"),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
                         return Center(

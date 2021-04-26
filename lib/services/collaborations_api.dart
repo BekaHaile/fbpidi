@@ -50,11 +50,11 @@ class CollaborationsApi {
   }
 
   //Get all researches
-  Future<Map<String, dynamic>> getResearches() async {
+  Future<Map<String, dynamic>> getResearches(page) async {
     try {
       var response = await http.get(
           Uri.encodeFull(
-              "$baseUrl/api/collaborations/research_list/"), //uri of api
+              "$baseUrl/api/collaborations/research_list/?page=$page"), //uri of api
           headers: {"Accept": "application/json"});
 
       String body = utf8.decode(response.bodyBytes);
