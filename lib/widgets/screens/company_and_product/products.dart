@@ -1,3 +1,4 @@
+import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
@@ -17,6 +18,10 @@ class _ProductsState extends State<Products> {
   List<Product> products, searchedProducts = [];
   bool isBeingSearhced = false;
   TextEditingController editingController = TextEditingController();
+
+  bool addingMore = false;
+  Paginator paginator;
+  String loadMore = "Load More";
 
   @override
   Widget build(BuildContext context) {
@@ -195,9 +200,9 @@ class _ProductsState extends State<Products> {
   }
 
   Widget _buildProductList(context) {
-    return FutureBuilder<List<Product>>(
+    return FutureBuilder<Map<String, dynamic>>(
         future: CompanyAndProductAPI()
-            .getProductsByMainCategory(widget.data['type']),
+            .getProductsByMainCategory(widget.data['type'], "1"),
         builder: (BuildContext context, snapshot) {
           // _fetchLanguage(context);
           if (!snapshot.hasData)
@@ -208,7 +213,11 @@ class _ProductsState extends State<Products> {
               ),
             );
           else {
-            products = snapshot.data;
+            if (!addingMore) {
+              products = snapshot.data["products"];
+              paginator = snapshot.data["paginator"];
+            }
+
             if (products.length == 0)
               return Center(
                   child: Padding(
@@ -229,385 +238,427 @@ class _ProductsState extends State<Products> {
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width * 0.95,
       padding: EdgeInsets.symmetric(vertical: 1.0),
-      child: ListView.builder(
-          shrinkWrap: true,
-          primary: false,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (_, int index) {
-            return InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/productDetail',
-                    arguments: {'id': products[index].id});
-              },
-              child: Column(
-                children: [
-                  Card(
-                    color: Colors.white,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 15.0,
-                            ),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height: 200,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.95,
-                                  child: FittedBox(
-                                    fit: BoxFit.fill,
-                                    child: Image.network(
-                                      "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
-                                    ),
-                                  ),
+      child: Column(
+        children: [
+          ListView.builder(
+              shrinkWrap: true,
+              primary: false,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (_, int index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/productDetail',
+                        arguments: {'id': products[index].id});
+                  },
+                  child: Column(
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 15.0,
                                 ),
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 5, top: 5),
-                                        child: Container(
-                                          height: 34,
-                                          width: 34,
-                                          decoration: BoxDecoration(
-                                              color: liked
-                                                  ? Color.fromRGBO(
-                                                      230, 42, 114, 1)
-                                                  : Colors.black,
-                                              shape: BoxShape.circle),
-                                          child: IconButton(
-                                            icon: Icon(
-                                              FontAwesomeIcons.heart,
-                                              size: 18,
-                                              color: Colors.white,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                liked = true;
-                                              });
-                                            },
-                                          ),
-                                        )),
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 5,
-                                        bottom: 5,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.95,
+                                      child: FittedBox(
+                                        fit: BoxFit.fill,
+                                        child: Image.network(
+                                          CompanyAndProductAPI().baseUrl +
+                                              products[index].image,
+                                        ),
                                       ),
-                                      child: Container(
-                                        height: 30,
-                                        width: 70,
-                                        child: SizedBox.expand(
-                                          child: ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              onPrimary: Theme.of(context)
-                                                  .buttonColor
-                                                  .withOpacity(1),
-                                              primary: Theme.of(context)
-                                                  .buttonColor
-                                                  .withOpacity(0.9),
-                                            ),
-                                            child: Text(
-                                              products[index].categoryName,
-                                              style: TextStyle(
-                                                  color: Colors.white),
+                                    ),
+                                    Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, top: 5),
+                                            child: Container(
+                                              height: 34,
+                                              width: 34,
+                                              decoration: BoxDecoration(
+                                                  color: liked
+                                                      ? Color.fromRGBO(
+                                                          230, 42, 114, 1)
+                                                      : Colors.black,
+                                                  shape: BoxShape.circle),
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  FontAwesomeIcons.heart,
+                                                  size: 18,
+                                                  color: Colors.white,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    liked = true;
+                                                  });
+                                                },
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                    Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 5,
+                                            bottom: 5,
+                                          ),
+                                          child: Container(
+                                            height: 30,
+                                            width: 70,
+                                            child: SizedBox.expand(
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                style: ElevatedButton.styleFrom(
+                                                  onPrimary: Theme.of(context)
+                                                      .buttonColor
+                                                      .withOpacity(1),
+                                                  primary: Theme.of(context)
+                                                      .buttonColor
+                                                      .withOpacity(0.9),
+                                                ),
+                                                child: Text(
+                                                  products[index].categoryName,
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Row(
-                            children: [
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, top: 5, bottom: 10),
+                                    child: Text(
+                                      products[index].name,
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(FontAwesomeIcons.exclamationCircle,
+                                      color: Theme.of(context).buttonColor,
+                                      size: 22)
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20.0, right: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      size: 23,
+                                      color: Color.fromRGBO(241, 196, 16, 1),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 23,
+                                      color: Color.fromRGBO(241, 196, 16, 1),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 23,
+                                      color: Color.fromRGBO(241, 196, 16, 1),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 23,
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      size: 23,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "52 Reviews",
+                                      style: TextStyle(
+                                          color: Colors.black87, fontSize: 18),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.globeAfrica,
+                                      color: Colors.black,
+                                      size: 19,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                    ),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Text(
+                                        'Addis Ababa',
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 7.0,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      color: Colors.black54,
+                                      size: 19,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                    ),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Text(
+                                        'Addis Ababa, Ethiopia',
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 20,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 20.0, top: 5, bottom: 10),
+                                    left: 20.0, top: 5, bottom: 20),
                                 child: Text(
-                                  products[index].name,
+                                  'Timings : 10am - 10pm',
                                   style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.black87,
+                                    fontSize: 20,
+                                  ),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
                               SizedBox(
-                                width: 5,
+                                height: 10,
                               ),
-                              Icon(FontAwesomeIcons.exclamationCircle,
-                                  color: Theme.of(context).buttonColor,
-                                  size: 22)
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, right: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  size: 23,
-                                  color: Color.fromRGBO(241, 196, 16, 1),
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: 23,
-                                  color: Color.fromRGBO(241, 196, 16, 1),
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: 23,
-                                  color: Color.fromRGBO(241, 196, 16, 1),
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: 23,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  size: 23,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "52 Reviews",
-                                  style: TextStyle(
-                                      color: Colors.black87, fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: Icon(
-                                  FontAwesomeIcons.globeAfrica,
-                                  color: Colors.black,
-                                  size: 19,
-                                ),
+                              Container(
+                                  height: 3,
+                                  color: Theme.of(context)
+                                      .scaffoldBackgroundColor),
+                              SizedBox(
+                                height: 5,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10.0,
-                                ),
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  child: Text(
-                                    'Addis Ababa',
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.mail,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.phone,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        FontAwesomeIcons.globe,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        FontAwesomeIcons.solidComments,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.share,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.directions,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    'Get Directions',
                                     style: TextStyle(
                                       color: Colors.black87,
                                       fontSize: 18,
                                     ),
                                     textAlign: TextAlign.left,
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 7.0,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.black54,
-                                  size: 19,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10.0,
-                                ),
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  child: Text(
-                                    'Addis Ababa, Ethiopia',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 20,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, top: 5, bottom: 20),
-                            child: Text(
-                              'Timings : 10am - 10pm',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 20,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                              height: 3,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 18.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.mail,
-                                    color: Colors.black,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.black,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    FontAwesomeIcons.globe,
-                                    color: Colors.black,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    FontAwesomeIcons.solidComments,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.share,
-                                    color: Colors.black,
-                                    size: 19,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 18.0),
-                                child: Container(
-                                  height: 34,
-                                  width: 34,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(247, 247, 251, 1),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.directions,
-                                    color: Colors.black,
-                                    size: 19,
-                                  ),
-                                ),
+                                ],
                               ),
                               SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                'Get Directions',
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 18,
-                                ),
-                                textAlign: TextAlign.left,
+                                height: 10.0,
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                );
+              },
+              itemCount: products.length),
+          Center(
+            child: TextButton(
+              child: Text(
+                loadMore,
+                style: TextStyle(fontSize: 17),
               ),
-            );
-          },
-          itemCount: products.length),
+              onPressed: () {
+                if (paginator.next != null)
+                  _loadMore(paginator.next);
+                else
+                  setState(() {
+                    loadMore = "No more data";
+                  });
+              },
+            ),
+          )
+        ],
+      ),
     );
+  }
+
+  Future<bool> _loadMore(page) async {
+    await CompanyAndProductAPI()
+        .getProductsByMainCategory(widget.data['type'], page)
+        .then((value) {
+      products.addAll(value["products"]);
+      setState(() {
+        paginator = value["paginator"];
+        addingMore = true;
+      });
+    });
+
+    return true;
   }
 }

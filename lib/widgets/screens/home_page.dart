@@ -418,8 +418,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProductGrid(context) {
-    return FutureBuilder<List<Product>>(
-      future: CompanyAndProductAPI().getProductsByMainCategory("All"),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: CompanyAndProductAPI().getProductsByMainCategory("All", "1"),
       builder: (BuildContext context, snapshot) {
         if (!snapshot.hasData)
           return Center(
@@ -429,7 +429,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         else {
-          List<Product> products = snapshot.data;
+          List<Product> products = snapshot.data["products"];
           if (products.length == 0)
             return Center(
                 child: Padding(

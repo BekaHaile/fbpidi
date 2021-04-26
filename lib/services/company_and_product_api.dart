@@ -51,7 +51,7 @@ class CompanyAndProductAPI {
           headers: {"Accept": "application/json"});
 
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Company company = Company.fromMap(data);
       return company;
     } catch (e) {
@@ -61,22 +61,29 @@ class CompanyAndProductAPI {
   }
 
   //Get list of products based on main category
-  Future<List<Product>> getProductsByMainCategory(category) async {
+  Future<Map<String, dynamic>> getProductsByMainCategory(category, page) async {
     // category: Beverage or Food or Pharmaceutical  or all
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/product/product-by-main-category/?category=$category"), //uri of api
+            "$baseUrl/api/product/product-by-main-category/?category=$category&page=$page"), //uri of api
         headers: {"Accept": "application/json"},
       );
 
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Product> products = [];
       data["products"].forEach((prod) {
         products.add(Product.fromMap(prod));
       });
-      return products;
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "products": products,
+        "paginator": paginator
+      };
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');
