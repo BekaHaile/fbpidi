@@ -69,7 +69,9 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                               return CircularProgressIndicator();
                             else {
                               return Text(
-                                snapshot.data,
+                                snapshot.data == null
+                                    ? "Username"
+                                    : snapshot.data,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18.0),
                               );
@@ -133,7 +135,20 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 _buildRow(FontAwesomeIcons.solidQuestionCircle, "Faqs", 15),
                 _buildDivider(),
                 _buildRow(FontAwesomeIcons.infoCircle, "Help and Support", 15),
-                _buildRow(FontAwesomeIcons.powerOff, "Logout", 15)
+                FutureBuilder<String>(
+                    future: storage.read(key: 'name'),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return CircularProgressIndicator();
+                      else {
+                        if (snapshot.data == null || snapshot.data == "")
+                          return _buildRow(
+                              FontAwesomeIcons.signInAlt, "Login", 15);
+                        else
+                          return _buildRow(
+                              FontAwesomeIcons.powerOff, "Logout", 15);
+                      }
+                    })
               ],
             ),
           ),
@@ -229,9 +244,12 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
         else if (title == "Logout") {
           final storage = new FlutterSecureStorage();
           await storage.delete(key: 'loginStatus').then((value) async {
+            await storage.write(key: 'name', value: '');
             await storage.write(key: 'loginStatus', value: 'false');
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/homePage');
           });
+        } else if (title == "Login") {
+          Navigator.pushNamed(context, '/login');
         } else if (title == "Manufacturers")
           Navigator.pushReplacementNamed(context, "/companies",
               arguments: {'type': 'All'});

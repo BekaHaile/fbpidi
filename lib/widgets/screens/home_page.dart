@@ -61,8 +61,8 @@ class _HomePageState extends State<HomePage> {
           _buildCategoriesGrid(),
           _buildHorizontalList(
               "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
-          _buildHorizontalList(
-              "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
+          // _buildHorizontalList(
+          //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
           _buildHorizontalList("Researches", Color.fromRGBO(217, 226, 241, 1)),
           Column(
             children: [
@@ -78,7 +78,8 @@ class _HomePageState extends State<HomePage> {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        print("hello");
+                        Navigator.pushReplacementNamed(context, "/products",
+                            arguments: {'type': 'All'});
                       },
                       child: Text("More"),
                     ),
@@ -175,7 +176,11 @@ class _HomePageState extends State<HomePage> {
                   Spacer(),
                   InkWell(
                     onTap: () {
-                      print("hello");
+                      if (title == "Manufacturer")
+                        Navigator.pushReplacementNamed(context, '/companies',
+                            arguments: {'type': 'All'});
+                      else
+                        Navigator.pushReplacementNamed(context, "/researches");
                     },
                     child: Text("More"),
                   ),
