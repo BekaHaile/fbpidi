@@ -1,4 +1,4 @@
-package com.example.fbpidi
+package com.fbpidi
 
 import io.flutter.embedding.android.FlutterActivity
 

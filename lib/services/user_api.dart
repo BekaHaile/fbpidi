@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/strings/strings.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -8,19 +9,16 @@ class UserApi {
 
   //Get profile data
   Future<Map<String, dynamic>> getProfile(token) async {
-    print(token + ' ****is the token');
     var response =
         await http.get(Uri.encodeFull("$baseUrl/api/mydash/"), //uri of api
             headers: {
           "Authorization": "Token $token",
         });
 
-    print(response.body);
-
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
 
     return data;
   }
@@ -49,7 +47,7 @@ class UserApi {
       print(e.toString() + 'has occured ****');
     }
     Map<dynamic, dynamic> data2 = jsonDecode(response.body);
-    print(data2);
+    // print(data2);
     return data2;
 
     // var response;
@@ -78,6 +76,34 @@ class UserApi {
     // }
   }
 
+  //update profile
+  Future<dynamic> updateUser(User user, String path) async {
+    var response;
+    path = "/data/user/0/com.fbpidi/cache/file_picker/IMG_20210417_125234.jpg";
+    try {
+      var uri = Uri.parse("$baseUrl/api/mydash/");
+      var request = http.MultipartRequest('POST', uri);
+      request.files
+          .add(await http.MultipartFile.fromPath('profile_image ', path));
+      request.fields['username'] = user.username;
+      request.fields['first_name'] = user.firstName;
+      request.fields['last_name'] = user.lastName;
+      request.fields['phone_number'] = user.phoneNumber;
+      request.fields['email'] = user.email;
+      request.fields['password'] = user.password;
+      request.fields['password2'] = user.password;
+      response = await request.send();
+      // print("about to decode response /////////");
+
+      final respStr = await response.stream.bytesToString();
+
+      // print("******" + respStr + "is the response *****");
+      return jsonDecode(respStr);
+    } catch (e) {
+      print(e.toString() + 'has occured ****');
+    }
+  }
+
   //user login
   Future<Map<dynamic, dynamic>> userLogin(username, password) async {
     Map<dynamic, String> data = {
@@ -97,6 +123,49 @@ class UserApi {
       print(e + 'has occured ****');
     }
     Map<dynamic, dynamic> data2 = jsonDecode(response.body);
+    return data2;
+  }
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  // ignore: missing_return
+  Future<Map<dynamic, dynamic>> loginWithGoogle() async {
+    Map<dynamic, dynamic> data2 = Map<dynamic, dynamic>();
+    await _googleSignIn.signIn().then((result) async {
+      await result.authentication.then((googleKey) async {
+        print('sing in google *******00');
+        print(googleKey.accessToken);
+        print(googleKey.idToken);
+        print(_googleSignIn.currentUser.displayName);
+
+        Map<dynamic, String> data = {
+          "access_token": googleKey.accessToken,
+        };
+        var response;
+        try {
+          response = await http.post(
+            Uri.encodeFull(
+                "$baseUrl/api/accounts/social/google-oauth2/"), //uri of api
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode(data),
+          );
+        } catch (e) {
+          print(e + 'has occured ****');
+          return {'error': true};
+        }
+        data2 = jsonDecode(response.body);
+        print(data2);
+      }).catchError((err) {
+        print('inner error: ' + err.toString());
+        return {'error': true};
+      });
+    }).catchError((err) {
+      print('error occured: ' + err.toString());
+      return {'error': true};
+    });
+
     return data2;
   }
 }

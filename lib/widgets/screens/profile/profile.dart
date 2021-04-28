@@ -1,6 +1,6 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/services/user_api.dart';
-import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -106,35 +106,35 @@ class MapScreenState extends State<Profile>
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     InkWell(
-                                                      onTap: () async {
-                                                        FilePickerResult
-                                                            result =
-                                                            await FilePicker
-                                                                .platform
-                                                                .pickFiles(
-                                                          type: FileType.custom,
-                                                          allowedExtensions: [
-                                                            'jpg',
-                                                            'png',
-                                                          ],
-                                                        );
+                                                      // onTap: () async {
+                                                      //   FilePickerResult
+                                                      //       result =
+                                                      //       await FilePicker
+                                                      //           .platform
+                                                      //           .pickFiles(
+                                                      //     type: FileType.custom,
+                                                      //     allowedExtensions: [
+                                                      //       'jpg',
+                                                      //       'png',
+                                                      //     ],
+                                                      //   );
 
-                                                        if (result != null) {
-                                                          PlatformFile file =
-                                                              result
-                                                                  .files.first;
+                                                      //   if (result != null) {
+                                                      //     PlatformFile file =
+                                                      //         result
+                                                      //             .files.first;
 
-                                                          print(file.name);
-                                                          print(file.path);
-                                                          setState(() {
-                                                            profilePath =
-                                                                file.path;
-                                                            isLocal = true;
-                                                          });
-                                                        } else {
-                                                          // User canceled the picker
-                                                        }
-                                                      },
+                                                      //     print(file.name);
+                                                      //     print(file.path);
+                                                      //     setState(() {
+                                                      //       profilePath =
+                                                      //           file.path;
+                                                      //       isLocal = true;
+                                                      //     });
+                                                      //   } else {
+                                                      //     // User canceled the picker
+                                                      //   }
+                                                      // },
                                                       child: new CircleAvatar(
                                                         backgroundColor:
                                                             Colors.deepPurple,
@@ -185,16 +185,16 @@ class MapScreenState extends State<Profile>
                                                   ),
                                                 ],
                                               ),
-                                              new Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  _status
-                                                      ? _getEditIcon()
-                                                      : new Container(),
-                                                ],
-                                              )
+                                              // new Column(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment.end,
+                                              //   mainAxisSize: MainAxisSize.min,
+                                              //   children: <Widget>[
+                                              //     _status
+                                              //         ? _getEditIcon()
+                                              //         : new Container(),
+                                              //   ],
+                                              // )
                                             ],
                                           )),
                                       Column(
@@ -492,22 +492,22 @@ class MapScreenState extends State<Profile>
     );
   }
 
-  Widget _getEditIcon() {
-    return new GestureDetector(
-      child: new CircleAvatar(
-        backgroundColor: Colors.deepPurple,
-        radius: 14.0,
-        child: new Icon(
-          Icons.edit,
-          color: Colors.white,
-          size: 16.0,
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          _status = false;
-        });
-      },
-    );
-  }
+  // Widget _getEditIcon() {
+  //   return new GestureDetector(
+  //     child: new CircleAvatar(
+  //       backgroundColor: Colors.deepPurple,
+  //       radius: 14.0,
+  //       child: new Icon(
+  //         Icons.edit,
+  //         color: Colors.white,
+  //         size: 16.0,
+  //       ),
+  //     ),
+  //     onTap: () {
+  //       setState(() {
+  //         _status = false;
+  //       });
+  //     },
+  //   );
+  // }
 }

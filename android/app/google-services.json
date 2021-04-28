@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "167215115342",
+    "project_id": "fbpidi-79fd6",
+    "storage_bucket": "fbpidi-79fd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167215115342:android:1ecd57a77213caaf9ae71f",
+        "android_client_info": {
+          "package_name": "com.fbpidi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167215115342-l2t47i77ipc0qdvvqvqfqq0epvg7ho5m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fbpidi",
+            "certificate_hash": "29a9ddb643377efa9b190acc5f9826222a252af7"
+          }
+        },
+        {
+          "client_id": "167215115342-nr1ukrass746qtpfh0vpbf5cek3eagck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsiNN9Q37KtENKNvTGlXiLRJ30rpch4vM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167215115342-nr1ukrass746qtpfh0vpbf5cek3eagck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

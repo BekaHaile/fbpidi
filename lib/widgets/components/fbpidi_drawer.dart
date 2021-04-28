@@ -63,18 +63,24 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                       ),
                       SizedBox(height: 5.0),
                       FutureBuilder<String>(
-                          future: storage.read(key: 'name'),
+                          future: storage.read(key: 'loginStatus'),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
                               return CircularProgressIndicator();
                             else {
-                              return Text(
-                                snapshot.data == null
-                                    ? "Username"
-                                    : snapshot.data,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18.0),
-                              );
+                              return FutureBuilder<String>(
+                                  future: storage.read(key: 'name'),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData)
+                                      return CircularProgressIndicator();
+                                    else
+                                      return Text(
+                                        snapshot.data,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.0),
+                                      );
+                                  });
                             }
                           }),
                       SizedBox(height: 10.0),
@@ -136,12 +142,12 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 _buildDivider(),
                 _buildRow(FontAwesomeIcons.infoCircle, "Help and Support", 15),
                 FutureBuilder<String>(
-                    future: storage.read(key: 'name'),
+                    future: storage.read(key: 'loginStatus'),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
                         return CircularProgressIndicator();
                       else {
-                        if (snapshot.data == null || snapshot.data == "")
+                        if (snapshot.data == "false")
                           return _buildRow(
                               FontAwesomeIcons.signInAlt, "Login", 15);
                         else

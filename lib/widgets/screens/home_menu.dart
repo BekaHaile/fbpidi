@@ -30,14 +30,9 @@ class _HomeState extends State<Home> {
 
   writeStatus() async {
     try {
-      await storage.read(key: 'loginStatus').then((value) async {
-        if (value.isEmpty)
-          await storage.write(key: 'loginStatus', value: 'false');
-        else
-          isLoggedIn = value;
-      });
-    } catch (e) {
       await storage.write(key: 'loginStatus', value: 'false');
+    } catch (e) {
+      print("Exception: " + e.toString());
     }
   }
 

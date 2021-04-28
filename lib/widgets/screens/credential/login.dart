@@ -16,6 +16,7 @@ class _LoginSevenPageState extends State<LoginPage> {
       controllerPassword = TextEditingController();
   bool isError = false;
   String message = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +110,11 @@ class _LoginSevenPageState extends State<LoginPage> {
                           borderRadius: new BorderRadius.circular(7.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await UserApi().loginWithGoogle().then((response) {
+                          loginResponse(response);
+                        });
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -322,42 +327,7 @@ class _LoginSevenPageState extends State<LoginPage> {
                     UserApi()
                         .userLogin(controllerUser.text, controllerPassword.text)
                         .then((response) async {
-                      if (response['token'] != null) {
-                        Map<String, dynamic> data =
-                            await UserApi().getProfile(response['token']);
-                        if (data["error"]) {
-                          setState(() {
-                            message = data['message'];
-                            isError = true;
-                          });
-                        } else {
-                          User user = User.fromMap(data["user_detail"]);
-                          final storage = new FlutterSecureStorage();
-                          await storage.write(
-                              key: 'name',
-                              value: "${user.firstName} ${user.lastName}");
-                          await storage.write(
-                              key: 'token', value: response['token']);
-                          await storage.write(
-                              key: 'loginStatus', value: 'true');
-                          if (widget.data != null &&
-                              widget.data["id"] != null) {
-                            Navigator.pushReplacementNamed(
-                                context, widget.data["route"],
-                                arguments: {'id': widget.data['id']});
-                          } else if (widget.data != null)
-                            Navigator.pushReplacementNamed(
-                                context, widget.data["route"]);
-                          else
-                            Navigator.pop(context);
-                        }
-                      } else {
-                        print(response['non_field_errors']);
-                        setState(() {
-                          message = response['non_field_errors'][0];
-                          isError = true;
-                        });
-                      }
+                      loginResponse(response);
                     });
                   },
                 ),
@@ -403,6 +373,39 @@ class _LoginSevenPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  loginResponse(response) async {
+    if (response['token'] != null) {
+      Map<String, dynamic> data = await UserApi().getProfile(response['token']);
+      if (data["error"]) {
+        setState(() {
+          message = data['message'];
+          isError = true;
+        });
+      } else {
+        User user = User.fromMap(data["user_detail"]);
+
+        final storage = new FlutterSecureStorage();
+        await storage.write(
+            key: 'name', value: "${user.firstName} ${user.lastName}");
+        await storage.write(key: 'token', value: response['token']);
+        await storage.write(key: 'loginStatus', value: 'true');
+        if (widget.data != null && widget.data["id"] != null) {
+          Navigator.pushReplacementNamed(context, widget.data["route"],
+              arguments: {'id': widget.data['id']});
+        } else if (widget.data != null)
+          Navigator.pushReplacementNamed(context, widget.data["route"]);
+        else
+          Navigator.pop(context);
+      }
+    } else {
+      print(response['non_field_errors']);
+      setState(() {
+        message = response['non_field_errors'][0];
+        isError = true;
+      });
+    }
   }
 }
 
