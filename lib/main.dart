@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/homePage': (BuildContext context) => Home(),
           '/signUp': (BuildContext context) => SignUp(),
-          '/login': (BuildContext context) => LoginPage(),
           '/announcements': (BuildContext context) => Announcements(),
           '/blogs': (BuildContext context) => Blogs(),
           '/forums': (BuildContext context) => Forums(),
@@ -80,6 +79,11 @@ class MyApp extends StatelessWidget {
             case '/allCategories':
               return MaterialPageRoute(
                   builder: (_) => AllCategories(
+                        requests,
+                      ));
+            case '/login':
+              return MaterialPageRoute(
+                  builder: (_) => LoginPage(
                         requests,
                       ));
             case '/productsPage':

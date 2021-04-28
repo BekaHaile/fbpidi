@@ -5,6 +5,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
+  final data;
+  LoginPage(this.data);
   @override
   _LoginSevenPageState createState() => _LoginSevenPageState();
 }
@@ -338,7 +340,16 @@ class _LoginSevenPageState extends State<LoginPage> {
                               key: 'token', value: response['token']);
                           await storage.write(
                               key: 'loginStatus', value: 'true');
-                          Navigator.pushNamed(context, '/homePage');
+                          if (widget.data != null &&
+                              widget.data["id"] != null) {
+                            Navigator.pushReplacementNamed(
+                                context, widget.data["route"],
+                                arguments: {'id': widget.data['id']});
+                          } else if (widget.data != null)
+                            Navigator.pushReplacementNamed(
+                                context, widget.data["route"]);
+                          else
+                            Navigator.pop(context);
                         }
                       } else {
                         print(response['non_field_errors']);

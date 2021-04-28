@@ -329,12 +329,24 @@ class _VacanciesState extends State<Vacancies> {
                                                 primary: Theme.of(context)
                                                     .buttonColor,
                                               ),
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, "/vacancyApply",
-                                                    arguments: {
-                                                      "id": vacancies[index].id
+                                              onPressed: () async {
+                                                await CollaborationsApi()
+                                                    .getLoginStatus()
+                                                    .then((status) {
+                                                  if (status == "true")
+                                                    Navigator.pushNamed(context,
+                                                        "/vacancyApply",
+                                                        arguments: {
+                                                          "id": vacancies[index]
+                                                              .id
+                                                        });
+                                                  else
+                                                    Navigator.pushNamed(context,
+                                                        "/login", arguments: {
+                                                      'route': '/vacancyApply',
+                                                      'id': vacancies[index].id
                                                     });
+                                                });
                                               },
                                               child: Text(
                                                 "Apply",

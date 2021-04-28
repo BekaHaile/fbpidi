@@ -371,9 +371,21 @@ class _PollsState extends State<Polls> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/pollDetail',
-                                      arguments: {'id': polls[index].id});
+                                onPressed: () async {
+                                  await CollaborationsApi()
+                                      .getLoginStatus()
+                                      .then((status) {
+                                    if (status == "true")
+                                      Navigator.pushNamed(
+                                          context, '/pollDetail',
+                                          arguments: {'id': polls[index].id});
+                                    else
+                                      Navigator.pushNamed(context, "/login",
+                                          arguments: {
+                                            'route': '/pollDetail',
+                                            'id': polls[index].id
+                                          });
+                                  });
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Theme.of(context).buttonColor,

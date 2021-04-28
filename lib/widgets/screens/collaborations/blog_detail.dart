@@ -361,14 +361,22 @@ class BlogDetail extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       await CollaborationsApi()
-                          .commentOnBlog(id, commentController.text, "create")
-                          .then((value) {
-                        if (value["error"])
-                          _confirmationDialogue(
-                              context, value["message"], true);
+                          .getLoginStatus()
+                          .then((status) async {
+                        if (status == "true")
+                          await CollaborationsApi()
+                              .commentOnBlog(
+                                  id, commentController.text, "create")
+                              .then((value) {
+                            if (value["error"])
+                              _confirmationDialogue(
+                                  context, value["message"], true);
+                            else
+                              _confirmationDialogue(
+                                  context, value["message"], false);
+                          });
                         else
-                          _confirmationDialogue(
-                              context, value["message"], false);
+                          Navigator.pushNamed(context, "/login");
                       });
                     },
                     child: Text(

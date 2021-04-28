@@ -20,10 +20,16 @@ import 'dart:convert';
 class CollaborationsApi {
   String baseUrl = Strings().baseUrl;
 
-  getToken() async {
+  Future<String> getToken() async {
     final storage = new FlutterSecureStorage();
     String token = await storage.read(key: 'token');
     return token;
+  }
+
+  Future<String> getLoginStatus() async {
+    final storage = new FlutterSecureStorage();
+    String status = await storage.read(key: 'loginStatus');
+    return status;
   }
 
   //Get all projects
@@ -37,7 +43,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Project> projects = [];
       data['projects'].forEach((project) {
         projects.add(Project.fromMap(project));
@@ -103,8 +109,7 @@ class CollaborationsApi {
   //Get research category
   Future<List<ResearchCategory>> getResearchCategory() async {
     try {
-      final storage = new FlutterSecureStorage();
-      String token = await storage.read(key: 'token');
+      String token = await getToken();
 
       var response = await http.get(
           Uri.encodeFull(
@@ -139,33 +144,22 @@ class CollaborationsApi {
     try {
       var uri = Uri.parse("$baseUrl/api/collaborations/create_research/");
       var request = http.MultipartRequest('POST', uri);
-      print('data is the following ***** = ' +
-          research.title +
-          ' ' +
-          research.status +
-          ' ' +
-          research.category +
-          ' ' +
-          research.description +
-          ' ' +
-          path);
+
       request.files
           .add(await http.MultipartFile.fromPath('attachements', path));
       request.fields['title'] = research.title;
       request.fields['status'] = research.status;
       request.fields['category'] = research.category;
       request.fields['description'] = research.description;
-      // request.fields['detail'] = research.detail;
-      final storage = new FlutterSecureStorage();
-      String token = await storage.read(key: 'token');
+      //
+      String token = await getToken();
 
       request.headers['Authorization'] = "Token " + token;
 
       response = await request.send();
-      print("about to decode response /////////");
+
       final respStr = await response.stream.bytesToString();
-      // Map<dynamic, dynamic> data2 = jsonDecode(response);
-      print("******" + respStr + "is the response *****");
+
       return respStr;
 
       // response = await http.post(
@@ -192,7 +186,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Vacancy> vacancies = [];
       data['vacancies'].forEach((vacancy) {
         vacancies.add(Vacancy.fromMap(vacancy));
@@ -207,8 +201,7 @@ class CollaborationsApi {
   //Get all vacancy category
   Future<Map<dynamic, dynamic>> getVacancyStatus(id) async {
     try {
-      final storage = new FlutterSecureStorage();
-      String token = await storage.read(key: 'token');
+      String token = await getToken();
 
       var response = await http.get(
           Uri.encodeFull(
@@ -218,7 +211,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       return data;
     } catch (e) {
       print("Error: " + e.toString());
@@ -237,7 +230,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Vacancy vacancy = Vacancy.fromMap(data["vacancy"]);
 
       return vacancy;
@@ -257,7 +250,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Vacancy> vacancies = [];
       data['vacancies'].forEach((vacancy) {
         vacancies.add(Vacancy.fromMap(vacancy));
@@ -277,17 +270,6 @@ class CollaborationsApi {
   Future<dynamic> vacancyApply(Map<String, dynamic> userApplying) async {
     var response;
     try {
-      print(userApplying['cv'] +
-          userApplying['documents'] +
-          userApplying['id'] +
-          userApplying['institiute'] +
-          userApplying['grade'] +
-          userApplying['field'] +
-          userApplying['status'] +
-          userApplying['bio'] +
-          userApplying['experiance'] +
-          '**********');
-
       var uri = Uri.parse("$baseUrl/api/collaborations/vacancy_apply/");
       var request = http.MultipartRequest('POST', uri);
 
@@ -303,16 +285,14 @@ class CollaborationsApi {
       request.fields['bio'] = userApplying['bio'];
       request.fields['experiance'] = userApplying['experiance'];
 
-      final storage = new FlutterSecureStorage();
-      String token = await storage.read(key: 'token');
+      String token = await getToken();
 
       request.headers['Authorization'] = "Token " + token;
 
       response = await request.send();
-      print("about to decode response /////////");
+
       final respStr = await response.stream.bytesToString();
-      // Map<dynamic, dynamic> data2 = jsonDecode(response);
-      print("******" + respStr + "is the response *****");
+
       return respStr;
     } catch (e) {
       print(e.toString() + 'has occured ****');
@@ -331,7 +311,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Tender> tenders = [];
       data['tenders'].forEach((tender) {
         tenders.add(Tender.fromMap(tender));
@@ -354,7 +334,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Tender tender = Tender.fromMap(data["tender"]);
 
       return tender;
@@ -367,8 +347,8 @@ class CollaborationsApi {
   ///Apply for a tender
   Future<dynamic> participateInTender(data) async {
     var response;
-    final storage = new FlutterSecureStorage();
-    String token = await storage.read(key: 'token');
+
+    String token = await getToken();
     try {
       response = await http.post(
         Uri.encodeFull("$baseUrl/api/collaborations/poll_detail/"), //uri of api
@@ -381,7 +361,7 @@ class CollaborationsApi {
       print("Error:" + e.toString());
     }
 
-    print(response.body);
+    // print(response.body);
 
     return response.body;
   }
@@ -397,7 +377,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Forum> forums = [];
       data['forums'].forEach((forum) {
         forums.add(Forum.fromMap(forum));
@@ -420,7 +400,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Forum forum = Forum.fromMap(data["forum"]);
 
       return forum;
@@ -449,8 +429,7 @@ class CollaborationsApi {
 
   //Get poll detail
   Future<Poll> getPollDetail(id) async {
-    final storage = new FlutterSecureStorage();
-    String token = await storage.read(key: 'token');
+    String token = await getToken();
     var response = await http.get(
         Uri.encodeFull(
             "$baseUrl/api/collaborations/poll_detail/?id=$id"), //uri of api
@@ -459,7 +438,7 @@ class CollaborationsApi {
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
     Poll poll = Poll.fromMap(data["data"], true);
 
     return poll;
@@ -489,7 +468,7 @@ class CollaborationsApi {
     }
 
     Map<String, dynamic> data2 = jsonDecode(response.body);
-    print(data2); //Response from the api
+    // print(data2); //Response from the api
 
     return data2;
   }
@@ -503,7 +482,7 @@ class CollaborationsApi {
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
     List<News> newsList = [];
     data['news_list'].forEach((news) {
       newsList.add(News.fromMap(news));
@@ -521,7 +500,7 @@ class CollaborationsApi {
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
     News news = News.fromMap(data['news']);
 
     return news;
@@ -538,7 +517,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       List<Event> events = [];
       data["event_list"].forEach((event) {
         events.add(Event.fromMap(event));
@@ -565,7 +544,7 @@ class CollaborationsApi {
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
+      // print(data); //Response from the api
       Event event = Event.fromMap(data["event"]);
 
       return event;
@@ -639,7 +618,7 @@ class CollaborationsApi {
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
     List<Blog> blogs = [];
     data["blogs"].forEach((blog) {
       blogs.add(Blog.fromMap(blog));
@@ -657,7 +636,7 @@ class CollaborationsApi {
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
-    print(data); //Response from the api
+    // print(data); //Response from the api
     Blog blog = Blog.fromMap(data["blog"]);
     //todo: return comments for the blog using a map<String, dynamic> and combining with the blog
     return blog;
@@ -688,7 +667,7 @@ class CollaborationsApi {
     }
 
     Map<String, dynamic> data2 = jsonDecode(response.body);
-    print(data2); //Response from the api
+    // print(data2); //Response from the api
 
     return data2;
   }
@@ -700,7 +679,7 @@ class CollaborationsApi {
             "$baseUrl/api/collaborations/faqs/?page=$page"), //uri of api
         headers: {"Accept": "application/json"});
 
-    print(response.body);
+    // print(response.body);
     String body = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> data = jsonDecode(body);
