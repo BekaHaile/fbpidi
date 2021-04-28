@@ -95,7 +95,7 @@ class NewsDetail extends StatelessWidget {
                                           fit: BoxFit.fill,
                                           child: Image.network(
                                             CollaborationsApi().baseUrl +
-                                                news.images[0],
+                                                news.image,
                                           ),
                                         ),
                                       ),
@@ -310,7 +310,7 @@ class NewsDetail extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.fill,
                         child: Image.network(
-                          CollaborationsApi().baseUrl + news.images[0],
+                          CollaborationsApi().baseUrl + news.image,
                         ),
                       ),
                     ),

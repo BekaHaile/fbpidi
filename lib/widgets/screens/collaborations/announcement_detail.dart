@@ -103,7 +103,7 @@ class AnnouncementDetail extends StatelessWidget {
                                           fit: BoxFit.fill,
                                           child: Image.network(
                                             CollaborationsApi().baseUrl +
-                                                announcement.company.logo,
+                                                announcement.image,
                                           ),
                                         ),
                                       ),
@@ -198,7 +198,7 @@ class AnnouncementDetail extends StatelessWidget {
     );
   }
 
-  Widget _companyCard(context, Announcement event) {
+  Widget _companyCard(context, Announcement announcement) {
     return Card(
       color: Colors.white,
       child: Container(
@@ -225,7 +225,7 @@ class AnnouncementDetail extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
-                    CollaborationsApi().baseUrl + event.company.logo,
+                    CollaborationsApi().baseUrl + announcement.company.logo,
                   ),
                   radius: MediaQuery.of(context).size.width * 0.23,
                 ),
@@ -234,7 +234,7 @@ class AnnouncementDetail extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 15),
                   child: Text(
-                    event.company.name,
+                    announcement.company.name,
                     style: TextStyle(
                         color: Colors.black87,
                         fontSize: 24,
@@ -255,7 +255,7 @@ class AnnouncementDetail extends StatelessWidget {
                 ),
               ),
               _contactInfo(context, Icons.flag,
-                  event.company.companyAddress['city_town']),
+                  announcement.company.companyAddress['city_town']),
               SizedBox(
                 height: 15.0,
               ),
@@ -264,7 +264,7 @@ class AnnouncementDetail extends StatelessWidget {
                 height: 15.0,
               ),
               _contactInfo(context, Icons.phone,
-                  event.company.companyAddress['phone_number']),
+                  announcement.company.companyAddress['phone_number']),
               SizedBox(
                 height: 15.0,
               ),

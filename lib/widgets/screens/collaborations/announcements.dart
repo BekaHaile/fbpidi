@@ -203,7 +203,7 @@ class _AnnouncementsState extends State<Announcements> {
                               fit: BoxFit.fill,
                               child: Image.network(
                                 CollaborationsApi().baseUrl +
-                                    announcement[index].company.logo,
+                                    announcement[index].image,
                               ),
                             ),
                           ),

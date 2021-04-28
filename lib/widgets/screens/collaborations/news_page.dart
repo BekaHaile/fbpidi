@@ -240,7 +240,7 @@ class _NewsState extends State<NewsPage> {
                                   fit: BoxFit.fill,
                                   child: Image.network(
                                     CollaborationsApi().baseUrl +
-                                        news[index].images[0],
+                                        news[index].image,
                                   ),
                                 ),
                               ),

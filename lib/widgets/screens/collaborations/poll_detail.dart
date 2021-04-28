@@ -67,7 +67,7 @@ class _PollDetailState extends State<PollDetail> {
                                       ),
                                     ),
                                     _productIcons(context, Icons.person,
-                                        'By: ${poll.createdBy}'),
+                                        'By: ${poll.createdBy['firstName']}'),
                                     SizedBox(
                                       width: 5.0,
                                     ),
