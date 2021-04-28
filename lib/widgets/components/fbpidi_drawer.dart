@@ -68,19 +68,26 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                             if (!snapshot.hasData)
                               return CircularProgressIndicator();
                             else {
-                              return FutureBuilder<String>(
-                                  future: storage.read(key: 'name'),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData)
-                                      return CircularProgressIndicator();
-                                    else
-                                      return Text(
-                                        snapshot.data,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.0),
-                                      );
-                                  });
+                              if (snapshot.data == 'false')
+                                return Text(
+                                  'username',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18.0),
+                                );
+                              else
+                                return FutureBuilder<String>(
+                                    future: storage.read(key: 'name'),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData)
+                                        return CircularProgressIndicator();
+                                      else
+                                        return Text(
+                                          snapshot.data,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.0),
+                                        );
+                                    });
                             }
                           }),
                       SizedBox(height: 10.0),

@@ -154,6 +154,7 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.black,
                           )),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -171,7 +172,13 @@ class _SignUpState extends State<SignUp> {
                                     primary: Color.fromRGBO(221, 75, 57, 1),
                                     onPrimary: Theme.of(context).disabledColor,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    UserApi()
+                                        .loginWithGoogle()
+                                        .then((response) {
+                                      loginResponse(response);
+                                    });
+                                  },
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -196,39 +203,7 @@ class _SignUpState extends State<SignUp> {
                           Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.13,
-                              height: 50.0,
-                              child: SizedBox.expand(
-                                child: ElevatedButton(
-                                  key: Key('raised'),
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(7.0),
-                                    ),
-                                    primary: Color.fromRGBO(29, 161, 242, 1),
-                                    onPrimary: Theme.of(context).disabledColor,
-                                  ),
-                                  onPressed: () {},
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.twitter,
-                                        color: Colors.white,
-                                        size: 21,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.13,
+                              width: 60,
                               height: 50.0,
                               child: SizedBox.expand(
                                 child: ElevatedButton(
@@ -241,7 +216,13 @@ class _SignUpState extends State<SignUp> {
                                     primary: Color.fromRGBO(59, 89, 152, 1),
                                     onPrimary: Theme.of(context).disabledColor,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await UserApi()
+                                        .loginWithFacebook()
+                                        .then((response) {
+                                      loginResponse(response);
+                                    });
+                                  },
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -257,38 +238,38 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.13,
-                              height: 50.0,
-                              child: SizedBox.expand(
-                                child: ElevatedButton(
-                                  key: Key('raised'),
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(7.0),
-                                    ),
-                                    primary: Color.fromRGBO(24, 23, 23, 1),
-                                    onPrimary: Theme.of(context).disabledColor,
-                                  ),
-                                  onPressed: () {},
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.gitAlt,
-                                        color: Colors.white,
-                                        size: 21,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(6.0),
+                          //   child: Container(
+                          //     width: 60,
+                          //     height: 50.0,
+                          //     child: SizedBox.expand(
+                          //       child: ElevatedButton(
+                          //         key: Key('raised'),
+                          //         style: ElevatedButton.styleFrom(
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius:
+                          //                 new BorderRadius.circular(7.0),
+                          //           ),
+                          //           primary: Color.fromRGBO(24, 23, 23, 1),
+                          //           onPrimary: Theme.of(context).disabledColor,
+                          //         ),
+                          //         onPressed: () {},
+                          //         child: Row(
+                          //           mainAxisAlignment:
+                          //               MainAxisAlignment.spaceEvenly,
+                          //           children: [
+                          //             Icon(
+                          //               FontAwesomeIcons.gitAlt,
+                          //               color: Colors.white,
+                          //               size: 21,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -352,6 +333,33 @@ class _SignUpState extends State<SignUp> {
             ],
           );
         });
+  }
+
+  loginResponse(response) async {
+    if (response['token'] != null) {
+      Map<String, dynamic> data = await UserApi().getProfile(response['token']);
+      if (data["error"]) {
+        setState(() {
+          message = data['message'];
+          isError = true;
+        });
+      } else {
+        User user = User.fromMap(data["user_detail"]);
+
+        final storage = new FlutterSecureStorage();
+        await storage.write(
+            key: 'name', value: "${user.firstName} ${user.lastName}");
+        await storage.write(key: 'token', value: response['token']);
+        await storage.write(key: 'loginStatus', value: 'true');
+        Navigator.pop(context);
+      }
+    } else {
+      print(response['non_field_errors']);
+      setState(() {
+        message = response['non_field_errors'][0];
+        isError = true;
+      });
+    }
   }
 }
 

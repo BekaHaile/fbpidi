@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/strings/strings.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -167,5 +168,40 @@ class UserApi {
     });
 
     return data2;
+  }
+
+  Future<Map<String, dynamic>> loginWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login(permissions: [
+      'public_profile',
+      'email'
+    ]); // by default we request the email and the public profile
+    print(result);
+    if (result.status == LoginStatus.success) {
+      // you are logged
+      final AccessToken accessToken = result.accessToken;
+      print(accessToken);
+
+      Map<dynamic, String> data = {
+        "access_token": accessToken.token,
+      };
+      var response;
+      try {
+        response = await http.post(
+          Uri.encodeFull("$baseUrl/api/accounts/social/facebook/"), //uri of api
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: jsonEncode(data),
+        );
+      } catch (e) {
+        print(e + 'has occured ****');
+        return {'error': true};
+      }
+      Map<String, dynamic> data2 = jsonDecode(response.body);
+      print(data2);
+
+      return data2;
+    } else
+      return {'error': true};
   }
 }

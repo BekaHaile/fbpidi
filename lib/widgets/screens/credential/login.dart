@@ -93,6 +93,7 @@ class _LoginSevenPageState extends State<LoginPage> {
             height: 30,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -138,37 +139,7 @@ class _LoginSevenPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.13,
-                  height: 50.0,
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      key: Key('raised'),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(7.0),
-                        ),
-                        primary: Color.fromRGBO(29, 161, 242, 1),
-                        onPrimary: Theme.of(context).disabledColor,
-                      ),
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.twitter,
-                            color: Colors.white,
-                            size: 21,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.13,
+                  width: 60,
                   height: 50.0,
                   child: SizedBox.expand(
                     child: ElevatedButton(
@@ -180,7 +151,11 @@ class _LoginSevenPageState extends State<LoginPage> {
                         primary: Color.fromRGBO(59, 89, 152, 1),
                         onPrimary: Theme.of(context).disabledColor,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await UserApi().loginWithFacebook().then((response) {
+                          loginResponse(response);
+                        });
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -195,36 +170,36 @@ class _LoginSevenPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.13,
-                  height: 50.0,
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      key: Key('raised'),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(7.0),
-                        ),
-                        primary: Color.fromRGBO(24, 23, 23, 1),
-                        onPrimary: Theme.of(context).disabledColor,
-                      ),
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.gitAlt,
-                            color: Colors.white,
-                            size: 21,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(6.0),
+              //   child: Container(
+              //     width: 60,
+              //     height: 50.0,
+              //     child: SizedBox.expand(
+              //       child: ElevatedButton(
+              //         key: Key('raised'),
+              //         style: ElevatedButton.styleFrom(
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: new BorderRadius.circular(7.0),
+              //           ),
+              //           primary: Color.fromRGBO(24, 23, 23, 1),
+              //           onPrimary: Theme.of(context).disabledColor,
+              //         ),
+              //         onPressed: () {},
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //           children: [
+              //             Icon(
+              //               FontAwesomeIcons.gitAlt,
+              //               color: Colors.white,
+              //               size: 21,
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           Padding(
