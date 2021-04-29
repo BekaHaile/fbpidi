@@ -179,7 +179,7 @@ class UserApi {
     if (result.status == LoginStatus.success) {
       // you are logged
       final AccessToken accessToken = result.accessToken;
-      print(accessToken);
+      print(accessToken.token);
 
       Map<dynamic, String> data = {
         "access_token": accessToken.token,

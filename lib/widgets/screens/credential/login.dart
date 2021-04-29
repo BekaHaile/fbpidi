@@ -153,7 +153,13 @@ class _LoginSevenPageState extends State<LoginPage> {
                       ),
                       onPressed: () async {
                         await UserApi().loginWithFacebook().then((response) {
-                          loginResponse(response);
+                          if (response['errors'] != null) {
+                            setState(() {
+                              message = response['errors']['detail'];
+                              isError = true;
+                            });
+                          } else
+                            loginResponse(response);
                         });
                       },
                       child: Row(
