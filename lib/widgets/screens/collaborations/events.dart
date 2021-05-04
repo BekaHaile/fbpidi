@@ -84,142 +84,142 @@ class _EventsState extends State<Events> {
     }
   }
 
-  Widget _sortList(context) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: Text(
-                'Showing 1 to 10 of 30 entries',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: Text(
-                'Sort by: ',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 55,
-              padding: EdgeInsets.only(bottom: 5),
-              child: SizedBox.expand(
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      for (int i = 0; i < 4; i++) selected[i] = false;
-                      selected[0] = true;
-                    });
+  // Widget _sortList(context) {
+  //   return Card(
+  //     color: Colors.white,
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width * 0.95,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         children: <Widget>[
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 15, bottom: 10),
+  //             child: Text(
+  //               'Showing 1 to 10 of 30 entries',
+  //               style: TextStyle(
+  //                 color: Colors.black87,
+  //                 fontSize: 18,
+  //               ),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 5.0,
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 15, bottom: 10),
+  //             child: Text(
+  //               'Sort by: ',
+  //               style: TextStyle(
+  //                 color: Colors.black87,
+  //                 fontSize: 18,
+  //               ),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 10.0,
+  //           ),
+  //           Container(
+  //             width: MediaQuery.of(context).size.width * 0.85,
+  //             height: 55,
+  //             padding: EdgeInsets.only(bottom: 5),
+  //             child: SizedBox.expand(
+  //               child: ElevatedButton(
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     for (int i = 0; i < 4; i++) selected[i] = false;
+  //                     selected[0] = true;
+  //                   });
 
-                    filter("All");
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            color: selected[0]
-                                ? Theme.of(context).buttonColor
-                                : Colors.black38)),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.32),
-                    child: Row(children: [
-                      Text(
-                        "All",
-                        style: TextStyle(
-                            color: selected[0]
-                                ? Theme.of(context).buttonColor
-                                : Colors.black54,
-                            fontSize: 18),
-                      ),
-                      Icon(
-                        FontAwesomeIcons.sort,
-                        color: selected[0]
-                            ? Theme.of(context).buttonColor
-                            : Colors.black54,
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
-            ),
-            _sortButton("Upcoming Events", context, 1),
-            _sortButton("New Events", context, 2),
-            SizedBox(
-              height: 20.0,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  //                   filter("All");
+  //                 },
+  //                 style: ElevatedButton.styleFrom(
+  //                   primary: Colors.white,
+  //                   shape: RoundedRectangleBorder(
+  //                       side: BorderSide(
+  //                           color: selected[0]
+  //                               ? Theme.of(context).buttonColor
+  //                               : Colors.black38)),
+  //                 ),
+  //                 child: Padding(
+  //                   padding: EdgeInsets.only(
+  //                       left: MediaQuery.of(context).size.width * 0.32),
+  //                   child: Row(children: [
+  //                     Text(
+  //                       "All",
+  //                       style: TextStyle(
+  //                           color: selected[0]
+  //                               ? Theme.of(context).buttonColor
+  //                               : Colors.black54,
+  //                           fontSize: 18),
+  //                     ),
+  //                     Icon(
+  //                       FontAwesomeIcons.sort,
+  //                       color: selected[0]
+  //                           ? Theme.of(context).buttonColor
+  //                           : Colors.black54,
+  //                     ),
+  //                   ]),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           _sortButton("Upcoming Events", context, 1),
+  //           _sortButton("New Events", context, 2),
+  //           SizedBox(
+  //             height: 20.0,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _sortButton(title, context, index) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      height: 55,
-      padding: EdgeInsets.only(bottom: 5),
-      child: SizedBox.expand(
-        child: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              for (int i = 0; i < 4; i++) selected[i] = false;
-              selected[index] = true;
-            });
-            switch (title) {
-              case "Upcoming Events":
-                filter("Upcoming");
-                break;
-              case "New Events":
-                filter("New");
-                break;
-              default:
-                filter("All");
-                break;
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: selected[index]
-                        ? Theme.of(context).buttonColor
-                        : Colors.grey)),
-          ),
-          child: Text(
-            title,
-            style: TextStyle(
-                color: selected[index]
-                    ? Theme.of(context).buttonColor
-                    : Colors.black54,
-                fontSize: 18),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _sortButton(title, context, index) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width * 0.85,
+  //     height: 55,
+  //     padding: EdgeInsets.only(bottom: 5),
+  //     child: SizedBox.expand(
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           setState(() {
+  //             for (int i = 0; i < 4; i++) selected[i] = false;
+  //             selected[index] = true;
+  //           });
+  //           switch (title) {
+  //             case "Upcoming Events":
+  //               filter("Upcoming");
+  //               break;
+  //             case "New Events":
+  //               filter("New");
+  //               break;
+  //             default:
+  //               filter("All");
+  //               break;
+  //           }
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           primary: Colors.white,
+  //           shape: RoundedRectangleBorder(
+  //               side: BorderSide(
+  //                   color: selected[index]
+  //                       ? Theme.of(context).buttonColor
+  //                       : Colors.grey)),
+  //         ),
+  //         child: Text(
+  //           title,
+  //           style: TextStyle(
+  //               color: selected[index]
+  //                   ? Theme.of(context).buttonColor
+  //                   : Colors.black54,
+  //               fontSize: 18),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildEventList(context) {
     return FutureBuilder<Map<String, dynamic>>(

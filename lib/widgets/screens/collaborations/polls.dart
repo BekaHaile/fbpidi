@@ -62,128 +62,128 @@ class _PollsState extends State<Polls> {
     }
   }
 
-  Widget _sortList(context) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: Text(
-                'Showing 1 to 10 of 30 entries',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: Text(
-                'Sort by: ',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 55,
-              padding: EdgeInsets.only(bottom: 5),
-              child: SizedBox.expand(
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      for (int i = 0; i < 4; i++) selected[i] = false;
-                      selected[0] = true;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            color: selected[0]
-                                ? Theme.of(context).buttonColor
-                                : Colors.black38)),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.32),
-                    child: Row(children: [
-                      Text(
-                        "All",
-                        style: TextStyle(
-                            color: selected[0]
-                                ? Theme.of(context).buttonColor
-                                : Colors.black54,
-                            fontSize: 18),
-                      ),
-                      Icon(
-                        FontAwesomeIcons.sort,
-                        color: selected[0]
-                            ? Theme.of(context).buttonColor
-                            : Colors.black54,
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
-            ),
-            _sortButton("Highest votes", context, 1),
-            SizedBox(
-              height: 20.0,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _sortList(context) {
+  //   return Card(
+  //     color: Colors.white,
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width * 0.95,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         children: <Widget>[
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 15, bottom: 10),
+  //             child: Text(
+  //               'Showing 1 to 10 of 30 entries',
+  //               style: TextStyle(
+  //                 color: Colors.black87,
+  //                 fontSize: 18,
+  //               ),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 5.0,
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 15, bottom: 10),
+  //             child: Text(
+  //               'Sort by: ',
+  //               style: TextStyle(
+  //                 color: Colors.black87,
+  //                 fontSize: 18,
+  //               ),
+  //               textAlign: TextAlign.left,
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             width: 10.0,
+  //           ),
+  //           Container(
+  //             width: MediaQuery.of(context).size.width * 0.85,
+  //             height: 55,
+  //             padding: EdgeInsets.only(bottom: 5),
+  //             child: SizedBox.expand(
+  //               child: ElevatedButton(
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     for (int i = 0; i < 4; i++) selected[i] = false;
+  //                     selected[0] = true;
+  //                   });
+  //                 },
+  //                 style: ElevatedButton.styleFrom(
+  //                   primary: Colors.white,
+  //                   shape: RoundedRectangleBorder(
+  //                       side: BorderSide(
+  //                           color: selected[0]
+  //                               ? Theme.of(context).buttonColor
+  //                               : Colors.black38)),
+  //                 ),
+  //                 child: Padding(
+  //                   padding: EdgeInsets.only(
+  //                       left: MediaQuery.of(context).size.width * 0.32),
+  //                   child: Row(children: [
+  //                     Text(
+  //                       "All",
+  //                       style: TextStyle(
+  //                           color: selected[0]
+  //                               ? Theme.of(context).buttonColor
+  //                               : Colors.black54,
+  //                           fontSize: 18),
+  //                     ),
+  //                     Icon(
+  //                       FontAwesomeIcons.sort,
+  //                       color: selected[0]
+  //                           ? Theme.of(context).buttonColor
+  //                           : Colors.black54,
+  //                     ),
+  //                   ]),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           _sortButton("Highest votes", context, 1),
+  //           SizedBox(
+  //             height: 20.0,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _sortButton(title, context, index) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      height: 55,
-      padding: EdgeInsets.only(bottom: 5),
-      child: SizedBox.expand(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: selected[index]
-                        ? Theme.of(context).buttonColor
-                        : Colors.grey)),
-          ),
-          onPressed: () {
-            setState(() {
-              for (int i = 0; i < 4; i++) selected[i] = false;
-              selected[index] = true;
-            });
-          },
-          child: Text(
-            title,
-            style: TextStyle(
-                color: selected[index]
-                    ? Theme.of(context).buttonColor
-                    : Colors.black54,
-                fontSize: 18),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _sortButton(title, context, index) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width * 0.85,
+  //     height: 55,
+  //     padding: EdgeInsets.only(bottom: 5),
+  //     child: SizedBox.expand(
+  //       child: ElevatedButton(
+  //         style: ElevatedButton.styleFrom(
+  //           primary: Colors.white,
+  //           shape: RoundedRectangleBorder(
+  //               side: BorderSide(
+  //                   color: selected[index]
+  //                       ? Theme.of(context).buttonColor
+  //                       : Colors.grey)),
+  //         ),
+  //         onPressed: () {
+  //           setState(() {
+  //             for (int i = 0; i < 4; i++) selected[i] = false;
+  //             selected[index] = true;
+  //           });
+  //         },
+  //         child: Text(
+  //           title,
+  //           style: TextStyle(
+  //               color: selected[index]
+  //                   ? Theme.of(context).buttonColor
+  //                   : Colors.black54,
+  //               fontSize: 18),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildPollsList(context) {
     return FutureBuilder<List<Poll>>(

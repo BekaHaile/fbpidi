@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,21 @@ class _HomeState extends State<Home> {
           Center(
             child: Text('News'),
           ),
-          Profile(),
+          FutureBuilder<String>(
+              future: storage.read(key: 'loginStatus'),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                else {
+                  String status = snapshot.data;
+                  if (status == "false")
+                    return LoginPage({"": ""});
+                  else
+                    return Profile();
+                }
+              }),
         ],
       ),
       bottomNavigationBar: StreamBuilder<Object>(

@@ -350,6 +350,9 @@ class _LoginSevenPageState extends State<LoginPage> {
                 },
               ),
             ],
+          ),
+          SizedBox(
+            height: 25,
           )
         ],
       ),
