@@ -34,7 +34,7 @@ class _TendersState extends State<Tenders> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildTenderList(context),
             ],
           ),

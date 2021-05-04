@@ -48,7 +48,7 @@ class _CompanyState extends State<CompanyPage> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildCompanyList(context),
             ],
           ),
@@ -360,13 +360,17 @@ class _CompanyState extends State<CompanyPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 20.0, top: 5, bottom: 10),
-                                    child: Text(
-                                      companies[index].name,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.left,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Text(
+                                        companies[index].name,
+                                        style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.left,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(

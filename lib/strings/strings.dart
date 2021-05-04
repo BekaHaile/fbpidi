@@ -1,3 +1,3 @@
 class Strings {
-  final String baseUrl = "http://172.17.25.40:8000";
+  final String baseUrl = "http://192.168.137.1:8000";
 }

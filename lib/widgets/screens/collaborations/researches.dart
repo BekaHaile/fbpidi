@@ -38,7 +38,7 @@ class _ResearchesState extends State<Researches> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildResearchList(context),
               _addNewResearch(context)
             ],

@@ -33,7 +33,7 @@ class _NewsState extends State<NewsPage> {
               FbpidiSearch(
                   callback: searchCallback,
                   editingController: editingController),
-              _sortList(context),
+              // _sortList(context),
               _buildNewsList(context),
             ],
           ),

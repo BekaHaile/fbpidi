@@ -33,7 +33,7 @@ class _PollsState extends State<Polls> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildPollsList(context),
             ],
           ),

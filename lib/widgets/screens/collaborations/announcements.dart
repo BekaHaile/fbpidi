@@ -33,7 +33,7 @@ class _AnnouncementsState extends State<Announcements> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildResearchList(context),
             ],
           ),

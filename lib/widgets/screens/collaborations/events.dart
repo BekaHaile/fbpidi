@@ -38,7 +38,7 @@ class _EventsState extends State<Events> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildEventList(context),
             ],
           ),

@@ -49,7 +49,7 @@ class _ProductsState extends State<Products> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
-              _sortList(context),
+              // _sortList(context),
               _buildProductList(context),
             ],
           ),
