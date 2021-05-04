@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewsPage extends StatefulWidget {
+  final data;
+  NewsPage({this.data});
   @override
   _NewsState createState() => _NewsState();
 }
@@ -20,7 +22,7 @@ class _NewsState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("News")),
+      drawer: widget.data == null ? Drawer(child: FbpidiDrawer("News")) : null,
       appBar: AppBar(
         title: Text("News"),
       ),

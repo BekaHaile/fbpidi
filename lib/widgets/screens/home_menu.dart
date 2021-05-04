@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/widgets/screens/collaborations/news_page.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/home_page.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
@@ -53,11 +54,13 @@ class _HomeState extends State<Home> {
         controller: pageController,
         children: <Widget>[
           HomePage(),
-          WebView(
-            initialUrl: CollaborationsApi().baseUrl + "/about/",
+          SafeArea(
+            child: WebView(
+              initialUrl: CollaborationsApi().baseUrl,
+            ),
           ),
-          Center(
-            child: Text('News'),
+          NewsPage(
+            data: {"drawer": false},
           ),
           FutureBuilder<String>(
               future: storage.read(key: 'loginStatus'),
