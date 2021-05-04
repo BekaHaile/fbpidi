@@ -256,72 +256,74 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         child: Padding(
                                             padding: const EdgeInsets.all(5.0),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: 105,
-                                                  height: 110,
-                                                  child: FittedBox(
-                                                    child: Image.network(
-                                                      title ==
-                                                              "Investment Opportunities"
-                                                          ? CollaborationsApi()
-                                                                  .baseUrl +
-                                                              "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg"
-                                                          : title ==
-                                                                  "Manufacturer"
-                                                              ? CollaborationsApi()
-                                                                      .baseUrl +
-                                                                  companies[
-                                                                          index]
-                                                                      .logo
-                                                              : CollaborationsApi()
-                                                                      .baseUrl +
-                                                                  "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg",
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8.0),
-                                                  child: Container(
-                                                    width: 80,
-                                                    child: Text(
-                                                      title == "Manufacturer"
-                                                          ? companies[index]
-                                                                      .name
-                                                                      .length >
-                                                                  12
-                                                              ? companies[index]
-                                                                      .name
-                                                                      .substring(
-                                                                          0,
-                                                                          12) +
-                                                                  '..'
-                                                              : companies[index]
-                                                                  .name
-                                                          : researches[index]
-                                                                      .title
-                                                                      .length >
-                                                                  12
-                                                              ? researches[
-                                                                          index]
-                                                                      .title
-                                                                      .substring(
-                                                                          0,
-                                                                          12) +
-                                                                  '..'
-                                                              : researches[
-                                                                      index]
-                                                                  .title,
-                                                      style: TextStyle(
-                                                          fontSize: 16),
+                                            child: Card(
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    width: 105,
+                                                    height: 110,
+                                                    child: FittedBox(
+                                                      child: Image.network(
+                                                        title ==
+                                                                "Investment Opportunities"
+                                                            ? CollaborationsApi()
+                                                                    .baseUrl +
+                                                                "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg"
+                                                            : title ==
+                                                                    "Manufacturer"
+                                                                ? CollaborationsApi()
+                                                                        .baseUrl +
+                                                                    companies[
+                                                                            index]
+                                                                        .logo
+                                                                : CollaborationsApi()
+                                                                        .baseUrl +
+                                                                    "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg",
+                                                      ),
+                                                      fit: BoxFit.fill,
                                                     ),
                                                   ),
-                                                )
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Container(
+                                                      width: 80,
+                                                      child: Text(
+                                                        title == "Manufacturer"
+                                                            ? companies[index]
+                                                                        .name
+                                                                        .length >
+                                                                    12
+                                                                ? companies[index]
+                                                                        .name
+                                                                        .substring(
+                                                                            0,
+                                                                            12) +
+                                                                    '..'
+                                                                : companies[index]
+                                                                    .name
+                                                            : researches[index]
+                                                                        .title
+                                                                        .length >
+                                                                    12
+                                                                ? researches[
+                                                                            index]
+                                                                        .title
+                                                                        .substring(
+                                                                            0,
+                                                                            12) +
+                                                                    '..'
+                                                                : researches[
+                                                                        index]
+                                                                    .title,
+                                                        style: TextStyle(
+                                                            fontSize: 16),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             )),
                                       ),
                                     ],
