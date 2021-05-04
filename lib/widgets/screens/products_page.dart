@@ -105,12 +105,12 @@ class _ProductsPageState extends State<ProductsPage> {
                             : Icon(FontAwesomeIcons.stream),
                         color: Colors.black54,
                         onPressed: () {
-                          setState(() {
-                            if (type == "list")
-                              type = "grid";
-                            else
-                              type = "list";
-                          });
+                          // setState(() {
+                          //   if (type == "list")
+                          //     type = "grid";
+                          //   else
+                          //     type = "list";
+                          // });
                         },
                       ),
                       Padding(
@@ -119,13 +119,6 @@ class _ProductsPageState extends State<ProductsPage> {
                           width: 2,
                           height: 30,
                           color: Colors.black38,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 18.0),
-                        child: Text(
-                          "Filter",
-                          style: TextStyle(fontSize: 18),
                         ),
                       ),
                     ],

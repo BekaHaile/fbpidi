@@ -20,10 +20,10 @@ class _ProductsListState extends State<ProductsList> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == "grid")
-      return gridView(context);
-    else
-      return listView(context);
+    // if (widget.type == "grid")
+    //   return gridView(context);
+    // else
+    return listView(context);
   }
 
   Widget listView(context) {

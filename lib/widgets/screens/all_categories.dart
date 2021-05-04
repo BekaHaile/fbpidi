@@ -49,10 +49,10 @@ class AllCategories extends StatelessWidget {
                           children: [
                             _buildRow(
                               "https://img.icons8.com/ios/452/corn.png",
-                              list[index]["category_name"],
+                              list[index]["category_type"],
                               context,
                             ),
-                            _buildDivider()
+                            _buildDivider(context)
                           ],
                         );
                       }),
@@ -65,11 +65,12 @@ class AllCategories extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 40.0),
-      child: Divider(
-        color: active,
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        height: 3,
       ),
     );
   }
@@ -87,17 +88,17 @@ class AllCategories extends StatelessWidget {
       },
       child: Container(
         child: Row(children: [
-          Container(
-            width: 30,
-            height: 30,
-            child: FittedBox(
-              child: Image.network(image),
-              fit: BoxFit.fill,
-            ),
-          ),
+          // Container(
+          //   width: 30,
+          //   height: 30,
+          //   child: FittedBox(
+          //     child: Image.network(image),
+          //     fit: BoxFit.fill,
+          //   ),
+          // ),
           SizedBox(width: 15.0),
           Text(
-            title,
+            title.length < 35 ? title : title.substring(0, 32) + '..',
             style: tStyle,
           ),
         ]),
