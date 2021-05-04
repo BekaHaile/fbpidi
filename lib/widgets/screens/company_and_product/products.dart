@@ -371,46 +371,46 @@ class _ProductsState extends State<Products> {
                               SizedBox(
                                 height: 5.0,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20.0, right: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      size: 23,
-                                      color: Color.fromRGBO(241, 196, 16, 1),
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      size: 23,
-                                      color: Color.fromRGBO(241, 196, 16, 1),
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      size: 23,
-                                      color: Color.fromRGBO(241, 196, 16, 1),
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      size: 23,
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      size: 23,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "52 Reviews",
-                                      style: TextStyle(
-                                          color: Colors.black87, fontSize: 18),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(left: 20.0, right: 5),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: [
+                              //       Icon(
+                              //         Icons.star,
+                              //         size: 23,
+                              //         color: Color.fromRGBO(241, 196, 16, 1),
+                              //       ),
+                              //       Icon(
+                              //         Icons.star,
+                              //         size: 23,
+                              //         color: Color.fromRGBO(241, 196, 16, 1),
+                              //       ),
+                              //       Icon(
+                              //         Icons.star,
+                              //         size: 23,
+                              //         color: Color.fromRGBO(241, 196, 16, 1),
+                              //       ),
+                              //       Icon(
+                              //         Icons.star,
+                              //         size: 23,
+                              //       ),
+                              //       Icon(
+                              //         Icons.star,
+                              //         size: 23,
+                              //       ),
+                              //       SizedBox(
+                              //         width: 5,
+                              //       ),
+                              //       Text(
+                              //         "52 Reviews",
+                              //         style: TextStyle(
+                              //             color: Colors.black87, fontSize: 18),
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                               SizedBox(
                                 height: 15.0,
                               ),

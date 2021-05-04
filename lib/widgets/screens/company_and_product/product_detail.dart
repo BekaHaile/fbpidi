@@ -82,51 +82,51 @@ class ProductDetail extends StatelessWidget {
                                     SizedBox(
                                       height: 7.0,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20.0, right: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                            color:
-                                                Color.fromRGBO(241, 196, 16, 1),
-                                          ),
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                            color:
-                                                Color.fromRGBO(241, 196, 16, 1),
-                                          ),
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                            color:
-                                                Color.fromRGBO(241, 196, 16, 1),
-                                          ),
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                          ),
-                                          Icon(
-                                            Icons.star,
-                                            size: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "4.0",
-                                            style: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 18),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(
+                                    //       left: 20.0, right: 5),
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.start,
+                                    //     children: [
+                                    //       Icon(
+                                    //         Icons.star,
+                                    //         size: 20,
+                                    //         color:
+                                    //             Color.fromRGBO(241, 196, 16, 1),
+                                    //       ),
+                                    //       Icon(
+                                    //         Icons.star,
+                                    //         size: 20,
+                                    //         color:
+                                    //             Color.fromRGBO(241, 196, 16, 1),
+                                    //       ),
+                                    //       Icon(
+                                    //         Icons.star,
+                                    //         size: 20,
+                                    //         color:
+                                    //             Color.fromRGBO(241, 196, 16, 1),
+                                    //       ),
+                                    //       Icon(
+                                    //         Icons.star,
+                                    //         size: 20,
+                                    //       ),
+                                    //       Icon(
+                                    //         Icons.star,
+                                    //         size: 20,
+                                    //       ),
+                                    //       SizedBox(
+                                    //         width: 5,
+                                    //       ),
+                                    //       Text(
+                                    //         "4.0",
+                                    //         style: TextStyle(
+                                    //             color: Colors.black87,
+                                    //             fontSize: 18),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     SizedBox(
                                       height: 15.0,
                                     ),
