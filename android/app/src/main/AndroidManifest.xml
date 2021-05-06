@@ -7,7 +7,7 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="androidn.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="androidn.permission.WRITE_EXTERNAL_STORAGE" />
-  <application android:name="io.flutter.app.FlutterApplication" android:label="fbpidi" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
+  <application android:name="io.flutter.app.FlutterApplication" android:label="FBPIDI" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
 
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
 

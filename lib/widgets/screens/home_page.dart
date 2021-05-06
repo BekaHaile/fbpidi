@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
           // _buildHorizontalList(
           //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
-          _buildHorizontalList("Projects", Color.fromRGBO(217, 226, 241, 1)),
+          _buildHorizontalList("Researches", Color.fromRGBO(217, 226, 241, 1)),
           Column(
             children: [
               Padding(
