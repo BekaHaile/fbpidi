@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/models/research.dart';
@@ -18,6 +19,8 @@ class _HomePageState extends State<HomePage> {
     'Request for Quotation',
     'New User Guide',
   ];
+
+  List<Widget> companyCardList = [], researchCardList;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +158,109 @@ class _HomePageState extends State<HomePage> {
       );
   }
 
+  Widget _buildCarousel(context, List<Widget> cardList) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 200.0,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 3),
+        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        pauseAutoPlayOnTouch: true,
+        aspectRatio: 2.0,
+        enableInfiniteScroll: true,
+        onPageChanged: (index, reason) {
+          setState(() {});
+        },
+      ),
+      items: cardList.map((card) {
+        return Builder(builder: (BuildContext context) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.30,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: card,
+          );
+        });
+      }).toList(),
+    );
+  }
+
+  Widget buildCompanyCard(Company company) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/companyDetail',
+            arguments: {"id": company.id});
+      },
+      child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+            child: Column(
+              children: [
+                Container(
+                  width: 105,
+                  height: 110,
+                  child: FittedBox(
+                    child: Image.network(
+                        CollaborationsApi().baseUrl + company.logo),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    width: 80,
+                    child: Text(
+                      company.name.length > 12
+                          ? company.name.substring(0, 12) + '..'
+                          : company.name,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget buildResearchCard(Research research) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/researchDetail',
+            arguments: {"id": research.id});
+      },
+      child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+            child: Column(
+              children: [
+                Container(
+                  width: 105,
+                  height: 110,
+                  child: FittedBox(
+                    child: Image.network(
+                        CollaborationsApi().baseUrl + research.company),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    width: 80,
+                    child: Text(
+                      research.title.length > 12
+                          ? research.title.substring(0, 12) + '..'
+                          : research.title,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
   Widget _buildHorizontalList(title, color) {
     return Padding(
       padding: const EdgeInsets.all(3.0),
@@ -189,7 +295,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               children: [
-                Icon(FontAwesomeIcons.chevronCircleLeft),
+                // Icon(FontAwesomeIcons.chevronCircleLeft),
                 Expanded(
                   child: FutureBuilder<Map<String, dynamic>>(
                     future: title == "Manufacturer"
@@ -223,114 +329,26 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("No data"),
                           ));
-                        else
-                          return Container(
-                            height: 175,
-                            child: GridView.builder(
-                                physics: ScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 1,
-                                        mainAxisSpacing: 5.0,
-                                        childAspectRatio: 1.1),
-                                itemBuilder: (_, int index) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-                                          if (title == "Manufacturer")
-                                            Navigator.pushNamed(
-                                                context, '/companyDetail',
-                                                arguments: {
-                                                  "id": companies[index].id
-                                                });
-                                          else if (title == "Researches")
-                                            Navigator.pushNamed(
-                                                context, '/researchDetail',
-                                                arguments: {
-                                                  "id": researches[index].id
-                                                });
-                                        },
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Card(
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    width: 105,
-                                                    height: 110,
-                                                    child: FittedBox(
-                                                      child: Image.network(
-                                                        title == "Manufacturer"
-                                                            ? CollaborationsApi()
-                                                                    .baseUrl +
-                                                                companies[index]
-                                                                    .logo
-                                                            : CollaborationsApi()
-                                                                    .baseUrl +
-                                                                "/media/uploads/company/logo/pepsi_1_vyPAf7R.jpg",
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
-                                                    child: Container(
-                                                      width: 80,
-                                                      child: Text(
-                                                        title == "Manufacturer"
-                                                            ? companies[index]
-                                                                        .name
-                                                                        .length >
-                                                                    12
-                                                                ? companies[index]
-                                                                        .name
-                                                                        .substring(
-                                                                            0,
-                                                                            12) +
-                                                                    '..'
-                                                                : companies[index]
-                                                                    .name
-                                                            : researches[index]
-                                                                        .title
-                                                                        .length >
-                                                                    12
-                                                                ? researches[
-                                                                            index]
-                                                                        .title
-                                                                        .substring(
-                                                                            0,
-                                                                            12) +
-                                                                    '..'
-                                                                : researches[
-                                                                        index]
-                                                                    .title,
-                                                        style: TextStyle(
-                                                            fontSize: 16),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                itemCount: title == "Manufacturer"
-                                    ? companies.length
-                                    : researches.length),
-                          );
+                        else {
+                          if (title == "Manufacturer") {
+                            companyCardList.clear();
+                            companies.forEach((company) {
+                              companyCardList.add(buildCompanyCard(company));
+                            });
+                            return _buildCarousel(context, companyCardList);
+                          } else {
+                            researchCardList.clear();
+                            researches.forEach((research) {
+                              researchCardList.add(buildResearchCard(research));
+                            });
+                            return _buildCarousel(context, researchCardList);
+                          }
+                        }
                       }
                     },
                   ),
                 ),
-                Icon(FontAwesomeIcons.chevronCircleRight),
+                // Icon(FontAwesomeIcons.chevronCircleRight),
               ],
             ),
           ],
