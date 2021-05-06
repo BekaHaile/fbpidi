@@ -99,28 +99,28 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   Row(
                     children: [
-                      IconButton(
-                        icon: type == "list"
-                            ? Icon(FontAwesomeIcons.thLarge)
-                            : Icon(FontAwesomeIcons.stream),
-                        color: Colors.black54,
-                        onPressed: () {
-                          // setState(() {
-                          //   if (type == "list")
-                          //     type = "grid";
-                          //   else
-                          //     type = "list";
-                          // });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8),
-                        child: Container(
-                          width: 2,
-                          height: 30,
-                          color: Colors.black38,
-                        ),
-                      ),
+                      // IconButton(
+                      //   icon: type == "list"
+                      //       ? Icon(FontAwesomeIcons.thLarge)
+                      //       : Icon(FontAwesomeIcons.stream),
+                      //   color: Colors.black54,
+                      //   onPressed: () {
+                      //     // setState(() {
+                      //     //   if (type == "list")
+                      //     //     type = "grid";
+                      //     //   else
+                      //     //     type = "list";
+                      //     // });
+                      //   },
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 8.0, right: 8),
+                      //   child: Container(
+                      //     width: 2,
+                      //     height: 30,
+                      //     color: Colors.black38,
+                      //   ),
+                      // ),
                     ],
                   )
                 ],

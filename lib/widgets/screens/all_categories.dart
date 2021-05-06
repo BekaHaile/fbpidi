@@ -49,7 +49,7 @@ class AllCategories extends StatelessWidget {
                           children: [
                             _buildRow(
                               "https://img.icons8.com/ios/452/corn.png",
-                              list[index]["category_type"],
+                              list[index]["category_name"],
                               context,
                             ),
                             _buildDivider(context)

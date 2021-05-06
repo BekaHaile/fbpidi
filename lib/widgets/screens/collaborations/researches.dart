@@ -411,7 +411,15 @@ class _ResearchesState extends State<Researches> {
             height: 40.0,
             child: SizedBox.expand(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await CollaborationsApi().getLoginStatus().then((status) {
+                    if (status == "true")
+                      Navigator.pushNamed(context, '/addResearch');
+                    else
+                      Navigator.pushNamed(context, "/login",
+                          arguments: {'route': '/addResearch'});
+                  });
+                },
                 child: Text(
                   "Add new Research",
                   style: TextStyle(

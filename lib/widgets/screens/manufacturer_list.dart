@@ -1,3 +1,4 @@
+import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -77,8 +78,10 @@ class ManufacturerList extends StatelessWidget {
                                         width: 3.0,
                                       ),
                                       Text(
-                                        companies[index]
-                                            .companyAddress["city_town"],
+                                        companies[index].companyAddress != null
+                                            ? companies[index]
+                                                .companyAddress["city_town"]
+                                            : "City",
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.black54,
@@ -97,9 +100,9 @@ class ManufacturerList extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              productByManufacturer(context),
-                              productByManufacturer(context),
-                              productByManufacturer(context),
+                              productByManufacturer(context, companies[index]),
+                              // productByManufacturer(context),
+                              // productByManufacturer(context),
                             ],
                           ),
                         ],
@@ -114,9 +117,9 @@ class ManufacturerList extends StatelessWidget {
         });
   }
 
-  Widget productByManufacturer(context) {
+  Widget productByManufacturer(context, Company company) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.325,
+      width: MediaQuery.of(context).size.width * 0.65,
       child: Column(
         children: [
           Padding(
@@ -124,19 +127,24 @@ class ManufacturerList extends StatelessWidget {
                 top: 15.0, bottom: 10.0, left: 5, right: 5),
             child: Container(
               height: 135,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Image.network(
-                  "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                  CompanyAndProductAPI().baseUrl + company.logo,
                 ),
               ),
             ),
           ),
-          Text(
-            '2, 4-D Acid 720g/L agricultural chemicals fo...',
-            style: TextStyle(fontSize: 15.0, color: Colors.black54),
-            textAlign: TextAlign.left,
+          Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Text(
+              RemoveTag().removeAllHtmlTags(company.detail.length > 35
+                  ? company.detail.substring(0, 35) + '...'
+                  : company.detail),
+              style: TextStyle(fontSize: 15.0, color: Colors.black54),
+              textAlign: TextAlign.left,
+            ),
           ),
           SizedBox(
             height: 20,
