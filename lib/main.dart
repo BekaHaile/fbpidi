@@ -32,6 +32,7 @@ import 'package:fbpidi/widgets/screens/products_page.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +55,22 @@ class MyApp extends StatelessWidget {
           buttonColor: Color.fromRGBO(253, 130, 14, 1),
           disabledColor: Color.fromRGBO(253, 130, 14, 0.3),
         ),
-        home: Home(),
+        home: Center(
+          child: SplashScreen(
+            seconds: 3,
+            navigateAfterSeconds: Home(),
+            title: Text(
+              'Food, Beverage and Pharmaceutical Industries Development Institute',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+            ),
+            image: Image.asset('assets/fbpidi.png'),
+            backgroundColor: Colors.white,
+            styleTextUnderTheLoader: TextStyle(),
+            photoSize: 100.0,
+            useLoader: false,
+          ),
+        ),
         routes: {
           '/homePage': (BuildContext context) => Home(),
           '/signUp': (BuildContext context) => SignUp(),
