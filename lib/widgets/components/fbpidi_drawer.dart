@@ -31,8 +31,6 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       else
         expandedProduct = true;
     }
-    final String image =
-        "https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png";
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
@@ -58,7 +56,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                                 colors: [Colors.pink, Colors.deepPurple])),
                         child: CircleAvatar(
                           radius: 40,
-                          backgroundImage: NetworkImage(image),
+                          backgroundImage: AssetImage("assets/user_icon.png"),
                         ),
                       ),
                       SizedBox(height: 5.0),
