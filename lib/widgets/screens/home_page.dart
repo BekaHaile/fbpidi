@@ -371,21 +371,40 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      child: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            createCard(Icons.copy_outlined, "Total Viewers", "1"),
-            createCard(FontAwesomeIcons.rocket, "Total Products", "0"),
-          ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              createCard(Icons.people, "Total Companies", "0"),
-              createCard(FontAwesomeIcons.smile, "Happy Customers", "0"),
-            ],
-          )
-        ],
-      ),
+      child: FutureBuilder<Map<String, dynamic>>(
+          future: CompanyAndProductAPI().getTotalViews(),
+          builder: (BuildContext context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            else {
+              return Column(
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        createCard(Icons.copy_outlined, "Total Viewers",
+                            snapshot.data["total_viewers"].toString()),
+                        createCard(FontAwesomeIcons.rocket, "Total Products",
+                            snapshot.data["total_products"].toString()),
+                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      createCard(Icons.people, "Total Companies",
+                          snapshot.data["total_companies"].toString()),
+                      createCard(FontAwesomeIcons.smile, "Happy Customers",
+                          snapshot.data["happy_customers"].toString()),
+                    ],
+                  )
+                ],
+              );
+            }
+          }),
     );
   }
 

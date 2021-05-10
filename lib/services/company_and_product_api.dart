@@ -44,6 +44,40 @@ class CompanyAndProductAPI {
     }
   }
 
+  Future<Map<String, dynamic>> searchCompany(id) async {
+    try {
+      var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/company/search_company/?by_subsector =$id"), //uri of api
+        headers: {"Accept": "application/json"},
+      );
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      List<Company> companies = [];
+      try {
+        data["companies"].forEach((com) {
+          companies.add(Company.fromMap(com));
+        });
+      } catch (e) {
+        print(e.toString());
+        throw Exception('Unable to convert data from map to model.');
+      }
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "companies": companies,
+        "paginator": paginator
+      };
+
+      return data2;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
   //Get detail of a company based on an id
   Future<Company> getCompany(id) async {
     try {
@@ -146,6 +180,24 @@ class CompanyAndProductAPI {
       print(data); //Response from the api
       Product product = Product.fromMap(data["product"]);
       return product;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //Get total view dataa
+  Future<Map<String, dynamic>> getTotalViews() async {
+    try {
+      var response = await http
+          .get(Uri.encodeFull("$baseUrl/api/total_viewers/"), //uri of api
+              headers: {"Accept": "application/json"});
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      return data;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

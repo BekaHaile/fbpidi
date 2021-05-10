@@ -25,7 +25,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
     bool expandedProduct = false;
     if (widget.selected == "Beverage" ||
         widget.selected == "Food" ||
-        widget.selected == "Pharmaceutical") {
+        widget.selected == "Pharmaceuticals") {
       if (widget.mainMenu == "Manufacturers")
         expandedCompany = true;
       else
@@ -104,7 +104,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                     _buildRow(FontAwesomeIcons.utensils, "Food", 20,
                         mainMenu: "Manufacturers"),
                     _buildRow(
-                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20,
+                        FontAwesomeIcons.clinicMedical, "Pharmaceuticals", 20,
                         mainMenu: "Manufacturers")
                   ],
                 ),
@@ -117,7 +117,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                     _buildRow(FontAwesomeIcons.utensils, "Food", 20,
                         mainMenu: "Products"),
                     _buildRow(
-                        FontAwesomeIcons.clinicMedical, "Pharmaceutical", 20,
+                        FontAwesomeIcons.clinicMedical, "Pharmaceuticals", 20,
                         mainMenu: "Products")
                   ],
                 ),
@@ -177,7 +177,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
   Widget _buildRow(IconData icon, String title, double padding,
       {String mainMenu}) {
     bool selected = false;
-    if (title == "Beverage" || title == "Food" || title == "Pharmaceutical") {
+    if (title == "Beverage" || title == "Food" || title == "Pharmaceuticals") {
       if (widget.selected == title && widget.mainMenu == mainMenu)
         selected = true;
     } else {
@@ -278,13 +278,13 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           else
             Navigator.pushReplacementNamed(context, "/products",
                 arguments: {'type': 'Food'});
-        } else if (title == "Pharmaceutical") {
+        } else if (title == "Pharmaceuticals") {
           if (mainMenu == "Manufacturers")
             Navigator.pushReplacementNamed(context, "/companies",
-                arguments: {'type': 'Pharmaceutical'});
+                arguments: {'type': 'Pharmaceuticals'});
           else
             Navigator.pushReplacementNamed(context, "/products",
-                arguments: {'type': 'Pharmaceutical'});
+                arguments: {'type': 'Pharmaceuticals'});
         }
       },
       child: Padding(

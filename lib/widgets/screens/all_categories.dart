@@ -49,7 +49,8 @@ class AllCategories extends StatelessWidget {
                         return Column(
                           children: [
                             _buildRow(
-                                "https://img.icons8.com/ios/452/corn.png",
+                                CompanyAndProductAPI().baseUrl +
+                                    list[index]["icons"],
                                 list[index]["category_name"],
                                 context,
                                 list[index]["id"]),
@@ -89,17 +90,17 @@ class AllCategories extends StatelessWidget {
       },
       child: Container(
         child: Row(children: [
-          // Container(
-          //   width: 30,
-          //   height: 30,
-          //   child: FittedBox(
-          //     child: Image.network(image),
-          //     fit: BoxFit.fill,
-          //   ),
-          // ),
+          Container(
+            width: 30,
+            height: 30,
+            child: FittedBox(
+              child: Image.network(image),
+              fit: BoxFit.fill,
+            ),
+          ),
           SizedBox(width: 15.0),
           Text(
-            title.length < 35 ? title : title.substring(0, 32) + '..',
+            title.length < 25 ? title : title.substring(0, 28) + '..',
             style: tStyle,
           ),
         ]),
