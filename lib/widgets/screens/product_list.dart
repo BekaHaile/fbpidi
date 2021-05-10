@@ -5,8 +5,8 @@ import '../../models/product.dart';
 import '../../services/company_and_product_api.dart';
 
 class ProductsList extends StatefulWidget {
-  final String type;
-  ProductsList(this.type);
+  final String id;
+  ProductsList(this.id);
 
   @override
   _ProductsListState createState() => _ProductsListState();
@@ -28,7 +28,7 @@ class _ProductsListState extends State<ProductsList> {
 
   Widget listView(context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: CompanyAndProductAPI().getProductsByMainCategory("All", '1'),
+        future: CompanyAndProductAPI().getProductsByCategory(widget.id, '1'),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(

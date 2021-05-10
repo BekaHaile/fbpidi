@@ -23,8 +23,9 @@ class AllCategories extends StatelessWidget {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          FutureBuilder<List<dynamic>>(
-            future: CompanyAndProductAPI().getProductsCategory("All"),
+          FutureBuilder<Map<String, dynamic>>(
+            future:
+                CompanyAndProductAPI().getProductsByMainCategory("All", "1"),
             builder: (BuildContext context, snapshot) {
               if (!snapshot.hasData)
                 return Center(
@@ -34,7 +35,7 @@ class AllCategories extends StatelessWidget {
                   ),
                 );
               else {
-                list = snapshot.data;
+                list = snapshot.data['categories'];
                 if (list.length == 0)
                   return Center(
                     child: Text("No data"),
@@ -48,10 +49,10 @@ class AllCategories extends StatelessWidget {
                         return Column(
                           children: [
                             _buildRow(
-                              "https://img.icons8.com/ios/452/corn.png",
-                              list[index]["category_name"],
-                              context,
-                            ),
+                                "https://img.icons8.com/ios/452/corn.png",
+                                list[index]["category_name"],
+                                context,
+                                list[index]["id"]),
                             _buildDivider(context)
                           ],
                         );
@@ -75,13 +76,13 @@ class AllCategories extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(image, String title, context) {
+  Widget _buildRow(image, String title, context, id) {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 20.0);
     return TextButton(
       onPressed: () {
         // if (type["type"] == "sub")
         Navigator.pushNamed(context, "/productsPage",
-            arguments: {"category": title});
+            arguments: {"id": id.toString()});
         // else
         //   Navigator.pushNamed(context, "/allCategories",
         //       arguments: {"type": "sub"});

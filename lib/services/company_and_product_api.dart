@@ -84,9 +84,12 @@ class CompanyAndProductAPI {
       });
 
       Paginator paginator = Paginator.fromMap(data["paginator"]);
+      List<dynamic> categories = data['categories'];
+
       Map<String, dynamic> data2 = {
         "products": products,
-        "paginator": paginator
+        "paginator": paginator,
+        "categories": categories
       };
 
       return data2;
@@ -96,35 +99,13 @@ class CompanyAndProductAPI {
     }
   }
 
-  //Get list of products based on main category
-  Future<List<dynamic>> getProductsCategory(category) async {
-    // category: Beverage or Food or Pharmaceutical  or all
-    try {
-      var response = await http.get(
-        Uri.encodeFull(
-            "$baseUrl/api/product/product-by-main-category/?category=$category"), //uri of api
-        headers: {"Accept": "application/json"},
-      );
-
-      String body = utf8.decode(response.bodyBytes);
-
-      Map<String, dynamic> data = jsonDecode(body);
-      print(data); //Response from the api
-
-      return data["categories"];
-    } catch (e) {
-      print("Error: " + e.toString());
-      throw Exception('Unable to Connect to Server');
-    }
-  }
-
   //Get list of products based on category
-  Future<List<Product>> getProductsByCategory(categoryId) async {
+  Future<Map<String, dynamic>> getProductsByCategory(categoryId, page) async {
     // category_id   =  1
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/product/product-by-category/?category_id=$categoryId"), //uri of api
+            "$baseUrl/api/product/product-by-category/?category_id=$categoryId&page=$page"), //uri of api
         headers: {"Accept": "application/json"},
       );
 
@@ -136,7 +117,14 @@ class CompanyAndProductAPI {
       data["products"].forEach((prod) {
         products.add(Product.fromMap(prod));
       });
-      return products;
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "products": products,
+        "paginator": paginator
+      };
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');
