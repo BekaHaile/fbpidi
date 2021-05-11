@@ -32,9 +32,12 @@ class CompanyAndProductAPI {
       }
 
       Paginator paginator = Paginator.fromMap(data["paginator"]);
+      List<dynamic> categories = data['sub_sectors'];
+
       Map<String, dynamic> data2 = {
         "companies": companies,
-        "paginator": paginator
+        "paginator": paginator,
+        "categories": categories
       };
 
       return data2;
@@ -44,11 +47,11 @@ class CompanyAndProductAPI {
     }
   }
 
-  Future<Map<String, dynamic>> searchCompany(id) async {
+  Future<Map<String, dynamic>> searchCompany(id, page) async {
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/company/search_company/?by_subsector =$id"), //uri of api
+            "$baseUrl/api/company/search_company/?by_subsector=$id&page=$page"), //uri of api
         headers: {"Accept": "application/json"},
       );
       String body = utf8.decode(response.bodyBytes);

@@ -220,16 +220,18 @@ class MapScreenState extends State<Profile>
                                                             ),
                                                           ],
                                                         ),
-                                                        // new Column(
-                                                        //   mainAxisAlignment:
-                                                        //       MainAxisAlignment.end,
-                                                        //   mainAxisSize: MainAxisSize.min,
-                                                        //   children: <Widget>[
-                                                        //     _status
-                                                        //         ? _getEditIcon()
-                                                        //         : new Container(),
-                                                        //   ],
-                                                        // )
+                                                        new Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            _status
+                                                                ? _getEditIcon()
+                                                                : new Container(),
+                                                          ],
+                                                        )
                                                       ],
                                                     )),
                                                 Column(
@@ -575,22 +577,22 @@ class MapScreenState extends State<Profile>
     );
   }
 
-  // Widget _getEditIcon() {
-  //   return new GestureDetector(
-  //     child: new CircleAvatar(
-  //       backgroundColor: Colors.deepPurple,
-  //       radius: 14.0,
-  //       child: new Icon(
-  //         Icons.edit,
-  //         color: Colors.white,
-  //         size: 16.0,
-  //       ),
-  //     ),
-  //     onTap: () {
-  //       setState(() {
-  //         _status = false;
-  //       });
-  //     },
-  //   );
-  // }
+  Widget _getEditIcon() {
+    return new GestureDetector(
+      child: new CircleAvatar(
+        backgroundColor: Colors.deepPurple,
+        radius: 14.0,
+        child: new Icon(
+          Icons.edit,
+          color: Colors.white,
+          size: 16.0,
+        ),
+      ),
+      onTap: () {
+        setState(() {
+          _status = false;
+        });
+      },
+    );
+  }
 }

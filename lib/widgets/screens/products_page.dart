@@ -148,7 +148,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text("All Companies"),
                     ),
-                    ManufacturerList()
+                    ManufacturerList(widget.data["id"])
                   ],
                 ),
               ),

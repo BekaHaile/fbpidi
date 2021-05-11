@@ -24,8 +24,7 @@ class AllCategories extends StatelessWidget {
             ),
           ),
           FutureBuilder<Map<String, dynamic>>(
-            future:
-                CompanyAndProductAPI().getProductsByMainCategory("All", "1"),
+            future: CompanyAndProductAPI().getCompanies("All", "1"),
             builder: (BuildContext context, snapshot) {
               if (!snapshot.hasData)
                 return Center(
@@ -100,7 +99,7 @@ class AllCategories extends StatelessWidget {
           ),
           SizedBox(width: 15.0),
           Text(
-            title.length < 25 ? title : title.substring(0, 28) + '..',
+            title.length < 25 ? title : title.substring(0, 25) + '..',
             style: tStyle,
           ),
         ]),
