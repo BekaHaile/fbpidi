@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1130035045/android.file_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1130035045/android.file_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/968970055/android.flutter_downloader.iml" filepath="$PROJECT_DIR$/.idea/modules/968970055/android.flutter_downloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1858346355/android.flutter_facebook_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/1858346355/android.flutter_facebook_auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1033988644/android.flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/-1033988644/android.flutter_plugin_android_lifecycle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2127952131/android.flutter_secure_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/2127952131/android.flutter_secure_storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1226049744/android.google_sign_in.iml" filepath="$PROJECT_DIR$/.idea/modules/-1226049744/android.google_sign_in.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/456712436/android.path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/456712436/android.path_provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-78890708/android.permission_handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-78890708/android.permission_handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1028319234/android.webview_flutter.iml" filepath="$PROJECT_DIR$/.idea/modules/1028319234/android.webview_flutter.iml" />
+    </modules>
+  </component>
+</project>

@@ -125,7 +125,7 @@ class Projects extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 18.0, top: 20, bottom: 20),
                                     child: Text(
-                                      projects[index].title,
+                                      projects[index].projectName,
                                       style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 22,
@@ -165,7 +165,7 @@ class Projects extends StatelessWidget {
                                               ),
                                               Text(
                                                 projects[index]
-                                                    .timeStamp
+                                                    .categoryName
                                                     .substring(0, 10),
                                                 style: TextStyle(
                                                     fontSize: 17.0,
@@ -204,7 +204,7 @@ class Projects extends StatelessWidget {
                                               Text(
                                                 RemoveTag().removeAllHtmlTags(
                                                     projects[index]
-                                                        .description),
+                                                        .categoryName),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontSize: 20,

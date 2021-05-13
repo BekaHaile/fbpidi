@@ -21,21 +21,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    writeStatus();
   }
 
   @override
   void dispose() {
     indexcontroller.close();
     super.dispose();
-  }
-
-  writeStatus() async {
-    try {
-      await storage.write(key: 'loginStatus', value: 'false');
-    } catch (e) {
-      print("Exception: " + e.toString());
-    }
   }
 
   PageController pageController = PageController(initialPage: 0);
@@ -72,7 +63,9 @@ class _HomeState extends State<Home> {
                 else {
                   String status = snapshot.data;
                   if (status == "false")
-                    return LoginPage({"": ""});
+                    return LoginPage(
+                      data: {"route": "/homePage"},
+                    );
                   else
                     return Profile();
                 }

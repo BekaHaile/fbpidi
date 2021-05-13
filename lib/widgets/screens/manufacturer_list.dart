@@ -43,93 +43,101 @@ class _ManufacturerListState extends State<ManufacturerList> {
                     primary: false,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (_, int index) {
-                      return Card(
-                        color: Colors.white,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, top: 10.0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: Text(
-                                          companies[index].name,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 12.0, right: 5),
-                                      child: Text(
-                                        'Member Since: ' +
-                                            companies[index].establishedYear,
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.black54),
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 10.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(FontAwesomeIcons.mapMarkerAlt,
-                                              color: Colors.black54),
-                                          SizedBox(
-                                            width: 3.0,
-                                          ),
-                                          Text(
-                                            companies[index].companyAddress !=
-                                                    null
-                                                ? companies[index]
-                                                    .companyAddress["city_town"]
-                                                : "City",
-                                            softWrap: true,
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/companyDetail',
+                              arguments: {'id': companies[index].id});
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, top: 10.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Text(
+                                            companies[index].name,
                                             style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 16),
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400),
                                             textAlign: TextAlign.left,
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 12.0, right: 5),
+                                        child: Text(
+                                          'Member Since: ' +
+                                              companies[index].establishedYear,
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: Colors.black54),
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: Row(
+                                          children: [
+                                            Icon(FontAwesomeIcons.mapMarkerAlt,
+                                                color: Colors.black54),
+                                            SizedBox(
+                                              width: 3.0,
+                                            ),
+                                            Text(
+                                              companies[index].companyAddress !=
+                                                      null
+                                                  ? companies[index]
+                                                          .companyAddress[
+                                                      "city_town"]
+                                                  : "City",
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontSize: 16),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    productByManufacturer(
+                                        context, companies[index]),
+                                    // productByManufacturer(context),
+                                    // productByManufacturer(context),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  productByManufacturer(
-                                      context, companies[index]),
-                                  // productByManufacturer(context),
-                                  // productByManufacturer(context),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );

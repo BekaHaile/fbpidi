@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   final data;
-  LoginPage(this.data);
+  LoginPage({this.data});
   @override
   _LoginSevenPageState createState() => _LoginSevenPageState();
 }

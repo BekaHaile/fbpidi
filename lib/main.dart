@@ -32,6 +32,7 @@ import 'package:fbpidi/widgets/screens/products_page.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() async {
@@ -41,6 +42,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,21 @@ class MyApp extends StatelessWidget {
         home: Center(
           child: SplashScreen(
             seconds: 3,
-            navigateAfterSeconds: Home(),
+            navigateAfterSeconds: FutureBuilder<bool>(
+                future: storage.containsKey(key: "loginStatus"),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  else {
+                    bool containsKey = snapshot.data;
+                    print(containsKey);
+                    if (!containsKey) writeStatus();
+
+                    return Home();
+                  }
+                }),
             title: Text(
               'Food, Beverage and Pharmaceutical Industries Development Institute',
               textAlign: TextAlign.center,
@@ -100,7 +116,7 @@ class MyApp extends StatelessWidget {
             case '/login':
               return MaterialPageRoute(
                   builder: (_) => LoginPage(
-                        requests,
+                        data: requests,
                       ));
             case '/productsPage':
               return MaterialPageRoute(
@@ -181,5 +197,13 @@ class MyApp extends StatelessWidget {
               return null;
           }
         });
+  }
+
+  writeStatus() async {
+    try {
+      await storage.write(key: 'loginStatus', value: 'false');
+    } catch (e) {
+      print("Exception: " + e.toString());
+    }
   }
 }

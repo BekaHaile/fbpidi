@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/services/user_api.dart';
+import 'package:file_picker/file_picker.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,7 +77,6 @@ class MapScreenState extends State<Profile>
                                     controller2.text = user.phoneNumber;
                                     controller3.text = user.username;
                                     controller4.text = user.email;
-                                    print(user.profileImage);
                                     if (user.profileImage != "null")
                                       profilePath = user.profileImage;
                                     return Column(
@@ -128,35 +128,40 @@ class MapScreenState extends State<Profile>
                                                                     .center,
                                                             children: <Widget>[
                                                               InkWell(
-                                                                // onTap: () async {
-                                                                //   FilePickerResult
-                                                                //       result =
-                                                                //       await FilePicker
-                                                                //           .platform
-                                                                //           .pickFiles(
-                                                                //     type: FileType.custom,
-                                                                //     allowedExtensions: [
-                                                                //       'jpg',
-                                                                //       'png',
-                                                                //     ],
-                                                                //   );
+                                                                onTap:
+                                                                    () async {
+                                                                  FilePickerResult
+                                                                      result =
+                                                                      await FilePicker
+                                                                          .platform
+                                                                          .pickFiles(
+                                                                    type: FileType
+                                                                        .custom,
+                                                                    allowedExtensions: [
+                                                                      'jpg',
+                                                                      'png',
+                                                                    ],
+                                                                  );
 
-                                                                //   if (result != null) {
-                                                                //     PlatformFile file =
-                                                                //         result
-                                                                //             .files.first;
+                                                                  if (result !=
+                                                                      null) {
+                                                                    PlatformFile
+                                                                        file =
+                                                                        result
+                                                                            .files
+                                                                            .first;
 
-                                                                //     print(file.name);
-                                                                //     print(file.path);
-                                                                //     setState(() {
-                                                                //       profilePath =
-                                                                //           file.path;
-                                                                //       isLocal = true;
-                                                                //     });
-                                                                //   } else {
-                                                                //     // User canceled the picker
-                                                                //   }
-                                                                // },
+                                                                    setState(
+                                                                        () {
+                                                                      profilePath =
+                                                                          file.path;
+                                                                      isLocal =
+                                                                          true;
+                                                                    });
+                                                                  } else {
+                                                                    // User canceled the picker
+                                                                  }
+                                                                },
                                                                 child:
                                                                     new CircleAvatar(
                                                                   backgroundColor:
@@ -541,7 +546,29 @@ class MapScreenState extends State<Profile>
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
                 child: Text("Save"),
-                onPressed: () {
+                onPressed: () async {
+                  User user = User(
+                    firstName: controller.text,
+                    lastName: controller1.text,
+                    username: controller2.text,
+                    email: controller3.text,
+                    phoneNumber: controller4.text,
+                    profileImage: path,
+                    password: "12",
+                  );
+                  try {
+                    await UserApi().updateUser(user).then((response) async {
+                      if (response['error'] == false) {
+                        _signUpDialogue(
+                            context, "Profile updated successfully");
+                      } else {
+                        print('Error');
+                        _signUpDialogue(context, "Error updating profile");
+                      }
+                    });
+                  } catch (e) {
+                    print("Error: " + e.toString());
+                  }
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(FocusNode());
@@ -594,5 +621,27 @@ class MapScreenState extends State<Profile>
         });
       },
     );
+  }
+
+  _signUpDialogue(context, text) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(text),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

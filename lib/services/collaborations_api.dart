@@ -36,8 +36,7 @@ class CollaborationsApi {
   Future<List<Project>> getProjects() async {
     try {
       var response = await http.get(
-          Uri.encodeFull(
-              "$baseUrl/api/collaborations/projects_list/"), //uri of api
+          Uri.encodeFull("$baseUrl/api/company/projects_list/"), //uri of api
           headers: {"Accept": "application/json"});
 
       String body = utf8.decode(response.bodyBytes);
