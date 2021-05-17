@@ -79,53 +79,6 @@ class CompanyDetail extends StatelessWidget {
                                   SizedBox(
                                     height: 5.0,
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       left: 20.0, right: 5),
-                                  //   child: Row(
-                                  //     mainAxisAlignment:
-                                  //         MainAxisAlignment.start,
-                                  //     children: [
-                                  //       Icon(
-                                  //         Icons.star,
-                                  //         size: 20,
-                                  //         color:
-                                  //             Color.fromRGBO(241, 196, 16, 1),
-                                  //       ),
-                                  //       Icon(
-                                  //         Icons.star,
-                                  //         size: 20,
-                                  //         color:
-                                  //             Color.fromRGBO(241, 196, 16, 1),
-                                  //       ),
-                                  //       Icon(
-                                  //         Icons.star,
-                                  //         size: 20,
-                                  //         color:
-                                  //             Color.fromRGBO(241, 196, 16, 1),
-                                  //       ),
-                                  //       Icon(
-                                  //         Icons.star,
-                                  //         size: 20,
-                                  //         color:
-                                  //             Color.fromRGBO(241, 196, 16, 1),
-                                  //       ),
-                                  //       Icon(
-                                  //         Icons.star,
-                                  //         size: 20,
-                                  //       ),
-                                  //       SizedBox(
-                                  //         width: 5,
-                                  //       ),
-                                  //       Text(
-                                  //         "4 reviews",
-                                  //         style: TextStyle(
-                                  //             color: Colors.black87,
-                                  //             fontSize: 18),
-                                  //       )
-                                  //     ],
-                                  //   ),
-                                  // ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 25.0),
                                     child: Row(
@@ -382,7 +335,7 @@ class CompanyDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
                 child: Text(
-                  'More Business info',
+                  'More Company info',
                   style: TextStyle(
                       color: Colors.black87,
                       fontSize: 24,
@@ -417,41 +370,6 @@ class CompanyDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              Container(
-                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
-              SizedBox(
-                height: 15.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: Text(
-                    "Business ID : #2314443",
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 19,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, bottom: 15.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: Text(
-                    "Posted by MelfanTech / March 11, 2021",
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 19,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-              Container(
-                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
             ]),
       ),
     );
@@ -532,14 +450,29 @@ class CompanyDetail extends StatelessWidget {
       color: Colors.white,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 15, bottom: 15),
+              child: Text(
+                'Contact Manufacturer',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Container(
+                height: 3, color: Theme.of(context).scaffoldBackgroundColor),
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                Widget>[
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   height: 45,
-                  width: 140,
+                  width: 100,
                   child: SizedBox.expand(
                     child: ElevatedButton(
                       onPressed: () {},
@@ -553,12 +486,12 @@ class CompanyDetail extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.share, color: Colors.white),
+                          Icon(Icons.mail, color: Colors.white),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
-                            "Share Ad",
+                            "Chat",
                             style: TextStyle(color: Colors.white, fontSize: 17),
                           ),
                         ],
@@ -571,13 +504,15 @@ class CompanyDetail extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   height: 45,
-                  width: 100,
+                  width: 150,
                   child: SizedBox.expand(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/contactUs");
+                      },
                       style: ElevatedButton.styleFrom(
-                        onPrimary: Color.fromRGBO(236, 41, 107, 0.5),
-                        primary: Color.fromRGBO(236, 41, 107, 1),
+                        onPrimary: Color.fromRGBO(255, 136, 25, 0.5),
+                        primary: Color.fromRGBO(255, 136, 25, 1),
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -586,14 +521,14 @@ class CompanyDetail extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(
-                            FontAwesomeIcons.heart,
+                            Icons.person,
                             color: Colors.white,
                           ),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
-                            "344",
+                            "Contact Us",
                             style: TextStyle(color: Colors.white, fontSize: 17),
                           ),
                         ],
@@ -603,6 +538,8 @@ class CompanyDetail extends StatelessWidget {
                 ),
               ),
             ]),
+          ],
+        ),
       ),
     );
   }

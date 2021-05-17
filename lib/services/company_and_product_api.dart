@@ -189,6 +189,30 @@ class CompanyAndProductAPI {
     }
   }
 
+  //like or dislike a product
+  Future<dynamic> likeProduct(id, type) async {
+    try {
+      var response;
+      if (type == "like")
+        response = await http.get(
+            Uri.encodeFull("$baseUrl/api/product/like_product/"), //uri of api
+            headers: {"Accept": "application/json"});
+      else
+        response = await http.get(
+            Uri.encodeFull("$baseUrl/api/product/like_product/"), //uri of api
+            headers: {"Accept": "application/json"});
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      return data;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
   //Get total view dataa
   Future<Map<String, dynamic>> getTotalViews() async {
     try {
