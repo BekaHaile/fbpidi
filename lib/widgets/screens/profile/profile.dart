@@ -554,7 +554,6 @@ class MapScreenState extends State<Profile>
                     email: controller3.text,
                     phoneNumber: controller4.text,
                     profileImage: path,
-                    password: "12",
                   );
                   try {
                     await UserApi().updateUser(user).then((response) async {

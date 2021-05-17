@@ -54,6 +54,29 @@ class CollaborationsApi {
     }
   }
 
+  //Get detail of a project
+  Future<List<Project>> getProject(id) async {
+    try {
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/company/project_detail/?id=$id"), //uri of api
+          headers: {"Accept": "application/json"});
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      List<Project> projects = [];
+      data['projects'].forEach((project) {
+        projects.add(Project.fromMap(project));
+      });
+      return projects;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
   //Get all researches
   Future<Map<String, dynamic>> getResearches(page) async {
     try {

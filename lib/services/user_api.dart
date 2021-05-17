@@ -1,12 +1,19 @@
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/strings/strings.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserApi {
   String baseUrl = Strings().baseUrl;
+
+  Future<String> getToken() async {
+    final storage = new FlutterSecureStorage();
+    String token = await storage.read(key: 'token');
+    return token;
+  }
 
   //Get profile data
   Future<Map<String, dynamic>> getProfile(token) async {
@@ -80,6 +87,7 @@ class UserApi {
   //update profile
   Future<dynamic> updateUser(User user) async {
     var response;
+    String token = await getToken();
     try {
       var uri = Uri.parse("$baseUrl/api/mydash/");
       var request = http.MultipartRequest('POST', uri);
@@ -91,12 +99,14 @@ class UserApi {
       request.fields['last_name'] = user.lastName;
       request.fields['phone_number'] = user.phoneNumber;
       request.fields['email'] = user.email;
+      request.headers['Authorization'] = "Token " + token;
+
       response = await request.send();
       // print("about to decode response /////////");
 
       final respStr = await response.stream.bytesToString();
 
-      // print("******" + respStr + "is the response *****");
+      print("******" + respStr + "is the response *****");
       return jsonDecode(respStr);
     } catch (e) {
       print(e.toString() + 'has occured ****');

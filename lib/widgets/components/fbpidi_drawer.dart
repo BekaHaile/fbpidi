@@ -123,7 +123,7 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
                 ),
                 // _buildRow(
                 //     FontAwesomeIcons.utensils, "Investment Opportunities", 15),
-                // _buildRow(FontAwesomeIcons.projectDiagram, "Projects", 15),
+                _buildRow(FontAwesomeIcons.projectDiagram, "Projects", 15),
                 _buildRow(FontAwesomeIcons.researchgate, "Researches", 15),
                 _buildRow(FontAwesomeIcons.vaadin, "Vacancies", 15),
                 _buildRow(FontAwesomeIcons.chartLine, "Tenders", 15),
