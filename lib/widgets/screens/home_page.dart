@@ -48,15 +48,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
-              FontAwesomeIcons.comments,
-              size: 27,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
           child: ListView(
