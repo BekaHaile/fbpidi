@@ -33,7 +33,7 @@ class CollaborationsApi {
   }
 
   //Get all projects
-  Future<List<Project>> getProjects() async {
+  Future<Map<String, dynamic>> getProjects() async {
     try {
       var response = await http.get(
           Uri.encodeFull("$baseUrl/api/company/projects_list/"), //uri of api
@@ -47,7 +47,9 @@ class CollaborationsApi {
       data['projects'].forEach((project) {
         projects.add(Project.fromMap(project));
       });
-      return projects;
+      Map<String, dynamic> data2 = {"projects": projects};
+
+      return data2;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');
@@ -55,7 +57,7 @@ class CollaborationsApi {
   }
 
   //Get detail of a project
-  Future<List<Project>> getProject(id) async {
+  Future<Project> getProject(id) async {
     try {
       var response = await http.get(
           Uri.encodeFull(
@@ -66,11 +68,8 @@ class CollaborationsApi {
 
       Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
-      List<Project> projects = [];
-      data['projects'].forEach((project) {
-        projects.add(Project.fromMap(project));
-      });
-      return projects;
+      Project project = Project.fromMap(data["project"]);
+      return project;
     } catch (e) {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');

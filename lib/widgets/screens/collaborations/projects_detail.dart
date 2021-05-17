@@ -29,7 +29,7 @@ class ProjectDetial extends StatelessWidget {
   }
 
   Widget _buildProjectList(context) {
-    return FutureBuilder<List<Project>>(
+    return FutureBuilder<Map<String, dynamic>>(
         future: CollaborationsApi().getProjects(),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
@@ -37,7 +37,7 @@ class ProjectDetial extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           else {
-            List<Project> project = snapshot.data;
+            List<Project> project = snapshot.data["projects"];
             return Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * 0.95,

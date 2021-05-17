@@ -28,7 +28,7 @@ class Projects extends StatelessWidget {
   }
 
   Widget _buildProjectList(context) {
-    return FutureBuilder<List<Project>>(
+    return FutureBuilder<Map<String, dynamic>>(
         future: CollaborationsApi().getProjects(),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
@@ -36,7 +36,7 @@ class Projects extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           else {
-            List<Project> projects = snapshot.data;
+            List<Project> projects = snapshot.data["projects"];
             if (projects.length == 0)
               return Center(
                   child: Padding(

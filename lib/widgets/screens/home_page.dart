@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/models/company.dart';
-import 'package:fbpidi/models/research.dart';
+import 'package:fbpidi/models/project.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     'New User Guide',
   ];
 
-  List<Widget> companyCardList = [], researchCardList;
+  List<Widget> companyCardList = [], projectCardList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
           // _buildHorizontalList(
           //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
-          _buildHorizontalList("Researches", Color.fromRGBO(217, 226, 241, 1)),
+          _buildHorizontalList("Projects", Color.fromRGBO(217, 226, 241, 1)),
           Column(
             children: [
               Padding(
@@ -223,11 +223,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildResearchCard(Research research) {
+  Widget buildProjectCard(Project project) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/researchDetail',
-            arguments: {"id": research.id});
+        Navigator.pushNamed(context, '/projectDetail',
+            arguments: {"id": project.id});
       },
       child: Padding(
           padding: const EdgeInsets.all(5.0),
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                   height: 110,
                   child: FittedBox(
                     child: Image.network(
-                        CollaborationsApi().baseUrl + research.company),
+                        CollaborationsApi().baseUrl + project.image),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -248,9 +248,9 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     width: 80,
                     child: Text(
-                      research.title.length > 12
-                          ? research.title.substring(0, 12) + '..'
-                          : research.title,
+                      project.projectName.length > 12
+                          ? project.projectName.substring(0, 12) + '..'
+                          : project.projectName,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.pushReplacementNamed(context, '/companies',
                             arguments: {'type': 'All'});
                       else
-                        Navigator.pushReplacementNamed(context, "/researches");
+                        Navigator.pushReplacementNamed(context, "/projects");
                     },
                     child: Text("More"),
                   ),
@@ -300,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                   child: FutureBuilder<Map<String, dynamic>>(
                     future: title == "Manufacturer"
                         ? CompanyAndProductAPI().getCompanies("All", "1")
-                        : CollaborationsApi().getResearches("1"),
+                        : CollaborationsApi().getProjects(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData)
                         return Center(
@@ -311,11 +311,11 @@ class _HomePageState extends State<HomePage> {
                         );
                       else {
                         List<Company> companies = [];
-                        List<Research> researches = [];
+                        List<Project> projects = [];
                         if (title == "Manufacturer")
                           companies = snapshot.data["companies"];
                         else
-                          researches = snapshot.data["researches"];
+                          projects = snapshot.data["projects"];
                         if (title == "Manufacturer" && companies.length == 0)
                           return Center(
                               child: Padding(
@@ -323,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                             child: Text("No data"),
                           ));
                         else if (title != "Manufacturer" &&
-                            researches.length == 0)
+                            projects.length == 0)
                           return Center(
                               child: Padding(
                             padding: const EdgeInsets.all(20.0),
@@ -337,11 +337,11 @@ class _HomePageState extends State<HomePage> {
                             });
                             return _buildCarousel(context, companyCardList);
                           } else {
-                            researchCardList.clear();
-                            researches.forEach((research) {
-                              researchCardList.add(buildResearchCard(research));
+                            projectCardList.clear();
+                            projects.forEach((project) {
+                              projectCardList.add(buildProjectCard(project));
                             });
-                            return _buildCarousel(context, researchCardList);
+                            return _buildCarousel(context, projectCardList);
                           }
                         }
                       }
