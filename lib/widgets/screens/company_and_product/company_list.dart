@@ -375,10 +375,7 @@ class _CompanyState extends State<CompanyPage> {
                                   ),
                                   SizedBox(
                                     width: 5,
-                                  ),
-                                  Icon(FontAwesomeIcons.exclamationCircle,
-                                      color: Theme.of(context).buttonColor,
-                                      size: 22)
+                                  )
                                 ],
                               ),
                               SizedBox(
