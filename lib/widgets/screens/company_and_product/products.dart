@@ -307,66 +307,63 @@ class _ProductsState extends State<Products> {
                                             )),
                                       ),
                                     ),
-                                    Positioned.fill(
-                                      child: Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 5,
-                                            bottom: 5,
-                                          ),
-                                          child: Container(
-                                            height: 30,
-                                            width: 70,
-                                            child: SizedBox.expand(
-                                              child: ElevatedButton(
-                                                onPressed: () {},
-                                                style: ElevatedButton.styleFrom(
-                                                  onPrimary: Theme.of(context)
-                                                      .buttonColor
-                                                      .withOpacity(1),
-                                                  primary: Theme.of(context)
-                                                      .buttonColor
-                                                      .withOpacity(0.9),
-                                                ),
-                                                child: Text(
-                                                  products[index].categoryName,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                    if (products[index].category != null)
+                                      Positioned.fill(
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 5,
+                                              bottom: 5,
+                                            ),
+                                            child: Container(
+                                              height: 30,
+                                              width: 70,
+                                              child: SizedBox.expand(
+                                                child: ElevatedButton(
+                                                  onPressed: () {},
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    onPrimary: Theme.of(context)
+                                                        .buttonColor
+                                                        .withOpacity(1),
+                                                    primary: Theme.of(context)
+                                                        .buttonColor
+                                                        .withOpacity(0.9),
+                                                  ),
+                                                  child: Text(
+                                                    products[index].category[0]
+                                                        ["category_type"],
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               ),
                               SizedBox(
                                 width: 5.0,
                               ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, top: 5, bottom: 10),
-                                    child: Text(
-                                      products[index].name,
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.left,
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20.0, top: 5, bottom: 10),
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  child: Text(
+                                    products[index].name,
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
                                   ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(FontAwesomeIcons.exclamationCircle,
-                                      color: Theme.of(context).buttonColor,
-                                      size: 22)
-                                ],
+                                ),
                               ),
                               SizedBox(
                                 height: 5.0,

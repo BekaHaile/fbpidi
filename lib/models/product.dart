@@ -5,7 +5,7 @@ import 'company.dart';
 class Product {
   String id;
   String latestPrice;
-  String categoryName;
+  List category;
   Company company;
   String name;
   String nameAm;
@@ -20,7 +20,7 @@ class Product {
   Product({
     this.id,
     this.latestPrice,
-    this.categoryName,
+    this.category,
     this.company,
     this.name,
     this.nameAm,
@@ -36,7 +36,7 @@ class Product {
   Product.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
     latestPrice = map["latest_price"].toString();
-    categoryName = map["category_name"].toString();
+    category = map["category"];
     company = Company.fromMap(map["company"]);
     name = map["name"].toString();
     nameAm = map["nameAm"].toString();

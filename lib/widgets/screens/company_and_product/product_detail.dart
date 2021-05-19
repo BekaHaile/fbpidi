@@ -58,75 +58,16 @@ class ProductDetail extends StatelessWidget {
                                         textAlign: TextAlign.left,
                                       ),
                                     ),
-                                    _productIcons(context, Icons.flag,
-                                        'Addis Ababa, Ethiopia'),
+                                    if (products.category != null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 30.0),
+                                        child: Text(products.category[0]
+                                            ["category_type"]),
+                                      ),
                                     SizedBox(
                                       height: 7.0,
                                     ),
-                                    _productIcons(
-                                        context,
-                                        FontAwesomeIcons.suitcase,
-                                        products.categoryName),
-                                    SizedBox(
-                                      height: 7.0,
-                                    ),
-                                    _productIcons(
-                                        context,
-                                        FontAwesomeIcons.calendarAlt,
-                                        '5 hours ago'),
-                                    SizedBox(
-                                      height: 7.0,
-                                    ),
-                                    _productIcons(
-                                        context, FontAwesomeIcons.eye, '765'),
-                                    SizedBox(
-                                      height: 7.0,
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //       left: 20.0, right: 5),
-                                    //   child: Row(
-                                    //     mainAxisAlignment:
-                                    //         MainAxisAlignment.start,
-                                    //     children: [
-                                    //       Icon(
-                                    //         Icons.star,
-                                    //         size: 20,
-                                    //         color:
-                                    //             Color.fromRGBO(241, 196, 16, 1),
-                                    //       ),
-                                    //       Icon(
-                                    //         Icons.star,
-                                    //         size: 20,
-                                    //         color:
-                                    //             Color.fromRGBO(241, 196, 16, 1),
-                                    //       ),
-                                    //       Icon(
-                                    //         Icons.star,
-                                    //         size: 20,
-                                    //         color:
-                                    //             Color.fromRGBO(241, 196, 16, 1),
-                                    //       ),
-                                    //       Icon(
-                                    //         Icons.star,
-                                    //         size: 20,
-                                    //       ),
-                                    //       Icon(
-                                    //         Icons.star,
-                                    //         size: 20,
-                                    //       ),
-                                    //       SizedBox(
-                                    //         width: 5,
-                                    //       ),
-                                    //       Text(
-                                    //         "4.0",
-                                    //         style: TextStyle(
-                                    //             color: Colors.black87,
-                                    //             fontSize: 18),
-                                    //       )
-                                    //     ],
-                                    //   ),
-                                    // ),
                                     SizedBox(
                                       height: 15.0,
                                     ),
@@ -148,7 +89,8 @@ class ProductDetail extends StatelessWidget {
                                             child: FittedBox(
                                               fit: BoxFit.fill,
                                               child: Image.network(
-                                                "https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/body-image/public/1-corvette-stingray-c8-2019-fd-hr-hero-front_0.jpg?itok=SEYe_vLy",
+                                                CompanyAndProductAPI().baseUrl +
+                                                    products.image,
                                               ),
                                             ),
                                           ),
@@ -216,36 +158,36 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  Widget _productIcons(context, icon, title) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: Icon(
-            icon,
-            color: Colors.black54,
-            size: 14,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 10.0,
-          ),
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 15,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _productIcons(context, icon, title) {
+  //   return Row(
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20.0),
+  //         child: Icon(
+  //           icon,
+  //           color: Colors.black54,
+  //           size: 14,
+  //         ),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.only(
+  //           left: 10.0,
+  //         ),
+  //         child: Container(
+  //           width: MediaQuery.of(context).size.width * 0.7,
+  //           child: Text(
+  //             title,
+  //             style: TextStyle(
+  //               color: Colors.black87,
+  //               fontSize: 15,
+  //             ),
+  //             textAlign: TextAlign.left,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget overviewCard(context, Product products) {
     return Card(

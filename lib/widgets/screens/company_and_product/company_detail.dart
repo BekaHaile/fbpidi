@@ -3,6 +3,7 @@ import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetail extends StatelessWidget {
   final data;
@@ -83,40 +84,64 @@ class CompanyDetail extends StatelessWidget {
                                     padding: const EdgeInsets.only(left: 25.0),
                                     child: Row(
                                       children: [
-                                        _iconWithCircleBackground(
-                                            FontAwesomeIcons.facebookF,
-                                            Colors.black),
-                                        _iconWithCircleBackground(
-                                            FontAwesomeIcons.twitter,
-                                            Colors.black),
-                                        _iconWithCircleBackground(
-                                            FontAwesomeIcons.googlePlusG,
-                                            Colors.black),
-                                        _iconWithCircleBackground(
-                                            FontAwesomeIcons.footballBall,
-                                            Colors.black),
+                                        if (company.companyAddress != null &&
+                                            company.companyAddress[
+                                                    "facebooklink"] !=
+                                                null)
+                                          InkWell(
+                                            onTap: () {
+                                              _launchInBrowser(
+                                                  company.companyAddress[
+                                                      "facebooklink"]);
+                                            },
+                                            child: _iconWithCircleBackground(
+                                                FontAwesomeIcons.facebookF,
+                                                Colors.black),
+                                          ),
+                                        if (company.companyAddress != null &&
+                                            company.companyAddress[
+                                                    "twitterlink"] !=
+                                                null)
+                                          InkWell(
+                                            onTap: () {
+                                              _launchInBrowser(
+                                                  company.companyAddress[
+                                                      "twitterlink"]);
+                                            },
+                                            child: _iconWithCircleBackground(
+                                                FontAwesomeIcons.twitter,
+                                                Colors.black),
+                                          ),
+                                        if (company.companyAddress != null &&
+                                            company.companyAddress[
+                                                    "googlelink"] !=
+                                                null)
+                                          InkWell(
+                                            onTap: () {
+                                              _launchInBrowser(
+                                                  company.companyAddress[
+                                                      "googlelink"]);
+                                            },
+                                            child: _iconWithCircleBackground(
+                                                FontAwesomeIcons.googlePlusG,
+                                                Colors.black),
+                                          ),
+                                        InkWell(
+                                          onTap: () {
+                                            _launchInBrowser(
+                                                company.companyAddress[
+                                                    "instagramlink"]);
+                                          },
+                                          child: _iconWithCircleBackground(
+                                              FontAwesomeIcons.instagram,
+                                              Colors.black),
+                                        )
                                       ],
                                     ),
                                   ),
                                   SizedBox(
                                     height: 15.0,
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     _iconButton(
-                                  //         Icons.bookmark,
-                                  //         Color.fromRGBO(10, 178, 230, 1),
-                                  //         "Add Bookmark"),
-                                  //     _iconButton(
-                                  //         Icons.star,
-                                  //         Color.fromRGBO(16, 212, 3, 1),
-                                  //         "Write Review"),
-                                  //   ],
-                                  // ),
-                                  // _iconButton(
-                                  //     FontAwesomeIcons.exclamationCircle,
-                                  //     Color.fromRGBO(214, 15, 2, 1),
-                                  //     "Report Abuse"),
                                   SizedBox(
                                     height: 15,
                                   ),
@@ -232,6 +257,18 @@ class CompanyDetail extends StatelessWidget {
   //     ),
   //   );
   // }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   Widget _iconWithCircleBackground(icon, color) {
     return Padding(

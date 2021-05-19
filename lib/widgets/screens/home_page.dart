@@ -474,7 +474,7 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 5.0,
-                    childAspectRatio: 0.7),
+                    childAspectRatio: 0.65),
                 itemBuilder: (_, int index) {
                   return InkWell(
                     onTap: () {
@@ -543,22 +543,33 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Column(
                                     children: [
-                                      Text(
-                                        products[index].company.name,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 13),
-                                        textAlign: TextAlign.left,
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.35,
+                                        child: Text(
+                                          products[index].company.name,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 13),
+                                          textAlign: TextAlign.left,
+                                        ),
                                       ),
-                                      Text(
-                                        products[index]
-                                            .company
-                                            .companyAddress["phone_number"],
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 13),
-                                        textAlign: TextAlign.left,
-                                      ),
+                                      // Text(
+                                      //   products[index]
+                                      //               .company
+                                      //               .companyAddress !=
+                                      //           null
+                                      //       ? products[index]
+                                      //           .company
+                                      //           .companyAddress["phone_number"]
+                                      //       : "",
+                                      //   softWrap: true,
+                                      //   style: TextStyle(
+                                      //       color: Colors.black, fontSize: 13),
+                                      //   textAlign: TextAlign.left,
+                                      // ),
                                     ],
                                   ),
                                 ],
