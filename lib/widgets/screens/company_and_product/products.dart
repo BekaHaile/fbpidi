@@ -524,44 +524,65 @@ class _ProductsState extends State<Products> {
                                   //     ),
                                   //   ),
                                   // ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        _launchInBrowser(
-                                            "tel:${products[index].company.companyAddress["phone_number"]}");
-                                      },
-                                      child: Container(
-                                        height: 34,
-                                        width: 34,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                247, 247, 251, 1),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.phone,
-                                          color: Colors.black,
-                                          size: 19,
+                                  if (products[index].company.companyAddress !=
+                                      null)
+                                    if (products[index]
+                                            .company
+                                            .companyAddress["phone_number"] !=
+                                        "")
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _launchInBrowser(
+                                                "tel:${products[index].company.companyAddress["phone_number"]}");
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.phone,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 8.0),
-                                  //   child: Container(
-                                  //     height: 34,
-                                  //     width: 34,
-                                  //     decoration: BoxDecoration(
-                                  //         color:
-                                  //             Color.fromRGBO(247, 247, 251, 1),
-                                  //         shape: BoxShape.circle),
-                                  //     child: Icon(
-                                  //       FontAwesomeIcons.globe,
-                                  //       color: Colors.black,
-                                  //       size: 19,
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  if (products[index].company.companyAddress !=
+                                      null)
+                                    if (products[index]
+                                            .company
+                                            .companyAddress["website"] !=
+                                        "")
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _launchInBrowser(products[index]
+                                                .company
+                                                .companyAddress["website"]);
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              FontAwesomeIcons.globe,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                   // Padding(
                                   //   padding: const EdgeInsets.only(left: 8.0),
                                   //   child: Container(
@@ -644,6 +665,7 @@ class _ProductsState extends State<Products> {
   }
 
   Future<void> _launchInBrowser(String url) async {
+    if (!url.contains("http")) url = "http://" + url;
     if (await canLaunch(url)) {
       await launch(
         url,

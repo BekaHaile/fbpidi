@@ -2,7 +2,6 @@ import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductDetail extends StatelessWidget {
   final data;
