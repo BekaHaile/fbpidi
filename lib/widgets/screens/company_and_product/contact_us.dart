@@ -66,10 +66,16 @@ class ContactUs extends StatelessWidget {
                                   CompanyAndProductAPI()
                                       .contactUs(contactData)
                                       .then((response) {
-                                    _confirmationDialogue(
-                                        context,
-                                        "Your message has been successfully sent",
-                                        false);
+                                    if (!response["error"])
+                                      _confirmationDialogue(
+                                          context,
+                                          "Your message has been successfully sent",
+                                          false);
+                                    else
+                                      _confirmationDialogue(
+                                          context,
+                                          "Error sending message, please make sure you have filled all the fields with appropriate data.",
+                                          true);
                                   });
                                 },
                                 child: Text(
