@@ -5,6 +5,7 @@ import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Products extends StatefulWidget {
   final data;
@@ -307,7 +308,7 @@ class _ProductsState extends State<Products> {
                                             )),
                                       ),
                                     ),
-                                    if (products[index].category != null)
+                                    if (products[index].brand != null)
                                       Positioned.fill(
                                         child: Align(
                                           alignment: Alignment.bottomRight,
@@ -318,7 +319,7 @@ class _ProductsState extends State<Products> {
                                             ),
                                             child: Container(
                                               height: 30,
-                                              width: 70,
+                                              width: 100,
                                               child: SizedBox.expand(
                                                 child: ElevatedButton(
                                                   onPressed: () {},
@@ -332,7 +333,10 @@ class _ProductsState extends State<Products> {
                                                         .withOpacity(0.9),
                                                   ),
                                                   child: Text(
-                                                    products[index].category[0]
+                                                    products[index]
+                                                                .brand
+                                                                .productType[
+                                                            "category_name"]
                                                         ["category_type"],
                                                     style: TextStyle(
                                                         color: Colors.white),
@@ -429,7 +433,14 @@ class _ProductsState extends State<Products> {
                                       width: MediaQuery.of(context).size.width *
                                           0.7,
                                       child: Text(
-                                        'Addis Ababa',
+                                        products[index]
+                                                    .company
+                                                    .companyAddress !=
+                                                null
+                                            ? products[index]
+                                                .company
+                                                .companyAddress["city_town"]
+                                            : "Address",
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 18,
@@ -461,7 +472,20 @@ class _ProductsState extends State<Products> {
                                       width: MediaQuery.of(context).size.width *
                                           0.7,
                                       child: Text(
-                                        'Addis Ababa, Ethiopia',
+                                        products[index]
+                                                    .company
+                                                    .companyAddress !=
+                                                null
+                                            ? products[index]
+                                                        .company
+                                                        .companyAddress[
+                                                    "local_area"] +
+                                                " " +
+                                                products[index]
+                                                        .company
+                                                        .companyAddress[
+                                                    "phone_number"]
+                                            : "Address",
                                         style: TextStyle(
                                           color: Colors.black54,
                                           fontSize: 20,
@@ -471,18 +495,6 @@ class _ProductsState extends State<Products> {
                                     ),
                                   ),
                                 ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, top: 5, bottom: 20),
-                                child: Text(
-                                  'Timings : 10am - 10pm',
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 20,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -496,120 +508,92 @@ class _ProductsState extends State<Products> {
                               ),
                               Row(
                                 children: [
+                                  //   Padding(
+                                  //   padding: const EdgeInsets.only(left: 18.0),
+                                  //   child: Container(
+                                  //     height: 34,
+                                  //     width: 34,
+                                  //     decoration: BoxDecoration(
+                                  //         color:
+                                  //             Color.fromRGBO(247, 247, 251, 1),
+                                  //         shape: BoxShape.circle),
+                                  //     child: Icon(
+                                  //       Icons.mail,
+                                  //       color: Colors.black,
+                                  //       size: 19,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.mail,
-                                        color: Colors.black,
-                                        size: 19,
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        _launchInBrowser(
+                                            "tel:${products[index].company.companyAddress["phone_number"]}");
+                                      },
+                                      child: Container(
+                                        height: 34,
+                                        width: 34,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                247, 247, 251, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          Icons.phone,
+                                          color: Colors.black,
+                                          size: 19,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        FontAwesomeIcons.globe,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        FontAwesomeIcons.solidComments,
-                                        color: Theme.of(context).primaryColor,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.share,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.directions,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    'Get Directions',
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 8.0),
+                                  //   child: Container(
+                                  //     height: 34,
+                                  //     width: 34,
+                                  //     decoration: BoxDecoration(
+                                  //         color:
+                                  //             Color.fromRGBO(247, 247, 251, 1),
+                                  //         shape: BoxShape.circle),
+                                  //     child: Icon(
+                                  //       FontAwesomeIcons.globe,
+                                  //       color: Colors.black,
+                                  //       size: 19,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 8.0),
+                                  //   child: Container(
+                                  //     height: 34,
+                                  //     width: 34,
+                                  //     decoration: BoxDecoration(
+                                  //         color:
+                                  //             Color.fromRGBO(247, 247, 251, 1),
+                                  //         shape: BoxShape.circle),
+                                  //     child: Icon(
+                                  //       FontAwesomeIcons.solidComments,
+                                  //       color: Theme.of(context).primaryColor,
+                                  //       size: 19,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 8.0),
+                                  //   child: Container(
+                                  //     height: 34,
+                                  //     width: 34,
+                                  //     decoration: BoxDecoration(
+                                  //         color:
+                                  //             Color.fromRGBO(247, 247, 251, 1),
+                                  //         shape: BoxShape.circle),
+                                  //     child: Icon(
+                                  //       Icons.share,
+                                  //       color: Colors.black,
+                                  //       size: 19,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               SizedBox(
@@ -657,5 +641,17 @@ class _ProductsState extends State<Products> {
     });
 
     return true;
+  }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

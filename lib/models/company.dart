@@ -54,7 +54,7 @@ class Company {
   String lastUpdatedDate;
   bool expired;
   String ownershipForm;
-  String contactPerson;
+  Map<String, dynamic> contactPerson;
   String workingHours;
   String sourceOfEnergy;
   String supportRequired;
@@ -183,7 +183,7 @@ class Company {
     lastUpdatedDate = map["last_updated_date"].toString();
     expired = map["expired"];
     ownershipForm = map["ownership_form"].toString();
-    contactPerson = map["contact_person"].toString();
+    contactPerson = map["contact_person"];
     workingHours = map["working_hours"].toString();
     sourceOfEnergy = map["source_of_energy"].toString();
     supportRequired = map["support_required"].toString();

@@ -58,16 +58,22 @@ class ProductDetail extends StatelessWidget {
                                         textAlign: TextAlign.left,
                                       ),
                                     ),
-                                    if (products.category != null)
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 30.0),
-                                        child: Text(products.category[0]
-                                            ["category_type"]),
-                                      ),
+                                    if (products.brand.productType != null)
+                                      _productIcons(
+                                          context,
+                                          Icons.badge,
+                                          products.brand
+                                                  .productType["category_name"]
+                                              ["category_type"]),
                                     SizedBox(
                                       height: 7.0,
                                     ),
+                                    if (products.company.companyAddress != null)
+                                      _productIcons(
+                                          context,
+                                          Icons.location_on,
+                                          products.company
+                                              .companyAddress["city_town"]),
                                     SizedBox(
                                       height: 15.0,
                                     ),
@@ -94,43 +100,43 @@ class ProductDetail extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Positioned.fill(
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 5,
-                                                ),
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 70,
-                                                  child: SizedBox.expand(
-                                                    child: ElevatedButton(
-                                                      onPressed: () {},
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        onPrimary: Theme.of(
-                                                                context)
-                                                            .buttonColor
-                                                            .withOpacity(0.9),
-                                                        primary: Theme.of(
-                                                                context)
-                                                            .buttonColor
-                                                            .withOpacity(0.7),
-                                                      ),
-                                                      child: Text(
-                                                        products
-                                                            .brand.brandName,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                          // Positioned.fill(
+                                          //   child: Align(
+                                          //     alignment: Alignment.topLeft,
+                                          //     child: Padding(
+                                          //       padding: const EdgeInsets.only(
+                                          //         top: 5,
+                                          //       ),
+                                          //       child: Container(
+                                          //         height: 30,
+                                          //         width: 70,
+                                          //         child: SizedBox.expand(
+                                          //           child: ElevatedButton(
+                                          //             onPressed: () {},
+                                          //             style: ElevatedButton
+                                          //                 .styleFrom(
+                                          //               onPrimary: Theme.of(
+                                          //                       context)
+                                          //                   .buttonColor
+                                          //                   .withOpacity(0.9),
+                                          //               primary: Theme.of(
+                                          //                       context)
+                                          //                   .buttonColor
+                                          //                   .withOpacity(0.7),
+                                          //             ),
+                                          //             child: Text(
+                                          //               products
+                                          //                   .brand.brandName,
+                                          //               style: TextStyle(
+                                          //                   color:
+                                          //                       Colors.white),
+                                          //             ),
+                                          //           ),
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),
@@ -158,36 +164,36 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  // Widget _productIcons(context, icon, title) {
-  //   return Row(
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.only(left: 20.0),
-  //         child: Icon(
-  //           icon,
-  //           color: Colors.black54,
-  //           size: 14,
-  //         ),
-  //       ),
-  //       Padding(
-  //         padding: const EdgeInsets.only(
-  //           left: 10.0,
-  //         ),
-  //         child: Container(
-  //           width: MediaQuery.of(context).size.width * 0.7,
-  //           child: Text(
-  //             title,
-  //             style: TextStyle(
-  //               color: Colors.black87,
-  //               fontSize: 15,
-  //             ),
-  //             textAlign: TextAlign.left,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+  Widget _productIcons(context, icon, title) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Icon(
+            icon,
+            color: Colors.black54,
+            size: 14,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 10.0,
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget overviewCard(context, Product products) {
     return Card(
@@ -233,19 +239,32 @@ class ProductDetail extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              _contactInfo(context, Icons.flag, 'Addis Ababa, Ethiopia'),
-              SizedBox(
-                height: 15.0,
-              ),
-              _contactInfo(context, Icons.mail, '@gmail.com'),
-              SizedBox(
-                height: 15.0,
-              ),
-              _contactInfo(context, Icons.phone, '+251-91267221'),
-              SizedBox(
-                height: 15.0,
-              ),
-              _contactInfo(context, Icons.file_copy, 'Addis Ababa, Ethiopia'),
+              if (products.company.companyAddress != null)
+                Column(
+                  children: [
+                    _contactInfo(
+                        context,
+                        Icons.flag,
+                        products.company.companyAddress["city_town"] +
+                            ", " +
+                            products.company.companyAddress["local_area"]),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    _contactInfo(context, Icons.mail,
+                        products.company.companyAddress["email"]),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    _contactInfo(context, Icons.phone,
+                        products.company.companyAddress["phone_number"]),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    _contactInfo(context, Icons.file_copy,
+                        products.company.companyAddress["fax"]),
+                  ],
+                ),
               SizedBox(
                 height: 15.0,
               ),
@@ -260,19 +279,12 @@ class ProductDetail extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              _businessInfo(context, "Established Year", "2012"),
+              _businessInfo(context, "Established Year",
+                  products.company.establishedYear),
               SizedBox(
                 height: 15.0,
               ),
               _businessInfo(context, "Services", ""),
-              SizedBox(
-                height: 15.0,
-              ),
-              _businessInfo(context, "Payment Method", "online"),
-              SizedBox(
-                height: 15.0,
-              ),
-              _businessInfo(context, "Postal Code", "98773"),
               SizedBox(
                 height: 15.0,
               ),
@@ -290,7 +302,7 @@ class ProductDetail extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: Text(
-                    "Business ID : #2314443",
+                    products.company.name,
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 19,
@@ -304,7 +316,8 @@ class ProductDetail extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: Text(
-                    "Posted by MelfanTech / March 11, 2021",
+                    "Posted by ${products.company.contactPerson["username"]} / " +
+                        products.createDate.substring(0, 10),
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 19,
@@ -345,7 +358,7 @@ class ProductDetail extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             child: Text(
-              title,
+              title != null ? title : "",
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 20,
@@ -407,64 +420,46 @@ class ProductDetail extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        onPrimary: Color.fromRGBO(10, 178, 230, 0.5),
-                        primary: Color.fromRGBO(10, 178, 230, 1),
+                        onPrimary:
+                            Theme.of(context).primaryColor.withOpacity(0.5),
+                        primary: Theme.of(context).primaryColor,
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.share, color: Colors.white),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Share Ad",
-                            style: TextStyle(color: Colors.white, fontSize: 17),
-                          ),
-                        ],
+                      child: Text(
+                        "Inquire Now",
+                        style: TextStyle(color: Colors.white, fontSize: 17),
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  height: 45,
-                  width: 100,
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Color.fromRGBO(236, 41, 107, 0.5),
-                        primary: Color.fromRGBO(236, 41, 107, 1),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.heart,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "344",
-                            style: TextStyle(color: Colors.white, fontSize: 17),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Container(
+              //     height: 45,
+              //     width: 150,
+              //     child: SizedBox.expand(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           onPrimary: Color.fromRGBO(255, 136, 25, 0.5),
+              //           primary: Color.fromRGBO(255, 136, 25, 1),
+              //           padding: EdgeInsets.symmetric(horizontal: 16),
+              //           shape: const RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.all(Radius.circular(2)),
+              //           ),
+              //         ),
+              //         child: Text(
+              //           "Add to Basket",
+              //           style: TextStyle(color: Colors.white, fontSize: 17),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ]),
       ),
     );
