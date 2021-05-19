@@ -508,22 +508,41 @@ class _ProductsState extends State<Products> {
                               ),
                               Row(
                                 children: [
-                                  //   Padding(
-                                  //   padding: const EdgeInsets.only(left: 18.0),
-                                  //   child: Container(
-                                  //     height: 34,
-                                  //     width: 34,
-                                  //     decoration: BoxDecoration(
-                                  //         color:
-                                  //             Color.fromRGBO(247, 247, 251, 1),
-                                  //         shape: BoxShape.circle),
-                                  //     child: Icon(
-                                  //       Icons.mail,
-                                  //       color: Colors.black,
-                                  //       size: 19,
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  if (products[index].company.companyAddress !=
+                                      null)
+                                    if (products[index]
+                                            .company
+                                            .companyAddress["email"] !=
+                                        "")
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 18.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            final Uri _emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path: products[index]
+                                                  .company
+                                                  .companyAddress["email"],
+                                            );
+                                            _launchInBrowser(
+                                                _emailLaunchUri.toString());
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.mail,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                   if (products[index].company.companyAddress !=
                                       null)
                                     if (products[index]
@@ -532,7 +551,7 @@ class _ProductsState extends State<Products> {
                                         "")
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 20.0),
+                                            const EdgeInsets.only(left: 5.0),
                                         child: InkWell(
                                           onTap: () {
                                             _launchInBrowser(
@@ -665,7 +684,9 @@ class _ProductsState extends State<Products> {
   }
 
   Future<void> _launchInBrowser(String url) async {
-    if (!url.contains("http")) url = "http://" + url;
+    if (!url.contains("http") &&
+        !url.contains("mailto") &&
+        !url.contains("tel")) url = "http://" + url;
     if (await canLaunch(url)) {
       await launch(
         url,
