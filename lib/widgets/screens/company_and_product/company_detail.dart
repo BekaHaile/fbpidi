@@ -126,16 +126,20 @@ class CompanyDetail extends StatelessWidget {
                                                 FontAwesomeIcons.googlePlusG,
                                                 Colors.black),
                                           ),
-                                        InkWell(
-                                          onTap: () {
-                                            _launchInBrowser(
-                                                company.companyAddress[
-                                                    "instagramlink"]);
-                                          },
-                                          child: _iconWithCircleBackground(
-                                              FontAwesomeIcons.instagram,
-                                              Colors.black),
-                                        )
+                                        if (company.companyAddress != null &&
+                                            company.companyAddress[
+                                                    "instagramlink"] !=
+                                                null)
+                                          InkWell(
+                                            onTap: () {
+                                              _launchInBrowser(
+                                                  company.companyAddress[
+                                                      "instagramlink"]);
+                                            },
+                                            child: _iconWithCircleBackground(
+                                                FontAwesomeIcons.instagram,
+                                                Colors.black),
+                                          )
                                       ],
                                     ),
                                   ),
@@ -259,6 +263,9 @@ class CompanyDetail extends StatelessWidget {
   // }
 
   Future<void> _launchInBrowser(String url) async {
+    if (!url.contains("http") &&
+        !url.contains("mailto") &&
+        !url.contains("tel")) url = "http://" + url;
     if (await canLaunch(url)) {
       await launch(
         url,

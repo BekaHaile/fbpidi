@@ -6,6 +6,7 @@ import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyPage extends StatefulWidget {
   final data;
@@ -467,120 +468,92 @@ class _CompanyState extends State<CompanyPage> {
                               ),
                               Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.mail,
-                                        color: Colors.black,
-                                        size: 19,
+                                  if (companies[index].companyAddress != null)
+                                    if (companies[index]
+                                            .companyAddress["email"] !=
+                                        null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 18.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            final Uri _emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path: companies[index]
+                                                  .companyAddress["email"],
+                                            );
+                                            _launchInBrowser(
+                                                _emailLaunchUri.toString());
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.mail,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: Colors.black,
-                                        size: 19,
+                                  if (companies[index].companyAddress != null)
+                                    if (companies[index]
+                                            .companyAddress["phone_number"] !=
+                                        null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 5.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _launchInBrowser(
+                                                "tel:${companies[index].companyAddress["phone_number"]}");
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.phone,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        FontAwesomeIcons.globe,
-                                        color: Colors.black,
-                                        size: 19,
+                                  if (companies[index].companyAddress != null)
+                                    if (companies[index]
+                                            .companyAddress["website"] !=
+                                        null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _launchInBrowser(companies[index]
+                                                .companyAddress["website"]);
+                                          },
+                                          child: Container(
+                                            height: 34,
+                                            width: 34,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    247, 247, 251, 1),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              FontAwesomeIcons.globe,
+                                              color: Colors.black,
+                                              size: 19,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        FontAwesomeIcons.solidComments,
-                                        color: Theme.of(context).primaryColor,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.share,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: Container(
-                                      height: 34,
-                                      width: 34,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(247, 247, 251, 1),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.directions,
-                                        color: Colors.black,
-                                        size: 19,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    'Get Directions',
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -614,6 +587,21 @@ class _CompanyState extends State<CompanyPage> {
         )
       ],
     );
+  }
+
+  Future<void> _launchInBrowser(String url) async {
+    if (!url.contains("http") &&
+        !url.contains("mailto") &&
+        !url.contains("tel")) url = "http://" + url;
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<bool> _loadMore(page) async {

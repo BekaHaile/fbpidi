@@ -513,7 +513,7 @@ class _ProductsState extends State<Products> {
                                     if (products[index]
                                             .company
                                             .companyAddress["email"] !=
-                                        "")
+                                        null)
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 18.0),
@@ -548,7 +548,7 @@ class _ProductsState extends State<Products> {
                                     if (products[index]
                                             .company
                                             .companyAddress["phone_number"] !=
-                                        "")
+                                        null)
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 5.0),
@@ -577,7 +577,7 @@ class _ProductsState extends State<Products> {
                                     if (products[index]
                                             .company
                                             .companyAddress["website"] !=
-                                        "")
+                                        null)
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 8.0),
