@@ -1,9 +1,9 @@
 import 'package:fbpidi/models/tender.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/services/launch_app.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Tenders extends StatefulWidget {
   @override
@@ -282,7 +282,7 @@ class _TendersState extends State<Tenders> {
                                 fit: BoxFit.fill,
                                 child: Image.network(
                                   CollaborationsApi().baseUrl +
-                                      tenders[index].document,
+                                      tenders[index].company.logo,
                                 ),
                               ),
                             ),
@@ -362,48 +362,66 @@ class _TendersState extends State<Tenders> {
                             SizedBox(
                               width: 10.0,
                             ),
-                            Container(
-                              height: 34,
-                              width: 34,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(247, 247, 251, 1),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.black,
-                                size: 19,
-                              ),
-                            ),
+                            if (tenders[index].company.companyAddress != null)
+                              if (tenders[index]
+                                      .company
+                                      .companyAddress["phone_number"] !=
+                                  null)
+                                InkWell(
+                                  onTap: () {
+                                    LaunchApp().launchInBrowser(
+                                        "tel:${tenders[index].company.companyAddress["phone_number"]}");
+                                  },
+                                  child: Container(
+                                    height: 34,
+                                    width: 34,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(247, 247, 251, 1),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.black,
+                                      size: 19,
+                                    ),
+                                  ),
+                                ),
                             SizedBox(
                               width: 5.0,
                             ),
-                            Container(
-                              height: 34,
-                              width: 34,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(247, 247, 251, 1),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.black,
-                                size: 19,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Container(
-                              height: 34,
-                              width: 34,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(247, 247, 251, 1),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                FontAwesomeIcons.solidComments,
-                                color: Color.fromRGBO(0, 0, 255, 1),
-                                size: 19,
-                              ),
-                            ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     // MapsLauncher.launchQuery(
+                            //     //     tenders[index].company.geoLocation);
+                            //     // MapsLauncher.launchCoordinates(lat, long);
+                            //   },
+                            //   child: Container(
+                            //     height: 34,
+                            //     width: 34,
+                            //     decoration: BoxDecoration(
+                            //         color: Color.fromRGBO(247, 247, 251, 1),
+                            //         shape: BoxShape.circle),
+                            //     child: Icon(
+                            //       Icons.location_on,
+                            //       color: Colors.black,
+                            //       size: 19,
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   width: 5.0,
+                            // ),
+                            // Container(
+                            //   height: 34,
+                            //   width: 34,
+                            //   decoration: BoxDecoration(
+                            //       color: Color.fromRGBO(247, 247, 251, 1),
+                            //       shape: BoxShape.circle),
+                            //   child: Icon(
+                            //     FontAwesomeIcons.solidComments,
+                            //     color: Color.fromRGBO(0, 0, 255, 1),
+                            //     size: 19,
+                            //   ),
+                            // ),
                             SizedBox(
                               width: 5.0,
                             ),
