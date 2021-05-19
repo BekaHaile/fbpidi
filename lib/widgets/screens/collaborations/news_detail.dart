@@ -87,15 +87,15 @@ class NewsDetail extends StatelessWidget {
                                                 0.05,
                                       ),
                                       child: Container(
-                                        height: 200,
+                                        height: 280,
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.8,
+                                                0.95,
                                         child: FittedBox(
                                           fit: BoxFit.fill,
                                           child: Image.network(
                                             CollaborationsApi().baseUrl +
-                                                news.image,
+                                                news.company.logo,
                                           ),
                                         ),
                                       ),
@@ -143,22 +143,22 @@ class NewsDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: Text(
-                                  "Other News from ${news.company.name}",
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ),
-                            _otherEvent(context, news),
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.only(top: 15, bottom: 15),
+                            //   child: Container(
+                            //     width: MediaQuery.of(context).size.width * 0.9,
+                            //     child: Text(
+                            //       "Other News from ${news.company.name}",
+                            //       style: TextStyle(
+                            //           color: Colors.black87,
+                            //           fontSize: 23,
+                            //           fontWeight: FontWeight.bold),
+                            //       textAlign: TextAlign.left,
+                            //     ),
+                            //   ),
+                            // ),
+                            // _otherEvent(context, news),
                             _companyCard(context, news),
                             SizedBox(
                               height: 25,
@@ -240,7 +240,8 @@ class NewsDetail extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(top: 10, bottom: 15, left: 20.0),
                   child: Text(
                     news.company.name,
                     style: TextStyle(
@@ -267,7 +268,8 @@ class NewsDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              _contactInfo(context, Icons.mail, 'anten@gmail.com'),
+              _contactInfo(
+                  context, Icons.mail, news.company.companyAddress['email']),
               SizedBox(
                 height: 15.0,
               ),
@@ -290,75 +292,75 @@ class NewsDetail extends StatelessWidget {
     );
   }
 
-  Widget _otherEvent(context, News news) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 30.0,
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.network(
-                          CollaborationsApi().baseUrl + news.image,
-                        ),
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).buttonColor,
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              "Business",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
-                child: Text(
-                  'News name',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              _productIcons(context, Icons.location_on, "Ethiopia"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.calendar_today, "March 14, 2021"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.person, "MelfanTech"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.phone, "+251-92458-9558"),
-              SizedBox(height: 20),
-            ]),
-      ),
-    );
-  }
+  // Widget _otherEvent(context, News news) {
+  //   return Card(
+  //     color: Colors.white,
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width * 0.95,
+  //       child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             Padding(
+  //               padding: const EdgeInsets.only(
+  //                 bottom: 30.0,
+  //               ),
+  //               child: Stack(
+  //                 children: [
+  //                   Container(
+  //                     height: 200,
+  //                     width: MediaQuery.of(context).size.width * 0.95,
+  //                     child: FittedBox(
+  //                       fit: BoxFit.fill,
+  //                       child: Image.network(
+  //                         CollaborationsApi().baseUrl + news.image,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Positioned.fill(
+  //                     child: Align(
+  //                       alignment: Alignment.bottomRight,
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.only(right: 5),
+  //                         child: ElevatedButton(
+  //                           style: ElevatedButton.styleFrom(
+  //                             primary: Theme.of(context).buttonColor,
+  //                           ),
+  //                           onPressed: () {},
+  //                           child: Text(
+  //                             "Business",
+  //                             style:
+  //                                 TextStyle(color: Colors.white, fontSize: 17),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Padding(
+  //               padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
+  //               child: Text(
+  //                 'News name',
+  //                 style: TextStyle(
+  //                     color: Colors.black87,
+  //                     fontSize: 24,
+  //                     fontWeight: FontWeight.bold),
+  //                 textAlign: TextAlign.left,
+  //               ),
+  //             ),
+  //             _productIcons(context, Icons.location_on, "Ethiopia"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.calendar_today, "March 14, 2021"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.person, "MelfanTech"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.phone, "+251-92458-9558"),
+  //             SizedBox(height: 20),
+  //           ]),
+  //     ),
+  //   );
+  // }
 
   Widget _contactInfo(context, icon, title) {
     return Row(

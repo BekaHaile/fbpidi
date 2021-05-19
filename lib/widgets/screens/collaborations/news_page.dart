@@ -1,9 +1,9 @@
 import 'package:fbpidi/models/news.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/services/launch_app.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewsPage extends StatefulWidget {
   final data;
@@ -242,7 +242,7 @@ class _NewsState extends State<NewsPage> {
                                   fit: BoxFit.fill,
                                   child: Image.network(
                                     CollaborationsApi().baseUrl +
-                                        news[index].image,
+                                        news[index].company.logo,
                                   ),
                                 ),
                               ),
@@ -330,51 +330,63 @@ class _NewsState extends State<NewsPage> {
                               SizedBox(
                                 width: 10.0,
                               ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: Colors.black,
-                                  size: 19,
-                                ),
-                              ),
+                              if (news[index].company.companyAddress != null)
+                                if (news[index]
+                                        .company
+                                        .companyAddress["phone_number"] !=
+                                    null)
+                                  InkWell(
+                                    onTap: () {
+                                      LaunchApp().launchInBrowser(
+                                          "tel:${news[index].company.companyAddress["phone_number"]}");
+                                    },
+                                    child: Container(
+                                      height: 34,
+                                      width: 34,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromRGBO(247, 247, 251, 1),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.phone,
+                                        color: Colors.black,
+                                        size: 19,
+                                      ),
+                                    ),
+                                  ),
                               SizedBox(
                                 width: 5.0,
                               ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.black,
-                                  size: 19,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Container(
-                                height: 34,
-                                width: 34,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 247, 251, 1),
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  FontAwesomeIcons.solidComments,
-                                  color: Color.fromRGBO(0, 0, 255, 1),
-                                  size: 19,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
+                              // Container(
+                              //   height: 34,
+                              //   width: 34,
+                              //   decoration: BoxDecoration(
+                              //       color: Color.fromRGBO(247, 247, 251, 1),
+                              //       shape: BoxShape.circle),
+                              //   child: Icon(
+                              //     Icons.location_on,
+                              //     color: Colors.black,
+                              //     size: 19,
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   width: 5.0,
+                              // ),
+                              // Container(
+                              //   height: 34,
+                              //   width: 34,
+                              //   decoration: BoxDecoration(
+                              //       color: Color.fromRGBO(247, 247, 251, 1),
+                              //       shape: BoxShape.circle),
+                              //   child: Icon(
+                              //     FontAwesomeIcons.solidComments,
+                              //     color: Color.fromRGBO(0, 0, 255, 1),
+                              //     size: 19,
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   width: 5.0,
+                              // ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
                                 child: ElevatedButton(

@@ -32,7 +32,7 @@ class News {
 
   News.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
-    image = map["images"].toString();
+    image = map["image"].toString();
     company = Company.fromMap(map["company"]);
     title = map["title"].toString();
     titleAm = map["title_am"].toString();

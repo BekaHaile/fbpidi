@@ -273,20 +273,16 @@ class _TendersState extends State<Tenders> {
                         padding: const EdgeInsets.only(
                           bottom: 30.0,
                         ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 280,
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              child: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Image.network(
-                                  CollaborationsApi().baseUrl +
-                                      tenders[index].company.logo,
-                                ),
-                              ),
+                        child: Container(
+                          height: 280,
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Image.network(
+                              CollaborationsApi().baseUrl +
+                                  tenders[index].company.logo,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       Padding(
