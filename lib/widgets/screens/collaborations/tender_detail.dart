@@ -87,30 +87,39 @@ class _TenderDetailState extends State<TenderDetail> {
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Text(
-                                            'By:- ${tender.company.name}',
-                                            style: TextStyle(fontSize: 17),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.78,
+                                            child: Text(
+                                              'By:- ${tender.company.name}',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'Type:- ${tender.tenderType}',
-                                            style: TextStyle(fontSize: 17),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          tender.tenderType == "Paid"
-                                              ? Text(
-                                                  'Price:- ${tender.documentPrice}',
-                                                  style:
-                                                      TextStyle(fontSize: 17),
-                                                )
-                                              : Container(),
                                         ],
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 25.0),
+                                      child: Text(
+                                        'Type:- ${tender.tenderType}',
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    tender.tenderType == "Paid"
+                                        ? Text(
+                                            'Price:- ${tender.documentPrice}',
+                                            style: TextStyle(fontSize: 17),
+                                          )
+                                        : Container(),
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 25.0),
