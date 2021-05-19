@@ -18,7 +18,7 @@ class _AddResearchState extends State<AddResearch> {
   TextEditingController titleController = TextEditingController(),
       descriptionController = TextEditingController();
   String fileName = "Pick file";
-  String path = "";
+  String path;
   List<ResearchCategory> categories = [];
 
   @override
@@ -340,7 +340,14 @@ class _AddResearchState extends State<AddResearch> {
                   description: descriptionController.text);
               await CollaborationsApi()
                   .addResearch(research, path)
-                  .then((value) => Navigator.pushNamed(context, "/researches"));
+                  .then((value) {
+                if (value["error"] == false)
+                  _confirmationDialogue(
+                      context, "Research has been added successfully", false);
+                else
+                  _confirmationDialogue(
+                      context, "Error adding research", false);
+              });
             },
             child: Text(
               "Submit",
@@ -357,5 +364,30 @@ class _AddResearchState extends State<AddResearch> {
         ),
       ),
     );
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError)
+                    Navigator.pushReplacementNamed(context, "/researches");
+                  else
+                    Navigator.pop(context);
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

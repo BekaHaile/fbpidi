@@ -166,8 +166,9 @@ class CollaborationsApi {
       var uri = Uri.parse("$baseUrl/api/collaborations/create_research/");
       var request = http.MultipartRequest('POST', uri);
 
-      request.files
-          .add(await http.MultipartFile.fromPath('attachements', path));
+      if (path != null)
+        request.files
+            .add(await http.MultipartFile.fromPath('attachements', path));
       request.fields['title'] = research.title;
       request.fields['status'] = research.status;
       request.fields['category'] = research.category;
@@ -181,7 +182,7 @@ class CollaborationsApi {
 
       final respStr = await response.stream.bytesToString();
 
-      return respStr;
+      return jsonDecode(respStr);
 
       // response = await http.post(
       //   Uri.encodeFull(
