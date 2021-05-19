@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fbpidi/models/user.dart';
 import 'package:fbpidi/services/user_api.dart';
 import 'package:file_picker/file_picker.dart';
@@ -24,7 +26,7 @@ class MapScreenState extends State<Profile>
   final storage = new FlutterSecureStorage();
   String profilePath =
       'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png';
-  String path = "";
+  String path;
   bool isLocal = false;
 
   @override
@@ -45,8 +47,14 @@ class MapScreenState extends State<Profile>
               future: storage.read(key: 'loginStatus'),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Container(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator()),
+                    ),
                   );
                 else {
                   String status = snapshot.data;
@@ -59,8 +67,14 @@ class MapScreenState extends State<Profile>
                         future: storage.read(key: 'token'),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData)
-                            return Center(
-                              child: CircularProgressIndicator(),
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    child: CircularProgressIndicator()),
+                              ),
                             );
                           else {
                             token = snapshot.data;
@@ -68,7 +82,15 @@ class MapScreenState extends State<Profile>
                                 future: UserApi().getProfile(token),
                                 builder: (BuildContext context, snapshot) {
                                   if (!snapshot.hasData)
-                                    return CircularProgressIndicator();
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: CircularProgressIndicator()),
+                                      ),
+                                    );
                                   else {
                                     User user = User.fromMap(
                                         snapshot.data["user_detail"]);
@@ -104,13 +126,17 @@ class MapScreenState extends State<Profile>
                                                               width: 140.0,
                                                               height: 140.0,
                                                               decoration:
-                                                                  new BoxDecoration(
+                                                                  BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
                                                                 image:
-                                                                    new DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      profilePath),
+                                                                    DecorationImage(
+                                                                  image: isLocal
+                                                                      ? FileImage(
+                                                                          File(
+                                                                              path))
+                                                                      : NetworkImage(
+                                                                          profilePath),
                                                                   fit: BoxFit
                                                                       .cover,
                                                                 ),
@@ -153,8 +179,8 @@ class MapScreenState extends State<Profile>
 
                                                                     setState(
                                                                         () {
-                                                                      profilePath =
-                                                                          file.path;
+                                                                      path = file
+                                                                          .path;
                                                                       isLocal =
                                                                           true;
                                                                     });
@@ -162,20 +188,21 @@ class MapScreenState extends State<Profile>
                                                                     // User canceled the picker
                                                                   }
                                                                 },
-                                                                child:
-                                                                    new CircleAvatar(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .deepPurple,
-                                                                  radius: 25.0,
-                                                                  child:
-                                                                      new Icon(
-                                                                    Icons
-                                                                        .camera_alt,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
+                                                                child: _status
+                                                                    ? Container()
+                                                                    : CircleAvatar(
+                                                                        backgroundColor:
+                                                                            Colors.deepPurple,
+                                                                        radius:
+                                                                            25.0,
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .camera_alt,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
                                                               )
                                                             ],
                                                           )),
@@ -561,7 +588,6 @@ class MapScreenState extends State<Profile>
                         _signUpDialogue(
                             context, "Profile updated successfully");
                       } else {
-                        print('Error');
                         _signUpDialogue(context, "Error updating profile");
                       }
                     });

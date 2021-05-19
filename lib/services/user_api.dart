@@ -91,7 +91,7 @@ class UserApi {
     try {
       var uri = Uri.parse("$baseUrl/api/mydash/");
       var request = http.MultipartRequest('POST', uri);
-      if (user.profileImage != "")
+      if (user.profileImage != null)
         request.files.add(await http.MultipartFile.fromPath(
             'profile_image ', user.profileImage));
       request.fields['username'] = user.username;
@@ -99,6 +99,15 @@ class UserApi {
       request.fields['last_name'] = user.lastName;
       request.fields['phone_number'] = user.phoneNumber;
       request.fields['email'] = user.email;
+      request.fields['address'] = "";
+      request.fields['city'] = "";
+      request.fields['postal_code'] = "";
+      request.fields['country'] = "";
+      request.fields['facebook_link'] = "";
+      request.fields['twiter_link'] = "";
+      request.fields['google_link'] = "";
+      request.fields['pintrest_link'] = "";
+      request.fields['bio'] = "";
       request.headers['Authorization'] = "Token " + token;
 
       response = await request.send();
