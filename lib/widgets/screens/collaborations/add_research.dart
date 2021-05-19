@@ -345,8 +345,7 @@ class _AddResearchState extends State<AddResearch> {
                   _confirmationDialogue(
                       context, "Research has been added successfully", false);
                 else
-                  _confirmationDialogue(
-                      context, "Error adding research", false);
+                  _confirmationDialogue(context, "Error adding research", true);
               });
             },
             child: Text(

@@ -100,13 +100,16 @@ class _VacanciesState extends State<Vacancies> {
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 18.0, top: 20, bottom: 20),
-                              child: Text(
-                                data['jobCategory'][index].categoryName,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 19,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Text(
+                                  data['jobCategory'][index].categoryName,
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 19,
+                                  ),
+                                  textAlign: TextAlign.left,
                                 ),
-                                textAlign: TextAlign.left,
                               ),
                             ),
                             Padding(
@@ -208,6 +211,10 @@ class _VacanciesState extends State<Vacancies> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
                                               padding: EdgeInsets.all(5),
                                               color: Color.fromRGBO(
                                                   247, 247, 247, 1),
@@ -239,11 +246,17 @@ class _VacanciesState extends State<Vacancies> {
                                                   fontSize: 19,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text(
-                                              vacancies[index].employmentType,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 19,
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child: Text(
+                                                vacancies[index].employmentType,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 19,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -266,11 +279,17 @@ class _VacanciesState extends State<Vacancies> {
                                                   fontSize: 19,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Text(
-                                              vacancies[index].company.name,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 19,
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: Text(
+                                                vacancies[index].company.name,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 19,
+                                                ),
                                               ),
                                             ),
                                           ],

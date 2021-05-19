@@ -295,10 +295,12 @@ class CollaborationsApi {
       var uri = Uri.parse("$baseUrl/api/collaborations/vacancy_apply/");
       var request = http.MultipartRequest('POST', uri);
 
-      request.files
-          .add(await http.MultipartFile.fromPath('cv', userApplying['cv']));
-      request.files.add(await http.MultipartFile.fromPath(
-          'documents', userApplying['documents']));
+      if (userApplying['cv'] != null)
+        request.files
+            .add(await http.MultipartFile.fromPath('cv', userApplying['cv']));
+      if (userApplying['documents'] != null)
+        request.files.add(await http.MultipartFile.fromPath(
+            'documents', userApplying['documents']));
       request.fields['id'] = userApplying['id'];
       request.fields['institiute'] = userApplying['institiute'];
       request.fields['grade'] = userApplying['grade'];
@@ -315,7 +317,7 @@ class CollaborationsApi {
 
       final respStr = await response.stream.bytesToString();
 
-      return respStr;
+      return jsonDecode(respStr);
     } catch (e) {
       print(e.toString() + 'has occured ****');
       throw (e);

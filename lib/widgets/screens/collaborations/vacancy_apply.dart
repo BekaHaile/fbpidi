@@ -25,9 +25,9 @@ class _VacancyApplyState extends State<VacancyApply> {
       experienceController = TextEditingController(),
       descriptionController = TextEditingController();
   String cvFilename = "Filename";
-  String cvPath = "";
+  String cvPath;
   String documentFilename = "Filename";
-  String documentPath = "";
+  String documentPath;
   String message = "";
   bool error = false;
 
@@ -401,21 +401,37 @@ class _VacancyApplyState extends State<VacancyApply> {
         child: SizedBox.expand(
           child: ElevatedButton(
             onPressed: () async {
-              Map<String, dynamic> userApplying = {
-                "id": widget.data['id'],
-                "institiute": instituteController.text,
-                "field": fieldController.text,
-                "status": statusValue,
-                "bio": descriptionController.text,
-                "grade": gradeController.text,
-                "experiance": experienceController.text,
-                "cv": cvPath,
-                "documents": documentPath
-              };
+              if (cvPath == null || documentPath == null)
+                _confirmationDialogue(
+                    context,
+                    "Please fill all the fields provided and submit all documents required to apply.",
+                    true);
+              else {
+                Map<String, dynamic> userApplying = {
+                  "id": widget.data['id'],
+                  "institiute": instituteController.text,
+                  "field": fieldController.text,
+                  "status": statusValue,
+                  "bio": descriptionController.text,
+                  "grade": gradeController.text,
+                  "experiance": experienceController.text,
+                  "cv": cvPath,
+                  "documents": documentPath
+                };
 
-              await CollaborationsApi()
-                  .vacancyApply(userApplying)
-                  .then((value) => Navigator.pushNamed(context, "/vacancy"));
+                await CollaborationsApi()
+                    .vacancyApply(userApplying)
+                    .then((value) {
+                  if (value["error"] == false)
+                    _confirmationDialogue(
+                        context,
+                        "You have successfully applied for this vacancy.",
+                        false);
+                  else
+                    _confirmationDialogue(
+                        context, "Error applying for the vacancy", true);
+                });
+              }
             },
             child: Text(
               "Submit",
@@ -432,5 +448,30 @@ class _VacancyApplyState extends State<VacancyApply> {
         ),
       ),
     );
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError)
+                    Navigator.pushReplacementNamed(context, "/vacancies");
+                  else
+                    Navigator.pop(context);
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
