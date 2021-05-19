@@ -508,7 +508,8 @@ class CompanyDetail extends StatelessWidget {
                   child: SizedBox.expand(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/contactUs");
+                        Navigator.pushNamed(context, "/contactUs",
+                            arguments: {"id": data['id']});
                       },
                       style: ElevatedButton.styleFrom(
                         onPrimary: Color.fromRGBO(255, 136, 25, 0.5),

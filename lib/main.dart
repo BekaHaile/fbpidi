@@ -105,7 +105,6 @@ class MyApp extends StatelessWidget {
           '/addResearch': (BuildContext context) => AddResearch(),
           '/profile': (BuildContext context) => Profile(),
           '/faqs': (BuildContext context) => Faqs(),
-          '/contactUs': (BuildContext context) => ContactUs(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
@@ -199,6 +198,11 @@ class MyApp extends StatelessWidget {
             case '/pollDetail':
               return MaterialPageRoute(
                   builder: (_) => PollDetail(
+                        requests,
+                      ));
+            case '/contactUs':
+              return MaterialPageRoute(
+                  builder: (_) => ContactUs(
                         requests,
                       ));
             default:

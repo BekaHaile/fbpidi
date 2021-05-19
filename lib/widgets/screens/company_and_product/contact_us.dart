@@ -1,6 +1,10 @@
+import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:flutter/material.dart';
 
 class ContactUs extends StatelessWidget {
+  final data;
+  ContactUs(this.data);
+
   final TextEditingController controllerName = TextEditingController(),
       controllerEmail = TextEditingController(),
       controllerMessage = TextEditingController();
@@ -27,7 +31,7 @@ class ContactUs extends StatelessWidget {
                           height: 15,
                         ),
                         buildTextField(
-                            context, controllerName, "Email Address"),
+                            context, controllerEmail, "Email Address"),
                         SizedBox(
                           height: 15,
                         ),
@@ -52,7 +56,22 @@ class ContactUs extends StatelessWidget {
                             height: 40.0,
                             child: SizedBox.expand(
                               child: ElevatedButton(
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  Map<String, String> contactData = {
+                                    "c_id": data["id"],
+                                    "name": controllerName.text,
+                                    "email": controllerEmail.text,
+                                    "message": controllerMessage.text
+                                  };
+                                  CompanyAndProductAPI()
+                                      .contactUs(contactData)
+                                      .then((response) {
+                                    _confirmationDialogue(
+                                        context,
+                                        "Your message has been successfully sent",
+                                        false);
+                                  });
+                                },
                                 child: Text(
                                   "Send Message",
                                   style: TextStyle(
@@ -92,5 +111,31 @@ class ContactUs extends StatelessWidget {
             hintStyle: TextStyle(fontSize: 18, color: Colors.black45)),
       ),
     );
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  } else
+                    Navigator.of(context).pop();
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/models/product.dart';
+import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/strings/strings.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -229,5 +230,31 @@ class CompanyAndProductAPI {
       print("Error: " + e.toString());
       throw Exception('Unable to Connect to Server');
     }
+  }
+
+  //Contact a specific manufacturer
+  Future<Map<String, dynamic>> contactUs(data) async {
+    String token = await CollaborationsApi().getToken();
+
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull("$baseUrl/api/company/contact_company/"), //uri of api
+        headers: {
+          "Authorization": "Token " + token,
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(data),
+      );
+
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("Error:" + e.toString());
+    }
+
+    Map<String, dynamic> data2 = jsonDecode(response.body);
+    // print(data2); //Response from the api
+
+    return data2;
   }
 }
