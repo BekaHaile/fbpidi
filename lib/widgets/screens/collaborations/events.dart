@@ -1,11 +1,11 @@
 import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
+import 'package:fbpidi/services/launch_app.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -370,51 +370,64 @@ class _EventsState extends State<Events> {
                                   SizedBox(
                                     width: 10.0,
                                   ),
-                                  Container(
-                                    height: 34,
-                                    width: 34,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(247, 247, 251, 1),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.phone,
-                                      color: Colors.black,
-                                      size: 19,
-                                    ),
-                                  ),
+                                  if (events[index].company.companyAddress !=
+                                      null)
+                                    if (events[index]
+                                            .company
+                                            .companyAddress["phone_number"] !=
+                                        null)
+                                      InkWell(
+                                        onTap: () {
+                                          LaunchApp().launchInBrowser(
+                                              "tel:${events[index].company.companyAddress["phone_number"]}");
+                                        },
+                                        child: Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  247, 247, 251, 1),
+                                              shape: BoxShape.circle),
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: Colors.black,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      ),
                                   SizedBox(
                                     width: 5.0,
                                   ),
-                                  Container(
-                                    height: 34,
-                                    width: 34,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(247, 247, 251, 1),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.location_on,
-                                      color: Colors.black,
-                                      size: 19,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Container(
-                                    height: 34,
-                                    width: 34,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(247, 247, 251, 1),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      FontAwesomeIcons.solidComments,
-                                      color: Color.fromRGBO(0, 0, 255, 1),
-                                      size: 19,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
+                                  // Container(
+                                  //   height: 34,
+                                  //   width: 34,
+                                  //   decoration: BoxDecoration(
+                                  //       color: Color.fromRGBO(247, 247, 251, 1),
+                                  //       shape: BoxShape.circle),
+                                  //   child: Icon(
+                                  //     Icons.location_on,
+                                  //     color: Colors.black,
+                                  //     size: 19,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //   width: 5.0,
+                                  // ),
+                                  // Container(
+                                  //   height: 34,
+                                  //   width: 34,
+                                  //   decoration: BoxDecoration(
+                                  //       color: Color.fromRGBO(247, 247, 251, 1),
+                                  //       shape: BoxShape.circle),
+                                  //   child: Icon(
+                                  //     FontAwesomeIcons.solidComments,
+                                  //     color: Color.fromRGBO(0, 0, 255, 1),
+                                  //     size: 19,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(
+                                  //   width: 5.0,
+                                  // ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20.0),
                                     child: ElevatedButton(
