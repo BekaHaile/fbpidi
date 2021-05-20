@@ -186,7 +186,7 @@ class _PollDetailState extends State<PollDetail> {
                                                   if (value["error"])
                                                     _confirmationDialogue(
                                                         context,
-                                                        value["message"],
+                                                        "You have already voted for this poll, you can't vote again.",
                                                         true);
                                                   else
                                                     _confirmationDialogue(
