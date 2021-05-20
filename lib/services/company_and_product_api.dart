@@ -257,4 +257,33 @@ class CompanyAndProductAPI {
 
     return data2;
   }
+
+  Future<Map<String, dynamic>> sendInquiry(Map<String, dynamic> data) async {
+    var response;
+    try {
+      var uri = Uri.parse("$baseUrl/api/product/product_inquiry/");
+      var request = http.MultipartRequest('POST', uri);
+
+      if (data["attachment"] != null)
+        request.files.add(await http.MultipartFile.fromPath(
+            'attachment', data["attachment"]));
+      request.fields['sender_email'] = data["sender_email"];
+      request.fields['subject'] = data["subject"];
+      request.fields['quantity'] = data["quantity"];
+      request.fields['content'] = data["content"];
+      request.fields['prod_id_list '] = data["prod_id_list"];
+      //
+      String token = await CollaborationsApi().getToken();
+      request.headers['Authorization'] = "Token " + token;
+
+      response = await request.send();
+
+      final respStr = await response.stream.bytesToString();
+
+      return jsonDecode(respStr);
+    } catch (e) {
+      print(e.toString() + 'has occured ****');
+      return {"error": true};
+    }
+  }
 }

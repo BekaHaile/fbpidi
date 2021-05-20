@@ -497,14 +497,14 @@ class _ProductsState extends State<Products> {
                                 ],
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
                               Container(
                                   height: 3,
                                   color: Theme.of(context)
                                       .scaffoldBackgroundColor),
                               SizedBox(
-                                height: 5,
+                                height: 15,
                               ),
                               Row(
                                 children: [
@@ -638,6 +638,39 @@ class _ProductsState extends State<Products> {
                               ),
                               SizedBox(
                                 height: 10.0,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  height: 40.0,
+                                  child: SizedBox.expand(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, "/inquire",
+                                            arguments: {
+                                              "product": products[index]
+                                            });
+                                      },
+                                      child: Text(
+                                        "Inquire Now",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Theme.of(context).primaryColor,
+                                        onPrimary:
+                                            Theme.of(context).disabledColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.0,
                               ),
                             ],
                           ),

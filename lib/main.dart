@@ -30,6 +30,7 @@ import 'package:fbpidi/widgets/screens/company_and_product/products.dart';
 import 'package:fbpidi/widgets/screens/credential/login.dart';
 import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
+import 'package:fbpidi/widgets/screens/inquiry/inquiry_form.dart';
 import 'package:fbpidi/widgets/screens/products_page.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +204,11 @@ class MyApp extends StatelessWidget {
             case '/contactUs':
               return MaterialPageRoute(
                   builder: (_) => ContactUs(
+                        requests,
+                      ));
+            case '/inquire':
+              return MaterialPageRoute(
+                  builder: (_) => InquiryForm(
                         requests,
                       ));
             default:
