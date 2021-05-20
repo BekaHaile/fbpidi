@@ -232,7 +232,8 @@ class AnnouncementDetail extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(top: 10, bottom: 15, left: 20.0),
                   child: Text(
                     announcement.company.name,
                     style: TextStyle(
@@ -259,7 +260,8 @@ class AnnouncementDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              _contactInfo(context, Icons.mail, 'anten@gmail.com'),
+              _contactInfo(context, Icons.mail,
+                  announcement.company.companyAddress['email']),
               SizedBox(
                 height: 15.0,
               ),

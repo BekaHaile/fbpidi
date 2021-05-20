@@ -104,9 +104,9 @@ class UserApi {
       request.fields['postal_code'] = "";
       request.fields['country'] = "";
       request.fields['facebook_link'] = "";
-      request.fields['twiter_link'] = "";
+      request.fields['twitter_link'] = "";
       request.fields['google_link'] = "";
-      request.fields['pintrest_link'] = "";
+      request.fields['pinterest_link'] = "";
       request.fields['bio'] = "";
       request.headers['Authorization'] = "Token " + token;
 

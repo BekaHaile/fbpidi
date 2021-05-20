@@ -17,11 +17,11 @@ class MapScreenState extends State<Profile>
     with SingleTickerProviderStateMixin {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-  TextEditingController controller = TextEditingController(),
-      controller1 = TextEditingController(),
-      controller2 = TextEditingController(),
-      controller3 = TextEditingController(),
-      controller4 = TextEditingController();
+  TextEditingController controllerName = TextEditingController(),
+      controllerLastName = TextEditingController(),
+      controllerPhone = TextEditingController(),
+      controllerEmail = TextEditingController(),
+      controllerUsername = TextEditingController();
   String token = "";
   final storage = new FlutterSecureStorage();
   String profilePath =
@@ -94,13 +94,14 @@ class MapScreenState extends State<Profile>
                                   else {
                                     User user = User.fromMap(
                                         snapshot.data["user_detail"]);
-                                    controller.text = user.firstName;
-                                    controller1.text = user.lastName;
-                                    controller2.text = user.phoneNumber;
-                                    controller3.text = user.username;
-                                    controller4.text = user.email;
+                                    controllerName.text = user.firstName;
+                                    controllerLastName.text = user.lastName;
+                                    controllerPhone.text = user.phoneNumber;
+                                    controllerUsername.text = user.username;
+                                    controllerEmail.text = user.email;
                                     if (user.profileImage != "null")
-                                      profilePath = user.profileImage;
+                                      profilePath =
+                                          UserApi().baseUrl + user.profileImage;
                                     return Column(
                                       children: <Widget>[
                                         new Container(
@@ -316,7 +317,7 @@ class MapScreenState extends State<Profile>
                                                               child:
                                                                   new TextField(
                                                                 controller:
-                                                                    controller,
+                                                                    controllerName,
                                                                 decoration:
                                                                     const InputDecoration(
                                                                   hintText:
@@ -376,7 +377,7 @@ class MapScreenState extends State<Profile>
                                                               child:
                                                                   new TextField(
                                                                 controller:
-                                                                    controller1,
+                                                                    controllerLastName,
                                                                 decoration:
                                                                     const InputDecoration(
                                                                         hintText:
@@ -433,7 +434,7 @@ class MapScreenState extends State<Profile>
                                                               child:
                                                                   new TextField(
                                                                 controller:
-                                                                    controller2,
+                                                                    controllerPhone,
                                                                 decoration:
                                                                     const InputDecoration(
                                                                         hintText:
@@ -474,7 +475,7 @@ class MapScreenState extends State<Profile>
                                                               child:
                                                                   new TextField(
                                                                 controller:
-                                                                    controller3,
+                                                                    controllerUsername,
                                                                 decoration:
                                                                     const InputDecoration(
                                                                         hintText:
@@ -515,7 +516,7 @@ class MapScreenState extends State<Profile>
                                                               child:
                                                                   new TextField(
                                                                 controller:
-                                                                    controller4,
+                                                                    controllerEmail,
                                                                 decoration:
                                                                     const InputDecoration(
                                                                         hintText:
@@ -575,11 +576,11 @@ class MapScreenState extends State<Profile>
                 child: Text("Save"),
                 onPressed: () async {
                   User user = User(
-                    firstName: controller.text,
-                    lastName: controller1.text,
-                    username: controller2.text,
-                    email: controller3.text,
-                    phoneNumber: controller4.text,
+                    firstName: controllerName.text,
+                    lastName: controllerLastName.text,
+                    username: controllerUsername.text,
+                    email: controllerEmail.text,
+                    phoneNumber: controllerPhone.text,
                     profileImage: path,
                   );
                   try {

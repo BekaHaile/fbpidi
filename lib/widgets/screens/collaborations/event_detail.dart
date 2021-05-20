@@ -150,22 +150,22 @@ class EventDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: Text(
-                                  "Other Events from ${event.company.name}",
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ),
-                            _otherEvent(context, event),
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.only(top: 15, bottom: 15),
+                            //   child: Container(
+                            //     width: MediaQuery.of(context).size.width * 0.9,
+                            //     child: Text(
+                            //       "Other Events from ${event.company.name}",
+                            //       style: TextStyle(
+                            //           color: Colors.black87,
+                            //           fontSize: 23,
+                            //           fontWeight: FontWeight.bold),
+                            //       textAlign: TextAlign.left,
+                            //     ),
+                            //   ),
+                            // ),
+                            // _otherEvent(context, event),
                             _companyCard(context, event),
                             SizedBox(
                               height: 25,
@@ -247,7 +247,8 @@ class EventDetail extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(top: 10, bottom: 15, left: 20.0),
                   child: Text(
                     event.company.name,
                     style: TextStyle(
@@ -274,7 +275,8 @@ class EventDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              _contactInfo(context, Icons.mail, 'anten@gmail.com'),
+              _contactInfo(
+                  context, Icons.mail, event.company.companyAddress['email']),
               SizedBox(
                 height: 15.0,
               ),
@@ -297,56 +299,56 @@ class EventDetail extends StatelessWidget {
     );
   }
 
-  Widget _otherEvent(context, Event event) {
-    return Card(
-      color: Colors.white,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 30.0,
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.network(
-                          CollaborationsApi().baseUrl + event.image,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
-                child: Text(
-                  'Event name',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              _productIcons(context, Icons.location_on, "Ethiopia"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.calendar_today, "March 14, 2021"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.person, "MelfanTech"),
-              SizedBox(height: 10),
-              _productIcons(context, Icons.phone, "+251-92458-9558"),
-              SizedBox(height: 20),
-            ]),
-      ),
-    );
-  }
+  // Widget _otherEvent(context, Event event) {
+  //   return Card(
+  //     color: Colors.white,
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width * 0.95,
+  //       child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             Padding(
+  //               padding: const EdgeInsets.only(
+  //                 bottom: 30.0,
+  //               ),
+  //               child: Stack(
+  //                 children: [
+  //                   Container(
+  //                     height: 200,
+  //                     width: MediaQuery.of(context).size.width * 0.95,
+  //                     child: FittedBox(
+  //                       fit: BoxFit.fill,
+  //                       child: Image.network(
+  //                         CollaborationsApi().baseUrl + event.image,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Padding(
+  //               padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
+  //               child: Text(
+  //                 'Event name',
+  //                 style: TextStyle(
+  //                     color: Colors.black87,
+  //                     fontSize: 24,
+  //                     fontWeight: FontWeight.bold),
+  //                 textAlign: TextAlign.left,
+  //               ),
+  //             ),
+  //             _productIcons(context, Icons.location_on, "Ethiopia"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.calendar_today, "March 14, 2021"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.person, "MelfanTech"),
+  //             SizedBox(height: 10),
+  //             _productIcons(context, Icons.phone, "+251-92458-9558"),
+  //             SizedBox(height: 20),
+  //           ]),
+  //     ),
+  //   );
+  // }
 
   Widget _contactInfo(context, icon, title) {
     return Row(
