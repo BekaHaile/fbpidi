@@ -266,7 +266,7 @@ class CompanyAndProductAPI {
 
       if (data["attachment"] != null)
         request.files.add(await http.MultipartFile.fromPath(
-            'attachment', data["attachment"]));
+            'attachement', data["attachment"]));
       request.fields['sender_email'] = data["sender_email"];
       request.fields['subject'] = data["subject"];
       request.fields['quantity'] = data["quantity"];

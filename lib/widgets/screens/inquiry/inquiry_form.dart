@@ -235,7 +235,7 @@ class _InquiryFormState extends State<InquiryForm> {
               Product product = widget.data["product"];
               Map<String, dynamic> data2 = {
                 "sender_email": controllerFrom.text,
-                "subject": controllerFrom.text,
+                "subject": controllerSubject.text,
                 "quantity": controllerQuantity.text,
                 "content": controllerContent.text,
                 "prod_id_list": product.id,

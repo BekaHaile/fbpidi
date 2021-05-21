@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/paginator.dart';
 import 'package:fbpidi/models/product.dart';
+import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
@@ -647,11 +648,23 @@ class _ProductsState extends State<Products> {
                                   height: 40.0,
                                   child: SizedBox.expand(
                                     child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, "/inquire",
+                                      onPressed: () async{
+                                         await CollaborationsApi()
+                                      .getLoginStatus()
+                                      .then((status) {
+                                    if (status == "true")
+                                      Navigator.pushNamed(context, "/inquire",
                                             arguments: {
                                               "product": products[index]
                                             });
+                                    else
+                                      Navigator.pushNamed(context, "/login",
+                                          arguments: {
+                                            'route': '/inquire',
+                                             "product": products[index]
+                                          });
+                                  });
+                                        
                                       },
                                       child: Text(
                                         "Inquire Now",
