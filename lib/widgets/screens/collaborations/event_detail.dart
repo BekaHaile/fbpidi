@@ -2,6 +2,7 @@ import 'package:fbpidi/models/event.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EventDetail extends StatelessWidget {
@@ -109,6 +110,74 @@ class EventDetail extends StatelessWidget {
                                     ),
                                     SizedBox(
                                       height: 10.0,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      child: Text(
+                                        "Send me a reminder on",
+                                        style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
+                                      child: TextButton(
+                                          onPressed: () {
+                                            DatePicker.showDatePicker(
+                                              context,
+                                              showTitleActions: true,
+                                              minTime: DateTime(2018, 1, 1),
+                                              maxTime: DateTime(2022, 1, 1),
+                                              onChanged: (date) {
+                                                print('change $date');
+                                              },
+                                              onConfirm: (date) {
+                                                print('confirm $date');
+                                              },
+                                              currentTime: DateTime.now(),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey)),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'mm/dd/yyyy',
+                                                    style: TextStyle(
+                                                        color: Colors.black87),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.calendar_today,
+                                                    color: Colors.black87,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
                                     ),
                                     Padding(
                                       padding:
