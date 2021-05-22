@@ -14,7 +14,7 @@ class Blog {
   String createdBy;
   String lastUpdatedDate;
   bool expired;
-  String company;
+  Company company;
   String lastUpdatedBy;
   List commentsList;
 
@@ -50,7 +50,7 @@ class Blog {
     createdBy = map["created_by"].toString();
     lastUpdatedDate = map["last_updated_date"].toString();
     expired = map["expired"];
-    company = map["company"].toString();
+    company = Company.fromMap(map["company"]);
     lastUpdatedBy = map["last_updated_by"].toString();
     commentsList = map["comments_list"];
   }
