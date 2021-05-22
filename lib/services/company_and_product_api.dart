@@ -137,12 +137,13 @@ class CompanyAndProductAPI {
   }
 
   //Get list of products based on main category
-  Future<Map<String, dynamic>> getProductsByMainCategory(category, page) async {
+  Future<Map<String, dynamic>> getProductsByMainCategory(
+      category, page, title) async {
     // category: Beverage or Food or Pharmaceutical  or all
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/product/product-by-main-category/?category=$category&page=$page"), //uri of api
+            "$baseUrl/api/product/product-by-main-category/?category=$category&page=$page&by_title=$title"), //uri of api
         headers: {"Accept": "application/json"},
       );
 

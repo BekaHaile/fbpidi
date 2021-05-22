@@ -23,6 +23,36 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> companyCardList = [], projectCardList = [];
 
+  List<Product> products, searchedProducts = [];
+  bool isBeingSearhced = false;
+
+  void searchCallback(String searchValue) {
+    searchedProducts.clear();
+    if (searchValue == "")
+      setState(() {
+        isBeingSearhced = false;
+      });
+    else {
+      if (products.length > 0) {
+        CompanyAndProductAPI()
+            .getProductsByMainCategory("All", "1", searchValue)
+            .then((value) {
+          setState(() {
+            searchedProducts = value["products"];
+          });
+        });
+        // products.forEach((element) {
+        //   if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
+        //     searchedProducts.add(element);
+        // });
+
+        setState(() {
+          isBeingSearhced = true;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -39,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             child: TextField(
               autocorrect: true,
               decoration: InputDecoration(
-                hintText: 'Search Products/Company',
+                hintText: 'Search Products',
                 prefixIcon: Icon(Icons.search),
                 hintStyle:
                     TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
@@ -52,18 +82,24 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
               ),
+              onChanged: (value) {
+                searchCallback(value);
+              },
             ),
           ),
         ),
         body: SafeArea(
             child: ListView(
           children: [
-            _buildCategoriesGrid(),
-            _buildHorizontalList(
-                "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
-            // _buildHorizontalList(
-            //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
-            _buildHorizontalList("Projects", Color.fromRGBO(217, 226, 241, 1)),
+            isBeingSearhced ? Container() : _buildCategoriesGrid(),
+            isBeingSearhced
+                ? Container()
+                : _buildHorizontalList(
+                    "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
+            isBeingSearhced
+                ? Container()
+                : _buildHorizontalList(
+                    "Projects", Color.fromRGBO(217, 226, 241, 1)),
             Column(
               children: [
                 Padding(
@@ -89,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                 _buildProductGrid(context),
               ],
             ),
-            _buildBottomCards(),
+            isBeingSearhced ? Container() : _buildBottomCards(),
           ],
         )),
       ),
@@ -457,7 +493,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildProductGrid(context) {
     return FutureBuilder<Map<String, dynamic>>(
-      future: CompanyAndProductAPI().getProductsByMainCategory("All", "1"),
+      future: CompanyAndProductAPI().getProductsByMainCategory("All", "1", ""),
       builder: (BuildContext context, snapshot) {
         if (!snapshot.hasData)
           return Center(
@@ -467,7 +503,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         else {
-          List<Product> products = snapshot.data["products"];
+          products = snapshot.data["products"];
           if (products.length == 0)
             return Center(
                 child: Padding(
@@ -475,127 +511,124 @@ class _HomePageState extends State<HomePage> {
               child: Text("No data"),
             ));
           else
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 1.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                primary: false,
-                scrollDirection: Axis.vertical,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 5.0,
-                    childAspectRatio: 0.65),
-                itemBuilder: (_, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/productDetail',
-                          arguments: {"id": products[index].id});
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+            return isBeingSearhced
+                ? buildGrid(context, searchedProducts)
+                : buildGrid(context, products);
+        }
+      },
+    );
+  }
+
+  Container buildGrid(BuildContext context, List<Product> products) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 1.0),
+      child: GridView.builder(
+        shrinkWrap: true,
+        primary: false,
+        scrollDirection: Axis.vertical,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, mainAxisSpacing: 5.0, childAspectRatio: 0.65),
+        itemBuilder: (_, int index) {
+          return InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, '/productDetail',
+                  arguments: {"id": products[index].id});
+            },
+            child: Card(
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Image.network(
+                      CompanyAndProductAPI().baseUrl + products[index].image,
+                      height: 150,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Container(
+                      color: Colors.grey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text(
+                          products[index].brand.brandName,
+                          softWrap: true,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0, right: 5),
+                    child: Text(
+                      products[index].name,
+                      style: TextStyle(
+                        fontSize: 17.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Row(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Image.network(
-                              CompanyAndProductAPI().baseUrl +
-                                  products[index].image,
-                              height: 150,
-                            ),
+                                CompanyAndProductAPI().baseUrl +
+                                    products[index].company.logo,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.08),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Container(
-                              color: Colors.grey,
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
+                          Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.35,
                                 child: Text(
-                                  products[index].brand.brandName,
+                                  products[index].company.name,
                                   softWrap: true,
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 16),
+                                      color: Colors.black, fontSize: 13),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 18.0, right: 5),
-                            child: Text(
-                              products[index].name,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Image.network(
-                                        CompanyAndProductAPI().baseUrl +
-                                            products[index].company.logo,
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.08),
-                                  ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.35,
-                                        child: Text(
-                                          products[index].company.name,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                      // Text(
-                                      //   products[index]
-                                      //               .company
-                                      //               .companyAddress !=
-                                      //           null
-                                      //       ? products[index]
-                                      //           .company
-                                      //           .companyAddress["phone_number"]
-                                      //       : "",
-                                      //   softWrap: true,
-                                      //   style: TextStyle(
-                                      //       color: Colors.black, fontSize: 13),
-                                      //   textAlign: TextAlign.left,
-                                      // ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                              // Text(
+                              //   products[index]
+                              //               .company
+                              //               .companyAddress !=
+                              //           null
+                              //       ? products[index]
+                              //           .company
+                              //           .companyAddress["phone_number"]
+                              //       : "",
+                              //   softWrap: true,
+                              //   style: TextStyle(
+                              //       color: Colors.black, fontSize: 13),
+                              //   textAlign: TextAlign.left,
+                              // ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  );
-                },
-                itemCount: products.length,
+                  ),
+                ],
               ),
-            );
-        }
-      },
+            ),
+          );
+        },
+        itemCount: products.length,
+      ),
     );
   }
 }

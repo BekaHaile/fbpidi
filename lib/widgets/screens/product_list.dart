@@ -377,7 +377,7 @@ class _ProductsListState extends State<ProductsList> {
 
   Future<bool> _loadMore(page) async {
     await CompanyAndProductAPI()
-        .getProductsByMainCategory("All", page)
+        .getProductsByMainCategory("All", page, "")
         .then((value) {
       products.addAll(value["products"]);
       setState(() {

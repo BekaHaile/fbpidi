@@ -22,8 +22,8 @@ class _ProductsState extends State<Products> {
   TextEditingController editingController = TextEditingController();
 
   bool addingMore = false;
-  Paginator paginator;
-  String loadMore = "Load More";
+  Paginator paginator, searchPaginator;
+  String loadMore = "Load More", searchValueMain = "";
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +71,8 @@ class _ProductsState extends State<Products> {
 
   void searchCallback(String searchValue) {
     searchedProducts.clear();
+    searchValueMain = searchValue;
+    loadMore = "Load More";
     if (products.length > 0) {
       products.forEach((element) {
         if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
@@ -86,7 +88,7 @@ class _ProductsState extends State<Products> {
   Widget _buildProductList(context) {
     return FutureBuilder<Map<String, dynamic>>(
         future: CompanyAndProductAPI()
-            .getProductsByMainCategory(widget.data['type'], "1"),
+            .getProductsByMainCategory(widget.data['type'], "1", ""),
         builder: (BuildContext context, snapshot) {
           // _fetchLanguage(context);
           if (!snapshot.hasData)
@@ -654,7 +656,7 @@ class _ProductsState extends State<Products> {
 
   Future<bool> _loadMore(page) async {
     await CompanyAndProductAPI()
-        .getProductsByMainCategory(widget.data['type'], page)
+        .getProductsByMainCategory(widget.data['type'], page, "")
         .then((value) {
       products.addAll(value["products"]);
       setState(() {
