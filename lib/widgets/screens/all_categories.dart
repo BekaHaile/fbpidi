@@ -13,55 +13,57 @@ class AllCategories extends StatelessWidget {
         title:
             type["type"] == "all" ? Text("Categories") : Text("Sub Categories"),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              type["type"] == "all" ? "All Categories" : "All Sub Categories",
-              style: TextStyle(fontSize: 17),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                type["type"] == "all" ? "All Categories" : "All Sub Categories",
+                style: TextStyle(fontSize: 17),
+              ),
             ),
-          ),
-          FutureBuilder<Map<String, dynamic>>(
-            future: CompanyAndProductAPI().getCompanies("All", "1"),
-            builder: (BuildContext context, snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              else {
-                list = snapshot.data['categories'];
-                if (list.length == 0)
+            FutureBuilder<Map<String, dynamic>>(
+              future: CompanyAndProductAPI().getCompanies("All", "1"),
+              builder: (BuildContext context, snapshot) {
+                if (!snapshot.hasData)
                   return Center(
-                    child: Text("No data"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(),
+                    ),
                   );
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  color: Colors.white,
-                  child: ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            _buildRow(
-                                CompanyAndProductAPI().baseUrl +
-                                    list[index]["icons"],
-                                list[index]["category_name"],
-                                context,
-                                list[index]["id"]),
-                            _buildDivider(context)
-                          ],
-                        );
-                      }),
-                );
-              }
-            },
-          ),
-        ],
+                else {
+                  list = snapshot.data['categories'];
+                  if (list.length == 0)
+                    return Center(
+                      child: Text("No data"),
+                    );
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    color: Colors.white,
+                    child: ListView.builder(
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              _buildRow(
+                                  CompanyAndProductAPI().baseUrl +
+                                      list[index]["icons"],
+                                  list[index]["category_name"],
+                                  context,
+                                  list[index]["id"]),
+                              _buildDivider(context)
+                            ],
+                          );
+                        }),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -73,15 +73,23 @@ class _ProductsState extends State<Products> {
     searchedProducts.clear();
     searchValueMain = searchValue;
     loadMore = "Load More";
-    if (products.length > 0) {
-      products.forEach((element) {
-        if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
-          searchedProducts.add(element);
-      });
-
+    if (searchValue == "")
       setState(() {
-        isBeingSearhced = true;
+        isBeingSearhced = false;
       });
+    else {
+      if (products.length > 0) {
+        CompanyAndProductAPI()
+            .getProductsByMainCategory(
+                widget.data['type'], "1", searchValueMain)
+            .then((value) {
+          searchedProducts = value["products"];
+        });
+
+        setState(() {
+          isBeingSearhced = true;
+        });
+      }
     }
   }
 
@@ -640,12 +648,21 @@ class _ProductsState extends State<Products> {
                 style: TextStyle(fontSize: 17),
               ),
               onPressed: () {
-                if (paginator.next != null)
-                  _loadMore(paginator.next);
-                else
-                  setState(() {
-                    loadMore = "No more data";
-                  });
+                if (isBeingSearhced) {
+                  if (paginator.next != null)
+                    _loadMore(searchPaginator.next);
+                  else
+                    setState(() {
+                      loadMore = "No more data";
+                    });
+                } else {
+                  if (paginator.next != null)
+                    _loadMore(paginator.next);
+                  else
+                    setState(() {
+                      loadMore = "No more data";
+                    });
+                }
               },
             ),
           )
@@ -656,11 +673,17 @@ class _ProductsState extends State<Products> {
 
   Future<bool> _loadMore(page) async {
     await CompanyAndProductAPI()
-        .getProductsByMainCategory(widget.data['type'], page, "")
+        .getProductsByMainCategory(widget.data['type'], page, searchValueMain)
         .then((value) {
-      products.addAll(value["products"]);
+      if (isBeingSearhced)
+        searchedProducts.addAll(value["products"]);
+      else
+        products.addAll(value["products"]);
       setState(() {
-        paginator = value["paginator"];
+        if (isBeingSearhced)
+          searchPaginator = value["paginator"];
+        else
+          paginator = value["paginator"];
         addingMore = true;
       });
     });
