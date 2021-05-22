@@ -579,14 +579,27 @@ class CollaborationsApi {
   }
 
   //Notify for event
-  notifyForEvent(id, email, notifyIn) async {
-    var response = await http.post(
-        Uri.encodeFull(
-            "http://127.0.0.1:8000/client/collaborations/event_notify/22/"), //uri of api
-        headers: {"Accept": "application/json"},
-        body: {"email": email, "notify_in": notifyIn});
+  notifyForEvent(Map<String, String> data) async {
+    try {
+      String token = await getToken();
+      var response = await http.post(
+          Uri.encodeFull(
+              baseUrl + "/api/collaborations/event_notify/"), //uri of api
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Token $token"
+          },
+          body: {
+            "email": data["email"],
+            "id": data["id"],
+            "notify_on": data["date"]
+          });
 
-    return response.body;
+      return jsonDecode(response.body);
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
   }
 
   //Get all announcements

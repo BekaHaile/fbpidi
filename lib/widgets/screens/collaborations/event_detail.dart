@@ -5,9 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class EventDetail extends StatelessWidget {
+class EventDetail extends StatefulWidget {
   final data;
   EventDetail(this.data);
+
+  @override
+  _EventDetailState createState() => _EventDetailState();
+}
+
+class _EventDetailState extends State<EventDetail> {
+  final TextEditingController emailController = TextEditingController();
+
+  Event event;
+  String date;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +29,7 @@ class EventDetail extends StatelessWidget {
         child: Column(
           children: [
             FutureBuilder<Event>(
-                future: CollaborationsApi().getEventDetail(data['id']),
+                future: CollaborationsApi().getEventDetail(widget.data['id']),
                 builder: (BuildContext context, snapshot) {
                   // _fetchLanguage(context);
                   if (!snapshot.hasData)
@@ -29,7 +40,7 @@ class EventDetail extends StatelessWidget {
                       ),
                     );
                   else {
-                    Event event = snapshot.data;
+                    event = snapshot.data;
                     return Center(
                       child: Container(
                         alignment: Alignment.center,
@@ -131,13 +142,18 @@ class EventDetail extends StatelessWidget {
                                             DatePicker.showDatePicker(
                                               context,
                                               showTitleActions: true,
-                                              minTime: DateTime(2018, 1, 1),
-                                              maxTime: DateTime(2022, 1, 1),
+                                              minTime: DateTime(2021, 1, 1),
+                                              maxTime: DateTime(2050, 1, 1),
                                               onChanged: (date) {
                                                 print('change $date');
                                               },
-                                              onConfirm: (date) {
+                                              onConfirm: (pickedDate) {
                                                 print('confirm $date');
+                                                setState(() {
+                                                  date = pickedDate
+                                                      .toString()
+                                                      .substring(0, 10);
+                                                });
                                               },
                                               currentTime: DateTime.now(),
                                             );
@@ -162,7 +178,9 @@ class EventDetail extends StatelessWidget {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    'mm/dd/yyyy',
+                                                    date == null
+                                                        ? 'mm/dd/yyyy'
+                                                        : date,
                                                     style: TextStyle(
                                                         color: Colors.black87),
                                                   ),
@@ -183,58 +201,47 @@ class EventDetail extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        "Event Description",
+                                        "Your email",
                                         style: TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 23,
+                                            fontSize: 19,
                                             fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.left,
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Container(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      height: 3.0,
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 20.0, top: 10.0),
-                                      child: Text(
-                                        RemoveTag().removeAllHtmlTags(
-                                            event.description),
-                                        style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 18,
+                                          left: 30.0, bottom: 15),
+                                      child: Container(
+                                        decoration:
+                                            BoxDecoration(border: Border.all()),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.75,
+                                        child: TextField(
+                                          controller: emailController,
+                                          decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.all(5),
+                                              hintText: "Email Address",
+                                              hintStyle:
+                                                  TextStyle(fontSize: 18)),
                                         ),
-                                        textAlign: TextAlign.left,
                                       ),
                                     ),
+                                    _remindMe(context),
                                     SizedBox(
-                                      height: 25.0,
-                                    ),
+                                      height: 15,
+                                    )
                                   ],
                                 ),
                               ),
                             ),
-                            // Padding(
-                            //   padding:
-                            //       const EdgeInsets.only(top: 15, bottom: 15),
-                            //   child: Container(
-                            //     width: MediaQuery.of(context).size.width * 0.9,
-                            //     child: Text(
-                            //       "Other Events from ${event.company.name}",
-                            //       style: TextStyle(
-                            //           color: Colors.black87,
-                            //           fontSize: 23,
-                            //           fontWeight: FontWeight.bold),
-                            //       textAlign: TextAlign.left,
-                            //     ),
-                            //   ),
-                            // ),
-                            // _otherEvent(context, event),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            eventDescription(context, event),
                             _companyCard(context, event),
                             SizedBox(
                               height: 25,
@@ -247,6 +254,48 @@ class EventDetail extends StatelessWidget {
                 })
           ],
         ),
+      ),
+    );
+  }
+
+  Widget eventDescription(BuildContext context, Event event) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 10),
+            child: Text(
+              "Event Description",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            height: 3.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 10.0),
+            child: Text(
+              RemoveTag().removeAllHtmlTags(event.description),
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          SizedBox(
+            height: 25.0,
+          ),
+        ],
       ),
     );
   }
@@ -368,56 +417,69 @@ class EventDetail extends StatelessWidget {
     );
   }
 
-  // Widget _otherEvent(context, Event event) {
-  //   return Card(
-  //     color: Colors.white,
-  //     child: Container(
-  //       width: MediaQuery.of(context).size.width * 0.95,
-  //       child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: <Widget>[
-  //             Padding(
-  //               padding: const EdgeInsets.only(
-  //                 bottom: 30.0,
-  //               ),
-  //               child: Stack(
-  //                 children: [
-  //                   Container(
-  //                     height: 200,
-  //                     width: MediaQuery.of(context).size.width * 0.95,
-  //                     child: FittedBox(
-  //                       fit: BoxFit.fill,
-  //                       child: Image.network(
-  //                         CollaborationsApi().baseUrl + event.image,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             Padding(
-  //               padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 20),
-  //               child: Text(
-  //                 'Event name',
-  //                 style: TextStyle(
-  //                     color: Colors.black87,
-  //                     fontSize: 24,
-  //                     fontWeight: FontWeight.bold),
-  //                 textAlign: TextAlign.left,
-  //               ),
-  //             ),
-  //             _productIcons(context, Icons.location_on, "Ethiopia"),
-  //             SizedBox(height: 10),
-  //             _productIcons(context, Icons.calendar_today, "March 14, 2021"),
-  //             SizedBox(height: 10),
-  //             _productIcons(context, Icons.person, "MelfanTech"),
-  //             SizedBox(height: 10),
-  //             _productIcons(context, Icons.phone, "+251-92458-9558"),
-  //             SizedBox(height: 20),
-  //           ]),
-  //     ),
-  //   );
-  // }
+  Widget _remindMe(context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 30),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.35,
+        height: 40.0,
+        child: SizedBox.expand(
+          child: ElevatedButton(
+            onPressed: () async {
+              Map<String, String> data = {
+                "id": event.id,
+                "email": emailController.text,
+                "date": date
+              };
+              await CollaborationsApi().notifyForEvent(data).then((value) {
+                if (value["error"] == false)
+                  _confirmationDialogue(
+                      context, "Event reminder set successfully", false);
+                else
+                  _confirmationDialogue(context, "Error saving reminder", true);
+              });
+            },
+            child: Text(
+              "Remind Me",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Theme.of(context).primaryColor,
+              onPrimary: Theme.of(context).disabledColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError) {
+                    Navigator.pushReplacementNamed(mainContext, "/events");
+                  } else
+                    Navigator.pop(context);
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
+  }
 
   Widget _contactInfo(context, icon, title) {
     return Row(
