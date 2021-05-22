@@ -376,10 +376,9 @@ class _LoginSevenPageState extends State<LoginPage> {
         await storage.write(key: 'email', value: "${user.email}");
         await storage.write(key: 'token', value: response['token']);
         await storage.write(key: 'loginStatus', value: 'true');
-        if (widget.data != null && widget.data["route"] != "inquire") {
-          Navigator.pushNamed(context, "/inquire",
+        if (widget.data != null && widget.data["route"] == "inquire") {
+          Navigator.pushReplacementNamed(context, "/inquire",
               arguments: {"product": widget.data["product"]});
-          Navigator.pop(context);
         } else if (widget.data != null && widget.data["id"] != null) {
           Navigator.pushReplacementNamed(context, widget.data["route"],
               arguments: {'id': widget.data['id']});
