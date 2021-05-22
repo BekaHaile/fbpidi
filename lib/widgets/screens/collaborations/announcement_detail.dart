@@ -270,12 +270,12 @@ class AnnouncementDetail extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              Container(
-                  height: 3, color: Theme.of(context).scaffoldBackgroundColor),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 15.0),
-                child: _buildButtons(context),
-              ),
+              // Container(
+              //     height: 3, color: Theme.of(context).scaffoldBackgroundColor),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 20.0, top: 15.0),
+              //   child: _buildButtons(context),
+              // ),
               SizedBox(
                 height: 25.0,
               ),
@@ -322,38 +322,38 @@ class AnnouncementDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildButtons(context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 50,
-        width: 100,
-        child: SizedBox.expand(
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              onPrimary: Color.fromRGBO(10, 178, 230, 0.5),
-              primary: Color.fromRGBO(10, 178, 230, 1),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.mail, color: Colors.white),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Chat",
-                  style: TextStyle(color: Colors.white, fontSize: 17),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildButtons(context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Container(
+  //       height: 50,
+  //       width: 100,
+  //       child: SizedBox.expand(
+  //         child: ElevatedButton(
+  //           onPressed: () {},
+  //           style: ElevatedButton.styleFrom(
+  //             onPrimary: Color.fromRGBO(10, 178, 230, 0.5),
+  //             primary: Color.fromRGBO(10, 178, 230, 1),
+  //             padding: EdgeInsets.symmetric(horizontal: 16),
+  //             shape: const RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(2)),
+  //             ),
+  //           ),
+  //           child: Row(
+  //             children: [
+  //               Icon(Icons.mail, color: Colors.white),
+  //               SizedBox(
+  //                 width: 5,
+  //               ),
+  //               Text(
+  //                 "Chat",
+  //                 style: TextStyle(color: Colors.white, fontSize: 17),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

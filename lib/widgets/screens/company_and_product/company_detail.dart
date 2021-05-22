@@ -512,38 +512,38 @@ class CompanyDetail extends StatelessWidget {
                 height: 3, color: Theme.of(context).scaffoldBackgroundColor),
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: <
                 Widget>[
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  height: 45,
-                  width: 100,
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Color.fromRGBO(10, 178, 230, 0.5),
-                        primary: Color.fromRGBO(10, 178, 230, 1),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.mail, color: Colors.white),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Chat",
-                            style: TextStyle(color: Colors.white, fontSize: 17),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Container(
+              //     height: 45,
+              //     width: 100,
+              //     child: SizedBox.expand(
+              //       child: ElevatedButton(
+              //         onPressed: () {},
+              //         style: ElevatedButton.styleFrom(
+              //           onPrimary: Color.fromRGBO(10, 178, 230, 0.5),
+              //           primary: Color.fromRGBO(10, 178, 230, 1),
+              //           padding: EdgeInsets.symmetric(horizontal: 16),
+              //           shape: const RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.all(Radius.circular(2)),
+              //           ),
+              //         ),
+              //         child: Row(
+              //           children: [
+              //             Icon(Icons.mail, color: Colors.white),
+              //             SizedBox(
+              //               width: 5,
+              //             ),
+              //             Text(
+              //               "Chat",
+              //               style: TextStyle(color: Colors.white, fontSize: 17),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
