@@ -22,8 +22,8 @@ class _CompanyState extends State<CompanyPage> {
   TextEditingController editingController = TextEditingController();
 
   bool addingMore = false;
-  Paginator paginator;
-  String loadMore = "Load More";
+  Paginator paginator, searchPaginator;
+  String loadMore = "Load More", searchValueMain = "";
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +60,17 @@ class _CompanyState extends State<CompanyPage> {
 
   void searchCallback(String searchValue) {
     searchedCompanies.clear();
+    searchValueMain = searchValue;
+    loadMore = "Load More";
     if (companies.length > 0) {
-      companies.forEach((element) {
-        if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
-          searchedCompanies.add(element);
+      CompanyAndProductAPI().searchCompany(searchValue, "1").then((value) {
+        searchedCompanies = value["companies"];
+        searchPaginator = value["paginator"];
       });
+      // companies.forEach((element) {
+      //   if (element.name.toLowerCase().contains(searchValue.toLowerCase()))
+      //     searchedCompanies.add(element);
+      // });
 
       setState(() {
         isBeingSearhced = true;
@@ -414,14 +420,30 @@ class _CompanyState extends State<CompanyPage> {
                                               null
                                           ? Text(
                                               companies[index].companyAddress[
-                                                      'city_town'] +
-                                                  ', ' +
-                                                  companies[index]
+                                                          'city_town'] !=
+                                                      null
+                                                  ? companies[index]
                                                           .companyAddress[
-                                                      'local_area'] +
-                                                  ', ' +
-                                                  companies[index]
-                                                      .companyAddress['fax'],
+                                                      'city_town']
+                                                  : "" +
+                                                              ', ' +
+                                                              companies[index]
+                                                                      .companyAddress[
+                                                                  'local_area'] !=
+                                                          null
+                                                      ? companies[index]
+                                                              .companyAddress[
+                                                          'local_area']
+                                                      : "" +
+                                                                  ', ' +
+                                                                  companies[index]
+                                                                          .companyAddress[
+                                                                      'fax'] !=
+                                                              null
+                                                          ? companies[index]
+                                                                  .companyAddress[
+                                                              'fax']
+                                                          : null,
                                               style: TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 20,
@@ -576,12 +598,21 @@ class _CompanyState extends State<CompanyPage> {
               style: TextStyle(fontSize: 17),
             ),
             onPressed: () {
-              if (paginator.next != null)
-                _loadMore(paginator.next);
-              else
-                setState(() {
-                  loadMore = "No more data";
-                });
+              if (isBeingSearhced) {
+                if (searchPaginator.next != null)
+                  _loadMore(searchPaginator.next);
+                else
+                  setState(() {
+                    loadMore = "No more data";
+                  });
+              } else {
+                if (paginator.next != null)
+                  _loadMore(paginator.next);
+                else
+                  setState(() {
+                    loadMore = "No more data";
+                  });
+              }
             },
           ),
         )
@@ -605,15 +636,27 @@ class _CompanyState extends State<CompanyPage> {
   }
 
   Future<bool> _loadMore(page) async {
-    await CompanyAndProductAPI()
-        .getCompanies(widget.data['type'], page)
-        .then((value) {
-      companies.addAll(value["companies"]);
-      setState(() {
-        paginator = value["paginator"];
-        addingMore = true;
+    if (isBeingSearhced) {
+      await CompanyAndProductAPI()
+          .searchCompany(searchValueMain, page)
+          .then((value) {
+        searchedCompanies.addAll(value["companies"]);
+        setState(() {
+          searchPaginator = value["paginator"];
+          addingMore = true;
+        });
       });
-    });
+    } else {
+      await CompanyAndProductAPI()
+          .getCompanies(widget.data['type'], page)
+          .then((value) {
+        companies.addAll(value["companies"]);
+        setState(() {
+          paginator = value["paginator"];
+          addingMore = true;
+        });
+      });
+    }
 
     return true;
   }

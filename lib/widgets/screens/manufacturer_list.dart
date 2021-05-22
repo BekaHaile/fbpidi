@@ -23,7 +23,7 @@ class _ManufacturerListState extends State<ManufacturerList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: CompanyAndProductAPI().searchCompany(widget.id, "1"),
+        future: CompanyAndProductAPI().searchCompanyBySubsector(widget.id, "1"),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -208,7 +208,9 @@ class _ManufacturerListState extends State<ManufacturerList> {
   }
 
   Future<bool> _loadMore(page) async {
-    await CompanyAndProductAPI().searchCompany(widget.id, page).then((value) {
+    await CompanyAndProductAPI()
+        .searchCompanyBySubsector(widget.id, page)
+        .then((value) {
       companies.addAll(value["products"]);
       setState(() {
         paginator = value["paginator"];

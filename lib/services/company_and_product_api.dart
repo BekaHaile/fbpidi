@@ -48,7 +48,41 @@ class CompanyAndProductAPI {
     }
   }
 
-  Future<Map<String, dynamic>> searchCompany(id, page) async {
+  Future<Map<String, dynamic>> searchCompany(title, page) async {
+    try {
+      var response = await http.get(
+        Uri.encodeFull(
+            "$baseUrl/api/company/search_company/?by_title=$title&page=$page"), //uri of api
+        headers: {"Accept": "application/json"},
+      );
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      List<Company> companies = [];
+      try {
+        data["companies"].forEach((com) {
+          companies.add(Company.fromMap(com));
+        });
+      } catch (e) {
+        print(e.toString());
+        throw Exception('Unable to convert data from map to model.');
+      }
+
+      Paginator paginator = Paginator.fromMap(data["paginator"]);
+      Map<String, dynamic> data2 = {
+        "companies": companies,
+        "paginator": paginator
+      };
+
+      return data2;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  Future<Map<String, dynamic>> searchCompanyBySubsector(id, page) async {
     try {
       var response = await http.get(
         Uri.encodeFull(
