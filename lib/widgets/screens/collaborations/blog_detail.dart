@@ -2,13 +2,24 @@ import 'package:fbpidi/models/blog.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BlogDetail extends StatelessWidget {
+class BlogDetail extends StatefulWidget {
   final data;
   BlogDetail(this.data);
+
+  @override
+  _BlogDetailState createState() => _BlogDetailState();
+}
+
+class _BlogDetailState extends State<BlogDetail> {
   final TextEditingController commentController = TextEditingController();
 
+  final storage = new FlutterSecureStorage();
+
+  Blog blog;
+  bool refresh = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +40,15 @@ class BlogDetail extends StatelessWidget {
     );
   }
 
+  void refreshPage() {
+    setState(() {
+      refresh = !refresh;
+    });
+  }
+
   Widget _buildBlogList(context) {
     return FutureBuilder<Blog>(
-        future: CollaborationsApi().getBlogDetail(data['id']),
+        future: CollaborationsApi().getBlogDetail(widget.data['id']),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -44,7 +61,7 @@ class BlogDetail extends StatelessWidget {
               ),
             );
           else {
-            Blog blog = snapshot.data;
+            blog = snapshot.data;
 
             return Container(
               alignment: Alignment.center,
@@ -248,24 +265,113 @@ class BlogDetail extends StatelessWidget {
                                               left: 20.0, right: 5),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Icon(
-                                                Icons.calendar_today,
-                                                color: Colors.black54,
-                                                size: 18,
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.calendar_today,
+                                                    color: Colors.black54,
+                                                    size: 18,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.0,
+                                                  ),
+                                                  Text(
+                                                    comments[index]
+                                                            ['created_date']
+                                                        .substring(0, 10),
+                                                    style: TextStyle(
+                                                        fontSize: 15.0,
+                                                        color: Colors.black),
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: 5.0,
-                                              ),
-                                              Text(
-                                                comments[index]['created_date']
-                                                    .substring(0, 10),
-                                                style: TextStyle(
-                                                    fontSize: 15.0,
-                                                    color: Colors.black),
-                                                textAlign: TextAlign.justify,
-                                              ),
+                                              FutureBuilder<String>(
+                                                  future: storage.read(
+                                                      key: 'loginStatus'),
+                                                  builder: (context, snapshot) {
+                                                    if (!snapshot.hasData)
+                                                      return Container();
+                                                    else {
+                                                      if (snapshot.data ==
+                                                          'false')
+                                                        return Container();
+                                                      else
+                                                        return FutureBuilder<
+                                                                String>(
+                                                            future:
+                                                                storage.read(
+                                                                    key: 'id'),
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (!snapshot
+                                                                  .hasData)
+                                                                return Container();
+                                                              else {
+                                                                if (snapshot
+                                                                        .data ==
+                                                                    comments[index]["created_by"]
+                                                                            [
+                                                                            "id"]
+                                                                        .toString())
+                                                                  return Row(
+                                                                    children: [
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          _editDialogue(
+                                                                              context,
+                                                                              comments[index]['id'],
+                                                                              comments[index]['content'],
+                                                                              refreshPage);
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .edit,
+                                                                          color:
+                                                                              Colors.blue,
+                                                                          size:
+                                                                              16,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            5,
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () async {
+                                                                          await CollaborationsApi()
+                                                                              .commentOnBlog(comments[index]["id"], "", "delete")
+                                                                              .then((value) {
+                                                                            if (value["error"])
+                                                                              _confirmationDialogue(context, "Error deleting comment", true);
+                                                                            else
+                                                                              _confirmationDialogue(context, "Comment deleted successfully", false);
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .delete,
+                                                                          color:
+                                                                              Colors.blue,
+                                                                          size:
+                                                                              16,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                else
+                                                                  return Container();
+                                                              }
+                                                            });
+                                                    }
+                                                  })
                                             ],
                                           ),
                                         ),
@@ -412,9 +518,11 @@ class BlogDetail extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  if (!isError)
-                    Navigator.pushNamed(mainContext, '/blogs');
-                  else
+                  if (!isError) {
+                    commentController.text = "";
+                    refreshPage();
+                    Navigator.pop(context);
+                  } else
                     Navigator.of(context).pop();
                 },
                 child: Text(
@@ -425,6 +533,83 @@ class BlogDetail extends StatelessWidget {
               ),
             ],
           );
+        });
+  }
+
+  _editDialogue(mainContext, id, message, callback) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          TextEditingController controller = TextEditingController();
+          controller.text = message;
+          bool edited = false;
+          String editMessage = "";
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: edited ? null : Text("Edit comment"),
+              content: Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: edited
+                    ? Text(
+                        editMessage,
+                        style: TextStyle(fontSize: 18),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(border: Border.all()),
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        child: TextField(
+                          minLines: 10,
+                          maxLines: 15,
+                          controller: controller,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(5),
+                              hintText: "Comment",
+                              hintStyle: TextStyle(fontSize: 18)),
+                        ),
+                      ),
+              ),
+              actions: [
+                edited
+                    ? Container()
+                    : TextButton(
+                        onPressed: () async {
+                          await CollaborationsApi()
+                              .commentOnBlog(id, controller.text, "edit")
+                              .then((value) {
+                            if (value["error"]) {
+                              editMessage = "Error editing comment";
+                              setState(() {
+                                edited = true;
+                              });
+                            } else {
+                              editMessage = "Comment edited";
+                              setState(() {
+                                edited = true;
+                              });
+                            }
+                          });
+                        },
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 165, 81, 1),
+                              fontSize: 17),
+                        ),
+                      ),
+                TextButton(
+                  onPressed: () {
+                    callback();
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                  ),
+                ),
+              ],
+            );
+          });
         });
   }
 }

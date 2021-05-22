@@ -159,29 +159,29 @@ class _BlogsState extends State<Blogs> {
                             SizedBox(
                               width: 10.0,
                             ),
-                            if (blogs[index].company.companyAddress != null)
-                              if (blogs[index]
-                                      .company
-                                      .companyAddress["phone_number"] !=
-                                  null)
-                                InkWell(
-                                  onTap: () {
-                                    LaunchApp().launchInBrowser(
-                                        "tel:${blogs[index].company.companyAddress["phone_number"]}");
-                                  },
-                                  child: Container(
-                                    height: 34,
-                                    width: 34,
-                                    decoration: BoxDecoration(
-                                        color: Color.fromRGBO(247, 247, 251, 1),
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.phone,
-                                      color: Colors.black,
-                                      size: 19,
-                                    ),
-                                  ),
+                            // if (blogs[index].company.companyAddress != null)
+                            //   if (blogs[index]
+                            //           .company
+                            //           .companyAddress["phone_number"] !=
+                            //       null)
+                            InkWell(
+                              onTap: () {
+                                // LaunchApp().launchInBrowser(
+                                //     "tel:${blogs[index].company.companyAddress["phone_number"]}");
+                              },
+                              child: Container(
+                                height: 34,
+                                width: 34,
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(247, 247, 251, 1),
+                                    shape: BoxShape.circle),
+                                child: Icon(
+                                  Icons.phone,
+                                  color: Colors.black,
+                                  size: 19,
                                 ),
+                              ),
+                            ),
                             SizedBox(
                               width: 5.0,
                             ),

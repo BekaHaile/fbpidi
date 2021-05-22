@@ -682,11 +682,11 @@ class CollaborationsApi {
   //Comment on a blog
   Future<Map<String, dynamic>> commentOnBlog(id, content, option) async {
     String token = await getToken();
-    Map<String, dynamic> data = {
-      "blog": id,
-      "content": content,
-      "option": option
-    };
+    Map<String, dynamic> data = Map<String, dynamic>();
+    if (option == "create")
+      data = {"blog": id, "content": content, "option": option};
+    else
+      data = {"id": id, "content": content, "option": option};
 
     var response;
     try {

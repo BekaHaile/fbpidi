@@ -15,6 +15,7 @@ class PollDetail extends StatefulWidget {
 class _PollDetailState extends State<PollDetail> {
   int groupValue = -1;
   TextEditingController editingController = TextEditingController();
+  bool refresh = false;
 
   @override
   Widget build(BuildContext context) {
@@ -365,6 +366,12 @@ class _PollDetailState extends State<PollDetail> {
     );
   }
 
+  void refreshPage() {
+    setState(() {
+      refresh = !refresh;
+    });
+  }
+
   _confirmationDialogue(mainContext, message, isError) {
     showDialog(
         context: mainContext,
@@ -374,9 +381,10 @@ class _PollDetailState extends State<PollDetail> {
             actions: [
               TextButton(
                 onPressed: () {
-                  if (!isError)
-                    Navigator.pushNamed(mainContext, '/polls');
-                  else
+                  if (!isError) {
+                    refreshPage();
+                    Navigator.pop(context);
+                  } else
                     Navigator.pop(context);
                 },
                 child: Text(
