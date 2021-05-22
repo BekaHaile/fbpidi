@@ -6,6 +6,7 @@ import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,68 +25,74 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Home")),
-      appBar: AppBar(
-        title: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: 47,
-          child: TextField(
-            autocorrect: true,
-            decoration: InputDecoration(
-              hintText: 'Search Products/Company',
-              prefixIcon: Icon(Icons.search),
-              hintStyle:
-                  TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-              filled: true,
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+    return WillPopScope(
+      onWillPop: () {
+        SystemNavigator.pop();
+        return Future.value(false);
+      },
+      child: Scaffold(
+        drawer: Drawer(child: FbpidiDrawer("Home")),
+        appBar: AppBar(
+          title: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 47,
+            child: TextField(
+              autocorrect: true,
+              decoration: InputDecoration(
+                hintText: 'Search Products/Company',
+                prefixIcon: Icon(Icons.search),
+                hintStyle:
+                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
               ),
             ),
           ),
         ),
-      ),
-      body: SafeArea(
-          child: ListView(
-        children: [
-          _buildCategoriesGrid(),
-          _buildHorizontalList(
-              "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
-          // _buildHorizontalList(
-          //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
-          _buildHorizontalList("Projects", Color.fromRGBO(217, 226, 241, 1)),
-          Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      "Products",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(context, "/products",
-                            arguments: {'type': 'All'});
-                      },
-                      child: Text("More"),
-                    ),
-                  ],
+        body: SafeArea(
+            child: ListView(
+          children: [
+            _buildCategoriesGrid(),
+            _buildHorizontalList(
+                "Manufacturer", Color.fromRGBO(203, 217, 230, 1)),
+            // _buildHorizontalList(
+            //     "Investment Opportunities", Color.fromRGBO(230, 221, 216, 1)),
+            _buildHorizontalList("Projects", Color.fromRGBO(217, 226, 241, 1)),
+            Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Products",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(context, "/products",
+                              arguments: {'type': 'All'});
+                        },
+                        child: Text("More"),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              _buildProductGrid(context),
-            ],
-          ),
-          _buildBottomCards(),
-        ],
-      )),
+                _buildProductGrid(context),
+              ],
+            ),
+            _buildBottomCards(),
+          ],
+        )),
+      ),
     );
   }
 

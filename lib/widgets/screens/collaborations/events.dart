@@ -6,6 +6,7 @@ import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -23,26 +24,32 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(child: FbpidiDrawer("Events")),
-      appBar: AppBar(
-        title: Text("Events"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: Column(
-            children: [
-              FbpidiSearch(
-                callback: searchCallback,
-                editingController: editingController,
-              ),
-              // _sortList(context),
-              _buildEventList(context),
-            ],
-          ),
-        )),
+    return WillPopScope(
+      onWillPop: () {
+        SystemNavigator.pop();
+        return Future.value(false);
+      },
+      child: Scaffold(
+        drawer: Drawer(child: FbpidiDrawer("Events")),
+        appBar: AppBar(
+          title: Text("Events"),
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+              child: Padding(
+            padding: const EdgeInsets.only(top: 18.0),
+            child: Column(
+              children: [
+                FbpidiSearch(
+                  callback: searchCallback,
+                  editingController: editingController,
+                ),
+                // _sortList(context),
+                _buildEventList(context),
+              ],
+            ),
+          )),
+        ),
       ),
     );
   }
