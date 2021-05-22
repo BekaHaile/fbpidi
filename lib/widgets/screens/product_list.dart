@@ -117,15 +117,17 @@ class _ProductsListState extends State<ProductsList> {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, right: 5),
-                                      child: Text(
-                                        products[index].latestPrice != "null"
-                                            ? 'ET birr ' +
-                                                products[index].latestPrice
-                                            : 'ET birr',
-                                        style: TextStyle(
-                                            fontSize: 19.0, color: Colors.red),
-                                        textAlign: TextAlign.justify,
-                                      ),
+                                      child: products[index].latestPrice !=
+                                              "null"
+                                          ? Text(
+                                              'ET birr ' +
+                                                  products[index].latestPrice,
+                                              style: TextStyle(
+                                                  fontSize: 19.0,
+                                                  color: Colors.red),
+                                              textAlign: TextAlign.justify,
+                                            )
+                                          : Container(),
                                     ),
                                     SizedBox(
                                       height: 7.0,
@@ -157,15 +159,23 @@ class _ProductsListState extends State<ProductsList> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  products[index].company.name,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                  textAlign: TextAlign.left,
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.3,
+                                                  child: Text(
+                                                    products[index]
+                                                        .company
+                                                        .name,
+                                                    softWrap: true,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                    textAlign: TextAlign.left,
+                                                  ),
                                                 ),
                                                 Text(
                                                   products[index]
