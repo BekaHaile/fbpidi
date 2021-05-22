@@ -16,7 +16,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
   final Color secondaryColor = Color(0xff324558);
 
-  String type = "list";
+  String type = "list", title = "";
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   border: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: "Products",
+                  hintText: "Products/Manufacturers",
                   prefixIcon: Icon(Icons.search),
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 18),
+                  hintStyle: TextStyle(color: Colors.black54, fontSize: 18),
                   filled: true,
                   contentPadding: EdgeInsets.fromLTRB(0, 10.0, 20.0, 10.0),
                   fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -61,6 +61,11 @@ class _ProductsPageState extends State<ProductsPage> {
                     borderRadius: BorderRadius.all(Radius.circular(18.0)),
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    title = value;
+                  });
+                },
               ),
             ),
             leading: IconButton(
@@ -137,7 +142,7 @@ class _ProductsPageState extends State<ProductsPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("All Products"),
                   ),
-                  ProductsList(widget.data["id"]),
+                  ProductsList(widget.data["id"], title),
                 ],
               )),
               SingleChildScrollView(
@@ -148,7 +153,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text("All Companies"),
                     ),
-                    ManufacturerList(widget.data["id"])
+                    ManufacturerList(widget.data["id"], title)
                   ],
                 ),
               ),

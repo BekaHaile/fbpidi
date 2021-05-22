@@ -8,7 +8,8 @@ import '../../services/company_and_product_api.dart';
 
 class ManufacturerList extends StatefulWidget {
   final String id;
-  ManufacturerList(this.id);
+  final String title;
+  ManufacturerList(this.id, this.title);
 
   @override
   _ManufacturerListState createState() => _ManufacturerListState();
@@ -23,7 +24,8 @@ class _ManufacturerListState extends State<ManufacturerList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: CompanyAndProductAPI().searchCompanyBySubsector(widget.id, "1"),
+        future: CompanyAndProductAPI()
+            .searchCompanyBySubsector(widget.id, "1", widget.title),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
@@ -209,7 +211,7 @@ class _ManufacturerListState extends State<ManufacturerList> {
 
   Future<bool> _loadMore(page) async {
     await CompanyAndProductAPI()
-        .searchCompanyBySubsector(widget.id, page)
+        .searchCompanyBySubsector(widget.id, page, widget.title)
         .then((value) {
       companies.addAll(value["products"]);
       setState(() {

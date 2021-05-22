@@ -82,11 +82,11 @@ class CompanyAndProductAPI {
     }
   }
 
-  Future<Map<String, dynamic>> searchCompanyBySubsector(id, page) async {
+  Future<Map<String, dynamic>> searchCompanyBySubsector(id, page, title) async {
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/company/search_company/?by_subsector=$id&page=$page"), //uri of api
+            "$baseUrl/api/company/search_company/?by_subsector=$id&page=$page&by_title=$title"), //uri of api
         headers: {"Accept": "application/json"},
       );
       String body = utf8.decode(response.bodyBytes);
@@ -173,12 +173,13 @@ class CompanyAndProductAPI {
   }
 
   //Get list of products based on category
-  Future<Map<String, dynamic>> getProductsByCategory(categoryId, page) async {
+  Future<Map<String, dynamic>> getProductsByCategory(
+      categoryId, page, title) async {
     // category_id   =  1
     try {
       var response = await http.get(
         Uri.encodeFull(
-            "$baseUrl/api/product/product-by-category/?category_id=$categoryId&page=$page"), //uri of api
+            "$baseUrl/api/product/product-by-category/?category_id=$categoryId&page=$page&by_title=$title"), //uri of api
         headers: {"Accept": "application/json"},
       );
 
