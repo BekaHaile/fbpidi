@@ -373,6 +373,7 @@ class _LoginSevenPageState extends State<LoginPage> {
         final storage = new FlutterSecureStorage();
         await storage.write(
             key: 'name', value: "${user.firstName} ${user.lastName}");
+        await storage.write(key: 'id', value: response['id']);
         await storage.write(key: 'email', value: "${user.email}");
         await storage.write(key: 'token', value: response['token']);
         await storage.write(key: 'loginStatus', value: 'true');
