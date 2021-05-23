@@ -314,7 +314,7 @@ class CompanyAndProductAPI {
       request.fields['quantity'] = data["quantity"];
       request.fields['content'] = data["content"];
       if (type == "product")
-        request.fields['prod_id_list'] = data["prod_id_list"];
+        request.fields['prod_id_list'] = data["prod_id_list"] + ',';
       else
         request.fields['category'] = data["category_id"];
       String token = await CollaborationsApi().getToken();
