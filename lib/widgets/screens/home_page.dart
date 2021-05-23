@@ -149,8 +149,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, "/allCategories",
                     arguments: {"type": "all"});
               if (index == 1)
-                Navigator.pushNamed(context, "/products",
-                    arguments: {'type': 'All', "isInquiry": true});
+                Navigator.pushNamed(context, "/inquire", arguments: {
+                  "product": products[index],
+                  "type": "mulitple"
+                });
             },
             child: Column(
               children: <Widget>[

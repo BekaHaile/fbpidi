@@ -294,10 +294,16 @@ class CompanyAndProductAPI {
     return data2;
   }
 
-  Future<Map<String, dynamic>> sendInquiry(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> sendInquiry(
+      Map<String, dynamic> data, String type) async {
     var response;
     try {
-      var uri = Uri.parse("$baseUrl/api/product/product_inquiry/");
+      var uri;
+      if (type == "product")
+        uri = Uri.parse("$baseUrl/api/product/product_inquiry/");
+      else
+        uri = Uri.parse("$baseUrl/api/product/inquiry_by_category/");
+
       var request = http.MultipartRequest('POST', uri);
 
       if (data["attachment"] != null)
@@ -307,8 +313,10 @@ class CompanyAndProductAPI {
       request.fields['subject'] = data["subject"];
       request.fields['quantity'] = data["quantity"];
       request.fields['content'] = data["content"];
-      request.fields['prod_id_list '] = data["prod_id_list"];
-      //
+      if (type == "product")
+        request.fields['prod_id_list'] = data["prod_id_list"];
+      else
+        request.fields['category'] = data["category_id"];
       String token = await CollaborationsApi().getToken();
       request.headers['Authorization'] = "Token " + token;
 

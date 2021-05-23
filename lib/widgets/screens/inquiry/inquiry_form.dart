@@ -3,6 +3,7 @@ import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InquiryForm extends StatefulWidget {
   final data;
@@ -21,10 +22,20 @@ class _InquiryFormState extends State<InquiryForm> {
   final storage = FlutterSecureStorage();
   String fileName = "Pick file";
   String path;
+  Product product;
+
+  List<String> subsectorList = [];
+  String subsectorChosen = 'Select subsector';
+  List<String> productList = [];
+  String productChosen = 'All';
+  List<dynamic> subsectors = [];
+  Map<String, String> subsectorIdMap = Map<String, String>(),
+      productIdMap = Map<String, String>();
+  List<Product> products;
 
   @override
   Widget build(BuildContext context) {
-    Product product = widget.data["product"];
+    if (widget.data["type"] == "single") product = widget.data["product"];
     return Scaffold(
       appBar: AppBar(
         title: Text("Inquiry Form"),
@@ -54,58 +65,71 @@ class _InquiryFormState extends State<InquiryForm> {
                     return _buildTextField(
                         context, "From *", controllerFrom, "", false);
                   }),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      "To",
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 30.0),
-                      decoration:
-                          BoxDecoration(border: Border.all(color: Colors.grey)),
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 80,
-                            child: FittedBox(
-                              fit: BoxFit.fill,
-                              child: Image.network(
-                                CompanyAndProductAPI().baseUrl + product.image,
-                              ),
+              widget.data["type"] == "single"
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Text(
+                            "For",
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 30.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey)),
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 70,
+                                  width: 80,
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Image.network(
+                                      CompanyAndProductAPI().baseUrl +
+                                          product.image,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  product.name,
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                )
+                              ],
                             ),
                           ),
-                          Text(
-                            product.name,
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          )
-                        ],
-                      ),
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 18.0),
+                          child: _buildSubsectorDropdown(context, "Subsector"),
+                        ),
+                        subsectorChosen == "Select subsector"
+                            ? Container()
+                            : _buildProductDropdown(context, "Product")
+                      ],
                     ),
-                  )
-                ],
-              ),
               _buildTextField(
                   context, "Subject *", controllerSubject, "subject", false),
               _buildTextField(
@@ -232,22 +256,66 @@ class _InquiryFormState extends State<InquiryForm> {
         child: SizedBox.expand(
           child: ElevatedButton(
             onPressed: () async {
-              Product product = widget.data["product"];
-              Map<String, dynamic> data2 = {
-                "sender_email": controllerFrom.text,
-                "subject": controllerSubject.text,
-                "quantity": controllerQuantity.text,
-                "content": controllerContent.text,
-                "prod_id_list": product.id,
-                "attachment": path
-              };
-              await CompanyAndProductAPI().sendInquiry(data2).then((value) {
-                if (value["error"] == false)
-                  _confirmationDialogue(
-                      context, "Inquiry has been sent successfully", false);
-                else
-                  _confirmationDialogue(context, "Error sending Inquiry", true);
-              });
+              if (widget.data["type"] == "single") {
+                Product product = widget.data["product"];
+                Map<String, dynamic> data2 = {
+                  "sender_email": controllerFrom.text,
+                  "subject": controllerSubject.text,
+                  "quantity": controllerQuantity.text,
+                  "content": controllerContent.text,
+                  "prod_id_list": product.id,
+                  "attachment": path
+                };
+                await CompanyAndProductAPI()
+                    .sendInquiry(data2, "product")
+                    .then((value) {
+                  if (value["error"] == false)
+                    _confirmationDialogue(
+                        context, "Inquiry has been sent successfully", false);
+                  else
+                    _confirmationDialogue(
+                        context, "Error sending Inquiry", true);
+                });
+              } else {
+                if (subsectorChosen == "Select subsector") {
+                  _confirmationDialogue(context,
+                      "Please choose a subsector from the drop down", true);
+                } else {
+                  String type;
+                  Map<String, dynamic> data2 = Map<String, dynamic>();
+                  if (productChosen != "All") {
+                    type = "product";
+                    data2 = {
+                      "sender_email": controllerFrom.text,
+                      "subject": controllerSubject.text,
+                      "quantity": controllerQuantity.text,
+                      "content": controllerContent.text,
+                      "prod_id_list": productIdMap[productChosen],
+                      "attachment": path
+                    };
+                  } else {
+                    type = "subsector";
+                    data2 = {
+                      "sender_email": controllerFrom.text,
+                      "subject": controllerSubject.text,
+                      "quantity": controllerQuantity.text,
+                      "content": controllerContent.text,
+                      "category_id": subsectorIdMap[subsectorChosen],
+                      "attachment": path
+                    };
+                  }
+                  await CompanyAndProductAPI()
+                      .sendInquiry(data2, type)
+                      .then((value) {
+                    if (value["error"] == false)
+                      _confirmationDialogue(
+                          context, "Inquiry has been sent successfully", false);
+                    else
+                      _confirmationDialogue(
+                          context, "Error sending Inquiry", true);
+                  });
+                }
+              }
             },
             child: Text(
               "Send Inquiry",
@@ -264,6 +332,180 @@ class _InquiryFormState extends State<InquiryForm> {
         ),
       ),
     );
+  }
+
+  Widget _buildSubsectorDropdown(context, String title) {
+    return FutureBuilder<Map<String, dynamic>>(
+        future: CompanyAndProductAPI().getCompanies("All", "1"),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            subsectors = snapshot.data["categories"];
+            subsectorList.clear();
+            subsectorIdMap.clear();
+            subsectorList.add('Select subsector');
+
+            subsectors.forEach((subsector) {
+              subsectorList.add(subsector["category_name"]);
+              subsectorIdMap.addAll(
+                  {subsector["category_name"]: subsector["id"].toString()});
+            });
+
+            return Container(
+              padding: EdgeInsets.only(left: 20),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$title: ',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: DropdownButton<String>(
+                          value: subsectorChosen,
+                          isExpanded: true,
+                          icon: const Icon(FontAwesomeIcons.chevronDown),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 18),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              subsectorChosen = newValue;
+                            });
+                          },
+                          items: subsectorList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(value),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Container(
+                                    height: 2,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  )
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        )),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
+  }
+
+  Widget _buildProductDropdown(context, String title) {
+    return FutureBuilder<Map<String, dynamic>>(
+        future: CompanyAndProductAPI()
+            .getProductsByCategory(subsectorIdMap[subsectorChosen], '1', ""),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          else {
+            productList.clear();
+            productIdMap.clear();
+            productList.add('All');
+            products = snapshot.data["products"];
+
+            products.forEach((product) {
+              productList.add(product.name);
+              productIdMap.addAll({product.name: product.id});
+            });
+
+            return Container(
+              padding: EdgeInsets.only(left: 20),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$title: ',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: DropdownButton<String>(
+                          value: productChosen,
+                          isExpanded: true,
+                          icon: const Icon(FontAwesomeIcons.chevronDown),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 18),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              productChosen = newValue;
+                            });
+                          },
+                          items: productList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(value),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3.0),
+                                    child: Container(
+                                      height: 2,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        )),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
   }
 
   _confirmationDialogue(mainContext, message, isError) {

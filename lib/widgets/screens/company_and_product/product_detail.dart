@@ -1,4 +1,5 @@
 import 'package:fbpidi/models/product.dart';
+import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +148,7 @@ class ProductDetail extends StatelessWidget {
                               ),
                             ),
                             overviewCard(context, products),
-                            _buildButtons(context),
+                            _buildButtons(context, products),
                             SizedBox(
                               height: 15,
                             )
@@ -402,64 +403,74 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildButtons(context) {
+  Widget _buildButtons(context, Product product) {
     return Card(
       color: Colors.white,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  height: 45,
-                  width: 140,
-                  child: SizedBox.expand(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        onPrimary:
-                            Theme.of(context).primaryColor.withOpacity(0.5),
-                        primary: Theme.of(context).primaryColor,
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
-                        ),
-                      ),
-                      child: Text(
-                        "Inquire Now",
-                        style: TextStyle(color: Colors.white, fontSize: 17),
-                      ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: <
+            Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 45,
+              width: 140,
+              child: SizedBox.expand(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await CollaborationsApi().getLoginStatus().then((status) {
+                      if (status == "true")
+                        Navigator.pushNamed(context, "/inquire",
+                            arguments: {"product": product, "type": "single"});
+                      else
+                        Navigator.pushNamed(context, "/login", arguments: {
+                          'route': '/inquire',
+                          "product": product,
+                          "type": "single"
+                        });
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Theme.of(context).primaryColor.withOpacity(0.5),
+                    primary: Theme.of(context).primaryColor,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
                     ),
+                  ),
+                  child: Text(
+                    "Inquire Now",
+                    style: TextStyle(color: Colors.white, fontSize: 17),
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(10.0),
-              //   child: Container(
-              //     height: 45,
-              //     width: 150,
-              //     child: SizedBox.expand(
-              //       child: ElevatedButton(
-              //         onPressed: () {},
-              //         style: ElevatedButton.styleFrom(
-              //           onPrimary: Color.fromRGBO(255, 136, 25, 0.5),
-              //           primary: Color.fromRGBO(255, 136, 25, 1),
-              //           padding: EdgeInsets.symmetric(horizontal: 16),
-              //           shape: const RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.all(Radius.circular(2)),
-              //           ),
-              //         ),
-              //         child: Text(
-              //           "Add to Basket",
-              //           style: TextStyle(color: Colors.white, fontSize: 17),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ]),
+            ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(10.0),
+          //   child: Container(
+          //     height: 45,
+          //     width: 150,
+          //     child: SizedBox.expand(
+          //       child: ElevatedButton(
+          //         onPressed: () {},
+          //         style: ElevatedButton.styleFrom(
+          //           onPrimary: Color.fromRGBO(255, 136, 25, 0.5),
+          //           primary: Color.fromRGBO(255, 136, 25, 1),
+          //           padding: EdgeInsets.symmetric(horizontal: 16),
+          //           shape: const RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.all(Radius.circular(2)),
+          //           ),
+          //         ),
+          //         child: Text(
+          //           "Add to Basket",
+          //           style: TextStyle(color: Colors.white, fontSize: 17),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+        ]),
       ),
     );
   }

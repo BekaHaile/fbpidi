@@ -379,7 +379,7 @@ class _LoginSevenPageState extends State<LoginPage> {
         await storage.write(key: 'loginStatus', value: 'true');
         if (widget.data != null && widget.data["route"] == "inquire") {
           Navigator.pushReplacementNamed(context, "/inquire",
-              arguments: {"product": widget.data["product"]});
+              arguments: widget.data);
         } else if (widget.data != null && widget.data["id"] != null) {
           Navigator.pushReplacementNamed(context, widget.data["route"],
               arguments: {'id': widget.data['id']});

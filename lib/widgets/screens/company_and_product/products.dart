@@ -596,7 +596,8 @@ class _ProductsState extends State<Products> {
                                                           context, "/inquire",
                                                           arguments: {
                                                             "product":
-                                                                products[index]
+                                                                products[index],
+                                                            "type": "single"
                                                           });
                                                     else
                                                       Navigator.pushNamed(
@@ -604,7 +605,8 @@ class _ProductsState extends State<Products> {
                                                           arguments: {
                                                             'route': '/inquire',
                                                             "product":
-                                                                products[index]
+                                                                products[index],
+                                                            "type": "single"
                                                           });
                                                   });
                                                 },
