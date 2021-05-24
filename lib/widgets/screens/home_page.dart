@@ -148,11 +148,16 @@ class _HomePageState extends State<HomePage> {
               if (index == 0)
                 Navigator.pushNamed(context, "/allCategories",
                     arguments: {"type": "all"});
-              if (index == 1)
-                Navigator.pushNamed(context, "/inquire", arguments: {
-                  "product": products[index],
-                  "type": "mulitple"
+              if (index == 1) {
+                await CollaborationsApi().getLoginStatus().then((status) {
+                  if (status == "true")
+                    Navigator.pushNamed(context, "/inquire",
+                        arguments: {"type": "multiple"});
+                  else
+                    Navigator.pushNamed(context, "/login",
+                        arguments: {'route': 'inquire', "type": "multiple"});
                 });
+              }
             },
             child: Column(
               children: <Widget>[

@@ -1,0 +1,64 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run --machine --target lib\main.dart -d emulator-5554 --dart-define=flutter.inspector.structuredErrors=true --start-paused --web-server-debug-protocol ws --web-allow-expose-url --devtools-server-address http://127.0.0.1:9101/
+
+## exception
+
+NoSuchMethodError: NoSuchMethodError: The method 'contains' was called on null.
+Receiver: null
+Tried calling: contains("ext.flutter.activeDevToolsServerAddress")
+
+```
+#0      Object.noSuchMethod (dart:core-patch/object_patch.dart:54:5)
+#1      waitForExtension (package:flutter_tools/src/resident_runner.dart:1483:31)
+<asynchronous suspension>
+#2      ResidentRunner._callDevToolsUriExtension (package:flutter_tools/src/resident_runner.dart:1302:5)
+<asynchronous suspension>
+#3      Future.wait.<anonymous closure> (dart:async/future.dart)
+<asynchronous suspension>
+#4      ResidentRunner.maybeCallDevToolsUriServiceExtension (package:flutter_tools/src/resident_runner.dart:1291:7)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, 2.0.5, on Microsoft Windows [Version 10.0.19042.985], locale en-US)
+    • Flutter version 2.0.5 at C:\Users\barbe\OneDrive\Documents\flutter
+    • Framework revision adc687823a (5 weeks ago), 2021-04-16 09:40:20 -0700
+    • Engine revision b09f014e96
+    • Dart version 2.12.3
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
+    • Android SDK at C:\Users\barbe\AppData\Local\Android\sdk
+    • Platform android-30, build-tools 30.0.3
+    • Java binary at: C:\Program Files\Android\Android Studio\jre\bin\java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+    • All Android licenses accepted.
+
+[✓] Chrome - develop for the web
+    • Chrome at C:\Program Files\Google\Chrome\Application\chrome.exe
+
+[✓] Android Studio (version 4.1.0)
+    • Android Studio at C:\Program Files\Android\Android Studio
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 1.8.0_242-release-1644-b01)
+
+[✓] VS Code (version 1.56.2)
+    • VS Code at C:\Users\barbe\AppData\Local\Programs\Microsoft VS Code
+    • Flutter extension version 3.22.0
+
+[✓] Connected device (4 available)
+    • SM A515F (mobile)           • RR8N106ZBXV   • android-arm    • Android null (API null)
+    • sdk gphone x86 arm (mobile) • emulator-5554 • android-x86    • Android 11 (API 30) (emulator)
+    • Chrome (web)                • chrome        • web-javascript • Google Chrome 90.0.4430.212
+    • Edge (web)                  • edge          • web-javascript • Microsoft Edge 90.0.818.62
+
+• No issues found!
+```
