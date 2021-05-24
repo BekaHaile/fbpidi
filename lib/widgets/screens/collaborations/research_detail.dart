@@ -112,8 +112,8 @@ class _ResearchDetailState extends State<ResearchDetail> {
                               SizedBox(
                                 height: 10.0,
                               ),
-                              _buildContent(
-                                  context, "By", research.createdBy, false),
+                              _buildContent(context, "By",
+                                  research.createdBy["username"], false),
                               SizedBox(
                                 height: 10.0,
                               ),

@@ -7,13 +7,14 @@ class Research {
   String detail;
   String createdDate;
   List<dynamic> attachements;
-  String createdBy;
+  Map<String, dynamic> createdBy;
   String status;
   String category;
   String lastUpdatedDate;
   String lastUpdatedBy;
   bool expired;
   String company;
+  String image;
 
   Research(
       {this.id,
@@ -30,7 +31,8 @@ class Research {
       this.expired,
       this.lastUpdatedDate,
       this.lastUpdatedBy,
-      this.company});
+      this.company,
+      this.image});
 
   Research.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();
@@ -41,12 +43,13 @@ class Research {
     detail = map["detail"].toString();
     createdDate = map["created_date"].toString();
     attachements = map["attachements"];
-    createdBy = map["created_by"].toString();
+    createdBy = map["created_by"];
     status = map["status"].toString();
     category = map["category"].toString();
     expired = map['expired'];
     lastUpdatedDate = map['last_updated_date'].toString();
     lastUpdatedBy = map['last_updated_by'].toString();
     company = map['company'].toString();
+    image = map['image'].toString();
   }
 }

@@ -245,9 +245,15 @@ class ProductDetail extends StatelessWidget {
                     _contactInfo(
                         context,
                         Icons.flag,
-                        products.company.companyAddress["city_town"] +
-                            ", " +
-                            products.company.companyAddress["local_area"]),
+                        products.company.companyAddress["city_town"] != null
+                            ? products.company.companyAddress["city_town"]
+                            : "" +
+                                        ", " +
+                                        products.company
+                                            .companyAddress["local_area"] !=
+                                    null
+                                ? products.company.companyAddress["local_area"]
+                                : ""),
                     SizedBox(
                       height: 15.0,
                     ),
