@@ -32,6 +32,7 @@ class _ForumsState extends State<Forums> {
                 callback: searchCallback,
                 editingController: editingController,
               ),
+              _addNewForum(context),
               _buildForumList(context),
             ],
           ),
@@ -231,6 +232,46 @@ class _ForumsState extends State<Forums> {
           );
         },
         itemCount: forums.length,
+      ),
+    );
+  }
+
+  Widget _addNewForum(context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.95,
+      child: Card(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.55,
+            height: 40.0,
+            child: SizedBox.expand(
+              child: ElevatedButton(
+                onPressed: () async {
+                  await CollaborationsApi().getLoginStatus().then((status) {
+                    if (status == "true")
+                      Navigator.pushNamed(context, '/addForum');
+                    else
+                      Navigator.pushNamed(context, "/login",
+                          arguments: {'route': '/addForum'});
+                  });
+                },
+                child: Text(
+                  "Start New Forum Question",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                  onPrimary: Theme.of(context).disabledColor,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

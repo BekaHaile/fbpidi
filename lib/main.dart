@@ -1,4 +1,5 @@
 import 'package:fbpidi/widgets/screens/all_categories.dart';
+import 'package:fbpidi/widgets/screens/collaborations/add_forum.dart';
 import 'package:fbpidi/widgets/screens/collaborations/add_research.dart';
 import 'package:fbpidi/widgets/screens/collaborations/announcement_detail.dart';
 import 'package:fbpidi/widgets/screens/collaborations/announcements.dart';
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
           '/addResearch': (BuildContext context) => AddResearch(),
           '/profile': (BuildContext context) => Profile(),
           '/faqs': (BuildContext context) => Faqs(),
+          '/addForum': (BuildContext context) => AddForum(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;

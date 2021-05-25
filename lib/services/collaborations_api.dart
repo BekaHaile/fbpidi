@@ -434,6 +434,38 @@ class CollaborationsApi {
     }
   }
 
+  //forum registration
+  Future<dynamic> addForum(Forum forum, String option) async {
+    var response;
+    try {
+      var uri = Uri.parse("$baseUrl/api/collaborations/forum_action/");
+      var request = http.MultipartRequest('POST', uri);
+
+      if (forum.attachements != null)
+        request.files.add(await http.MultipartFile.fromPath(
+            'attachements', forum.attachements));
+      if (option == "create") {
+        request.fields['title'] = forum.title;
+        request.fields['description'] = forum.description;
+      } else {
+        request.fields['id'] = forum.id;
+      }
+      request.fields['option'] = option;
+      //
+      String token = await getToken();
+
+      request.headers['Authorization'] = "Token " + token;
+
+      response = await request.send();
+
+      final respStr = await response.stream.bytesToString();
+
+      return jsonDecode(respStr);
+    } catch (e) {
+      print(e.toString() + 'has occured ****');
+    }
+  }
+
   //Get all polls
   Future<List<Poll>> getPolls() async {
     var response = await http
