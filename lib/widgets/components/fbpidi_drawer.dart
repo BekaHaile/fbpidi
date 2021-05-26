@@ -260,7 +260,8 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
             Navigator.pushReplacementNamed(context, '/homePage');
           });
         } else if (title == "Login") {
-          Navigator.pushNamed(context, '/login');
+          Navigator.pushNamed(context, '/login',
+              arguments: {"route": "/homePage"});
         } else if (title == "Manufacturers")
           Navigator.pushReplacementNamed(context, "/companies",
               arguments: {'type': 'All'});

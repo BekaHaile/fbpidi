@@ -4,6 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddForum extends StatefulWidget {
+  final data;
+  AddForum(this.data);
   @override
   _AddForumState createState() => _AddForumState();
 }
@@ -18,7 +20,9 @@ class _AddForumState extends State<AddForum> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Add a Research'),
+          title: widget.data["type"] == "create"
+              ? Text('Add a Forum')
+              : Text('Edit Forum'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -30,6 +34,11 @@ class _AddForumState extends State<AddForum> {
   }
 
   Widget _buildDetail(context) {
+    if (widget.data["type"] == "edit") {
+      Forum forum = widget.data["forum"];
+      titleController.text = forum.title;
+      descriptionController.text = forum.description;
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 18.0),
       child: Card(
@@ -42,7 +51,9 @@ class _AddForumState extends State<AddForum> {
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, top: 20, bottom: 20),
                 child: Text(
-                  'Add a Forum Question',
+                  widget.data["type"] == "create"
+                      ? 'Add a Forum Question'
+                      : 'Edit Forum Question',
                   style: TextStyle(
                       color: Colors.black87,
                       fontSize: 27,
@@ -197,15 +208,30 @@ class _AddForumState extends State<AddForum> {
           child: ElevatedButton(
             onPressed: () async {
               Forum forum = Forum(
-                  title: titleController.text,
-                  description: descriptionController.text);
-              await CollaborationsApi().addForum(forum, "create").then((value) {
-                if (value["error"] == false)
-                  _confirmationDialogue(
-                      context, "Forum has been added successfully", false);
-                else
-                  _confirmationDialogue(context, "Error adding forum", true);
-              });
+                title: titleController.text,
+                description: descriptionController.text,
+              );
+              if (widget.data["type"] != "create")
+                forum.id = widget.data["forum"].id;
+              if (widget.data["type"] == "create") {
+                await CollaborationsApi()
+                    .addForum(forum, "create")
+                    .then((value) {
+                  if (value["error"] == false)
+                    _confirmationDialogue(
+                        context, "Forum has been added successfully", false);
+                  else
+                    _confirmationDialogue(context, "Error adding forum", true);
+                });
+              } else {
+                await CollaborationsApi().addForum(forum, "edit").then((value) {
+                  if (value["error"] == false)
+                    _confirmationDialogue(
+                        context, "Forum has been edited successfully", false);
+                  else
+                    _confirmationDialogue(context, "Error editing forum", true);
+                });
+              }
             },
             child: Text(
               "Submit",

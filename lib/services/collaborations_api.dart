@@ -441,15 +441,17 @@ class CollaborationsApi {
       var uri = Uri.parse("$baseUrl/api/collaborations/forum_action/");
       var request = http.MultipartRequest('POST', uri);
 
-      if (forum.attachements != null)
+      if (forum.attachements != null && option != "delete")
         request.files.add(await http.MultipartFile.fromPath(
             'attachements', forum.attachements));
-      if (option == "create") {
-        request.fields['title'] = forum.title;
-        request.fields['description'] = forum.description;
-      } else {
+      if (option != "create") {
         request.fields['id'] = forum.id;
       }
+      if (option != "delete") {
+        request.fields['title'] = forum.title;
+        request.fields['description'] = forum.description;
+      }
+
       request.fields['option'] = option;
       //
       String token = await getToken();
@@ -464,6 +466,36 @@ class CollaborationsApi {
     } catch (e) {
       print(e.toString() + 'has occured ****');
     }
+  }
+
+  //Comment on a blog
+  Future<Map<String, dynamic>> commentOnForum(id, content, option) async {
+    String token = await getToken();
+    Map<String, dynamic> data = Map<String, dynamic>();
+    if (option == "create")
+      data = {"forum_question": id, "comment": content, "option": option};
+    else
+      data = {"id": id, "comment": content, "option": option};
+
+    var response;
+    try {
+      response = await http.post(
+        Uri.encodeFull(
+            "$baseUrl/api/collaborations/forum_comment_action/"), //uri of api
+        headers: {
+          "Authorization": "Token " + token,
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print("Error:" + e.toString());
+    }
+
+    Map<String, dynamic> data2 = jsonDecode(response.body);
+    // print(data2); //Response from the api
+
+    return data2;
   }
 
   //Get all polls

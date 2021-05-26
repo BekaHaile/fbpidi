@@ -10,8 +10,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1033988644/android.flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/-1033988644/android.flutter_plugin_android_lifecycle.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2127952131/android.flutter_secure_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/2127952131/android.flutter_secure_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1226049744/android.google_sign_in.iml" filepath="$PROJECT_DIR$/.idea/modules/-1226049744/android.google_sign_in.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1439046320/android.maps_launcher.iml" filepath="$PROJECT_DIR$/.idea/modules/1439046320/android.maps_launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/456712436/android.path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/456712436/android.path_provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-78890708/android.permission_handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-78890708/android.permission_handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/88678465/android.url_launcher.iml" filepath="$PROJECT_DIR$/.idea/modules/88678465/android.url_launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1028319234/android.webview_flutter.iml" filepath="$PROJECT_DIR$/.idea/modules/1028319234/android.webview_flutter.iml" />
     </modules>
   </component>

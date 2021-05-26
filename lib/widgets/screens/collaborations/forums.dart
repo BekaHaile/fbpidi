@@ -3,6 +3,7 @@ import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
 import 'package:fbpidi/widgets/components/fbpidi_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Forums extends StatefulWidget {
@@ -14,6 +15,9 @@ class _ForumsState extends State<Forums> {
   List<Forum> forums, searchedForums = [];
   bool isBeingSearhced = false;
   TextEditingController editingController = TextEditingController();
+
+  final storage = new FlutterSecureStorage();
+  bool refresh = false;
 
   @override
   Widget build(BuildContext context) {
@@ -110,17 +114,110 @@ class _ForumsState extends State<Forums> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 18.0, top: 20, bottom: 20),
-                        child: Text(
-                          forums[index].title,
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 18.0, top: 20, bottom: 20),
+                            child: Text(
+                              forums[index].title,
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          FutureBuilder<String>(
+                              future: storage.read(key: 'loginStatus'),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData)
+                                  return Container();
+                                else {
+                                  if (snapshot.data == 'false')
+                                    return Container();
+                                  else
+                                    return FutureBuilder<String>(
+                                        future: storage.read(key: 'id'),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData)
+                                            return Container();
+                                          else {
+                                            if (snapshot.data ==
+                                                forums[index]
+                                                    .createdBy["id"]
+                                                    .toString())
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 15.0),
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        await CollaborationsApi()
+                                                            .getLoginStatus()
+                                                            .then((status) {
+                                                          if (status == "true")
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/addForum',
+                                                                arguments: {
+                                                                  "type":
+                                                                      "edit",
+                                                                  "forum":
+                                                                      forums[
+                                                                          index]
+                                                                });
+                                                          else
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                "/login",
+                                                                arguments: {
+                                                                  'route':
+                                                                      '/addForum',
+                                                                  "type":
+                                                                      "edit",
+                                                                  "forum":
+                                                                      forums[
+                                                                          index]
+                                                                });
+                                                        });
+                                                      },
+                                                      child: Icon(
+                                                        Icons.edit,
+                                                        color: Theme.of(context)
+                                                            .buttonColor,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        _confirmDeletingDialogue(
+                                                            context,
+                                                            "Are you sure you want to delete this forum?",
+                                                            forums[index]);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.delete,
+                                                        color: Theme.of(context)
+                                                            .buttonColor,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            else
+                                              return Container();
+                                          }
+                                        });
+                                }
+                              })
+                        ],
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -251,10 +348,11 @@ class _ForumsState extends State<Forums> {
                 onPressed: () async {
                   await CollaborationsApi().getLoginStatus().then((status) {
                     if (status == "true")
-                      Navigator.pushNamed(context, '/addForum');
+                      Navigator.pushNamed(context, '/addForum',
+                          arguments: {"type": "create"});
                     else
                       Navigator.pushNamed(context, "/login",
-                          arguments: {'route': '/addForum'});
+                          arguments: {'route': '/addForum', "type": "create"});
                   });
                 },
                 child: Text(
@@ -274,5 +372,79 @@ class _ForumsState extends State<Forums> {
         ),
       ),
     );
+  }
+
+  void refreshPage() {
+    setState(() {
+      refresh = !refresh;
+    });
+  }
+
+  _confirmationDialogue(mainContext, message, isError) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (!isError) {
+                    refreshPage();
+                    Navigator.pop(context);
+                  } else
+                    Navigator.pop(context);
+                },
+                child: Text(
+                  isError ? 'Close' : 'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  _confirmDeletingDialogue(mainContext, message, forum) {
+    showDialog(
+        context: mainContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  await CollaborationsApi()
+                      .addForum(forum, "delete")
+                      .then((value) {
+                    Navigator.pop(context);
+                    if (value["error"]) {
+                      _confirmationDialogue(
+                          mainContext, "Error deleting Forum", true);
+                    } else
+                      _confirmationDialogue(
+                          context, "Forum deleted successfully", false);
+                  });
+                },
+                child: Text(
+                  'Continue',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                      color: Color.fromRGBO(0, 165, 81, 1), fontSize: 17),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

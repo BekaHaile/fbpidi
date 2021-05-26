@@ -7,7 +7,7 @@ class Forum {
   String detail;
   String createdDate;
   String attachements;
-  String createdBy;
+  Map<String, dynamic> createdBy;
   String lastUpdatedDate;
   String expired;
   String lastUpdatedBy;
@@ -34,7 +34,7 @@ class Forum {
     detail = map["detail"].toString();
     createdDate = map["created_date"].toString();
     attachements = map["attachements"].toString();
-    createdBy = map["created_by"].toString();
+    createdBy = map["created_by"];
     lastUpdatedDate = map["last_updated_date"].toString();
     expired = map["expired"].toString();
     lastUpdatedBy = map["last_updated_by"].toString();

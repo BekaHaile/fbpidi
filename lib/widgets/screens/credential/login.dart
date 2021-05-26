@@ -380,9 +380,9 @@ class _LoginSevenPageState extends State<LoginPage> {
         if (widget.data != null && widget.data["route"] == "inquire") {
           Navigator.pushReplacementNamed(context, "/inquire",
               arguments: widget.data);
-        } else if (widget.data != null && widget.data["id"] != null) {
+        } else if (widget.data != null) {
           Navigator.pushReplacementNamed(context, widget.data["route"],
-              arguments: {'id': widget.data['id']});
+              arguments: widget.data);
         } else if (widget.data != null)
           Navigator.pushReplacementNamed(context, widget.data["route"]);
         else
