@@ -16,22 +16,23 @@ class Product {
   String therapeuticGroup;
   String dose;
   String createDate;
+  bool liked = false;
 
-  Product({
-    this.id,
-    this.latestPrice,
-    this.category,
-    this.company,
-    this.name,
-    this.nameAm,
-    this.description,
-    this.descriptionAm,
-    this.brand,
-    this.image,
-    this.therapeuticGroup,
-    this.dose,
-    this.createDate,
-  });
+  Product(
+      {this.id,
+      this.latestPrice,
+      this.category,
+      this.company,
+      this.name,
+      this.nameAm,
+      this.description,
+      this.descriptionAm,
+      this.brand,
+      this.image,
+      this.therapeuticGroup,
+      this.dose,
+      this.createDate,
+      this.liked});
 
   Product.fromMap(Map<dynamic, dynamic> map) {
     id = map["id"].toString();

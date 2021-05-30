@@ -230,19 +230,95 @@ class CompanyAndProductAPI {
   Future<dynamic> likeProduct(id, type) async {
     try {
       var response;
+      String token = await CollaborationsApi().getToken();
       if (type == "like")
         response = await http.get(
-            Uri.encodeFull("$baseUrl/api/product/like_product/"), //uri of api
-            headers: {"Accept": "application/json"});
+            Uri.encodeFull(
+                "$baseUrl/api/product/like_product/?p_id=${int.parse(id)}"), //uri of api
+            headers: {"Authorization": "Token $token"});
       else
         response = await http.get(
-            Uri.encodeFull("$baseUrl/api/product/like_product/"), //uri of api
-            headers: {"Accept": "application/json"});
+            Uri.encodeFull(
+                "$baseUrl/api/product/dislike_product/?p_id=$id"), //uri of api
+            headers: {"Authorization": "Token " + token});
 
       String body = utf8.decode(response.bodyBytes);
 
       Map<String, dynamic> data = jsonDecode(body);
       // print(data); //Response from the api
+      return data;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //Get list of liked Products
+  Future<Map<String, dynamic>> getLikedProduct() async {
+    try {
+      String token = await CollaborationsApi().getToken();
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/product/user_liked_products/"), //uri of api
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Token " + token
+          });
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      print(data); //Response from the api
+      return data;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+  //like or dislike a product
+  Future<dynamic> likeCompany(id, type) async {
+    try {
+      var response;
+      String token = await CollaborationsApi().getToken();
+      if (type == "like")
+        response = await http.get(
+            Uri.encodeFull(
+                "$baseUrl/api/company/like_company/?c_id=$id"), //uri of api
+            headers: {"Authorization": "Token " + token});
+      else
+        response = await http.get(
+            Uri.encodeFull(
+                "$baseUrl/api/company/dislike_company/?c_id=$id"), //uri of api
+            headers: {"Authorization": "Token " + token});
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      // print(data); //Response from the api
+      return data;
+    } catch (e) {
+      print("Error: " + e.toString());
+      throw Exception('Unable to Connect to Server');
+    }
+  }
+
+//Get list of liked Products
+  Future<Map<String, dynamic>> getLikedCompanies() async {
+    try {
+      String token = await CollaborationsApi().getToken();
+      var response = await http.get(
+          Uri.encodeFull(
+              "$baseUrl/api/company/user_liked_companies/"), //uri of api
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Token " + token
+          });
+
+      String body = utf8.decode(response.bodyBytes);
+
+      Map<String, dynamic> data = jsonDecode(body);
+      print(data); //Response from the api
       return data;
     } catch (e) {
       print("Error: " + e.toString());
