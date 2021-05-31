@@ -534,7 +534,7 @@ class _HomePageState extends State<HomePage> {
         primary: false,
         scrollDirection: Axis.vertical,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 5.0, childAspectRatio: 0.65),
+            crossAxisCount: 2, mainAxisSpacing: 5.0, childAspectRatio: 0.62),
         itemBuilder: (_, int index) {
           return InkWell(
             onTap: () {
@@ -560,7 +560,8 @@ class _HomePageState extends State<HomePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
-                          products[index].brand.brandName,
+                          products[index].brand.productType["category_name"]
+                              ["category_type"],
                           softWrap: true,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                           textAlign: TextAlign.left,

@@ -114,106 +114,127 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/allCategories':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => AllCategories(
                         requests,
                       ));
             case '/login':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => LoginPage(
                         data: requests,
                       ));
             case '/productsPage':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ProductsPage(
                         requests,
                       ));
             case '/companies':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => CompanyPage(
                         requests,
                       ));
             case '/products':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => Products(
                         requests,
                       ));
             case '/productDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ProductDetail(
                         requests,
                       ));
             case '/projectDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ProjectDetial(
                         requests,
                       ));
             case '/companyDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => CompanyDetail(
                         requests,
                       ));
             case '/eventDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => EventDetail(
                         requests,
                       ));
             case '/newsDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => NewsDetail(
                         requests,
                       ));
             case '/tenderDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => TenderDetail(
                         requests,
                       ));
             case '/vacancyDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => VacancyDetail(
                         requests,
                       ));
             case '/forumDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ForumDetail(
                         requests,
                       ));
             case '/blogDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => BlogDetail(
                         requests,
                       ));
             case '/researchDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ResearchDetail(
                         requests,
                       ));
             case '/announcementDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => AnnouncementDetail(
                         requests,
                       ));
             case '/vacancyApply':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => VacancyApply(
                         requests,
                       ));
             case '/pollDetail':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => PollDetail(
                         requests,
                       ));
             case '/contactUs':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => ContactUs(
                         requests,
                       ));
             case '/inquire':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => InquiryForm(
                         requests,
                       ));
             case '/addForum':
               return MaterialPageRoute(
+                  maintainState: false,
                   builder: (_) => AddForum(
                         requests,
                       ));

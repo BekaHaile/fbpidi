@@ -251,7 +251,14 @@ class _ProductsState extends State<Products> {
                                             ),
                                             child: Container(
                                               height: 30,
-                                              width: 100,
+                                              width: products[index]
+                                                                  .brand
+                                                                  .productType[
+                                                              "category_name"]
+                                                          ["category_type"] ==
+                                                      "Pharmaceuticals"
+                                                  ? 150
+                                                  : 100,
                                               child: SizedBox.expand(
                                                 child: ElevatedButton(
                                                   onPressed: () {},
@@ -372,7 +379,7 @@ class _ProductsState extends State<Products> {
                                             ? products[index]
                                                 .company
                                                 .companyAddress["city_town"]
-                                            : "Address",
+                                            : "",
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 18,
@@ -414,21 +421,15 @@ class _ProductsState extends State<Products> {
                                                         "local_area"] !=
                                                     null
                                                 ? products[index]
-                                                        .company
-                                                        .companyAddress[
-                                                    "local_area"]
-                                                : "" +
-                                                            " " +
-                                                            products[index]
-                                                                    .company
-                                                                    .companyAddress[
-                                                                "phone_number"] !=
-                                                        null
-                                                    ? products[index]
+                                                            .company
+                                                            .companyAddress[
+                                                        "local_area"] +
+                                                    ", " +
+                                                    products[index]
                                                             .company
                                                             .companyAddress[
                                                         "phone_number"]
-                                                    : ""
+                                                : ""
                                             : "Address",
                                         style: TextStyle(
                                           color: Colors.black54,

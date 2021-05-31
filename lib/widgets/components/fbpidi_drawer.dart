@@ -190,65 +190,64 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
       onTap: () async {
         Navigator.pop(context);
         if (title == "Products")
-          Navigator.pushReplacementNamed(context, "/products",
-              arguments: {'type': 'All'});
+          Navigator.pushNamed(context, "/products", arguments: {'type': 'All'});
         else if (title == "Home")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/homePage",
           );
         else if (title == "Announcements")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/announcements",
           );
         else if (title == "Blogs")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/blogs",
           );
         else if (title == "Forums")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/forums",
           );
         else if (title == "News")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/news",
           );
         else if (title == "Polls")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/polls",
           );
         else if (title == "Tenders")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/tenders",
           );
         else if (title == "Vacancies")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/vacancies",
           );
         else if (title == "Events")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/events",
           );
         else if (title == "Faqs")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/faqs",
           );
         else if (title == "Projects")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/projects",
           );
         else if (title == "Researches")
-          Navigator.pushReplacementNamed(
+          Navigator.pushNamed(
             context,
             "/researches",
           );
@@ -257,34 +256,34 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           await storage.delete(key: 'loginStatus').then((value) async {
             await storage.write(key: 'name', value: '');
             await storage.write(key: 'loginStatus', value: 'false');
-            Navigator.pushReplacementNamed(context, '/homePage');
+            Navigator.pushNamed(context, '/homePage');
           });
         } else if (title == "Login") {
           Navigator.pushNamed(context, '/login',
               arguments: {"route": "/homePage"});
         } else if (title == "Manufacturers")
-          Navigator.pushReplacementNamed(context, "/companies",
+          Navigator.pushNamed(context, "/companies",
               arguments: {'type': 'All'});
         else if (title == "Beverage") {
           if (mainMenu == "Manufacturers")
-            Navigator.pushReplacementNamed(context, "/companies",
+            Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Beverage'});
           else
-            Navigator.pushReplacementNamed(context, "/products",
+            Navigator.pushNamed(context, "/products",
                 arguments: {'type': 'Beverage'});
         } else if (title == "Food") {
           if (mainMenu == "Manufacturers")
-            Navigator.pushReplacementNamed(context, "/companies",
+            Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Food'});
           else
-            Navigator.pushReplacementNamed(context, "/products",
+            Navigator.pushNamed(context, "/products",
                 arguments: {'type': 'Food'});
         } else if (title == "Pharmaceuticals") {
           if (mainMenu == "Manufacturers")
-            Navigator.pushReplacementNamed(context, "/companies",
+            Navigator.pushNamed(context, "/companies",
                 arguments: {'type': 'Pharmaceuticals'});
           else
-            Navigator.pushReplacementNamed(context, "/products",
+            Navigator.pushNamed(context, "/products",
                 arguments: {'type': 'Pharmaceuticals'});
         }
       },
