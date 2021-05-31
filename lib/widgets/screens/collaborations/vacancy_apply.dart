@@ -380,6 +380,10 @@ class _VacancyApplyState extends State<VacancyApply> {
             decoration: BoxDecoration(border: Border.all()),
             width: MediaQuery.of(context).size.width * 0.75,
             child: TextField(
+              keyboardType:
+                  title.contains("Experience") || title.contains("Grade")
+                      ? TextInputType.number
+                      : TextInputType.text,
               controller: controller,
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(5),

@@ -474,6 +474,7 @@ class MapScreenState extends State<Profile>
                                                             new Flexible(
                                                               child:
                                                                   new TextField(
+                                                                readOnly: true,
                                                                 controller:
                                                                     controllerUsername,
                                                                 decoration:
