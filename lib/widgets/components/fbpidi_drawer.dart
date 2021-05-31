@@ -256,6 +256,9 @@ class _FbpidiDrawerState extends State<FbpidiDrawer> {
           await storage.delete(key: 'loginStatus').then((value) async {
             await storage.write(key: 'name', value: '');
             await storage.write(key: 'loginStatus', value: 'false');
+            await storage.delete(key: 'token');
+            await storage.delete(key: 'name');
+            await storage.delete(key: 'email');
             Navigator.pushNamed(context, '/homePage');
           });
         } else if (title == "Login") {

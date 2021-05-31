@@ -169,27 +169,87 @@ class _ProductsState extends State<Products> {
                                         child: Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 5, top: 5),
-                                            child: FutureBuilder<
-                                                    Map<String, dynamic>>(
-                                                future: CompanyAndProductAPI()
-                                                    .getLikedProduct(),
-                                                builder: (BuildContext context,
-                                                    snapshot) {
-                                                  // _fetchLanguage(context);
-                                                  if (!snapshot.hasData)
-                                                    return Container();
-                                                  else {
-                                                    List<dynamic>
-                                                        likedProducts =
-                                                        snapshot.data[
-                                                            "liked_products"];
-                                                    if (likedProducts.contains(
-                                                        int.parse(
-                                                            products[index]
-                                                                .id)))
-                                                      likedList[index] = true;
-                                                    else
-                                                      likedList[index] = false;
+                                            child: FutureBuilder<String>(
+                                                future: CollaborationsApi()
+                                                    .getLoginStatus(),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData &&
+                                                      snapshot.data == "true") {
+                                                    return FutureBuilder<
+                                                            Map<String,
+                                                                dynamic>>(
+                                                        future:
+                                                            CompanyAndProductAPI()
+                                                                .getLikedProduct(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            snapshot) {
+                                                          // _fetchLanguage(context);
+                                                          if (!snapshot.hasData)
+                                                            return Container();
+                                                          else {
+                                                            List<dynamic>
+                                                                likedProducts =
+                                                                snapshot.data[
+                                                                    "liked_products"];
+                                                            if (likedProducts
+                                                                .contains(int.parse(
+                                                                    products[
+                                                                            index]
+                                                                        .id)))
+                                                              likedList[index] =
+                                                                  true;
+                                                            else
+                                                              likedList[index] =
+                                                                  false;
+                                                            return Container(
+                                                                height: 34,
+                                                                width: 34,
+                                                                decoration: BoxDecoration(
+                                                                    color: likedList[
+                                                                            index]
+                                                                        ? Color.fromRGBO(
+                                                                            230,
+                                                                            42,
+                                                                            114,
+                                                                            1)
+                                                                        : Colors
+                                                                            .black,
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child:
+                                                                    IconButton(
+                                                                  icon: Icon(
+                                                                    FontAwesomeIcons
+                                                                        .heart,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await CompanyAndProductAPI()
+                                                                        .likeProduct(
+                                                                            products[index]
+                                                                                .id,
+                                                                            likedList[index]
+                                                                                ? "dislike"
+                                                                                : "like")
+                                                                        .then(
+                                                                            (value) {
+                                                                      if (!value[
+                                                                          "error"])
+                                                                        setState(
+                                                                            () {
+                                                                          likedList[index] =
+                                                                              !likedList[index];
+                                                                        });
+                                                                    });
+                                                                  },
+                                                                ));
+                                                          }
+                                                        });
+                                                  } else
                                                     return Container(
                                                         height: 34,
                                                         width: 34,
@@ -215,28 +275,11 @@ class _ProductsState extends State<Products> {
                                                             color: Colors.white,
                                                           ),
                                                           onPressed: () async {
-                                                            await CompanyAndProductAPI()
-                                                                .likeProduct(
-                                                                    products[
-                                                                            index]
-                                                                        .id,
-                                                                    likedList[
-                                                                            index]
-                                                                        ? "dislike"
-                                                                        : "like")
-                                                                .then((value) {
-                                                              if (!value[
-                                                                  "error"])
-                                                                setState(() {
-                                                                  likedList[
-                                                                          index] =
-                                                                      !likedList[
-                                                                          index];
-                                                                });
-                                                            });
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                "/login");
                                                           },
                                                         ));
-                                                  }
                                                 })),
                                       ),
                                     ),

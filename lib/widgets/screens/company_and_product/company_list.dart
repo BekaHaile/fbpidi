@@ -1,5 +1,6 @@
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/models/paginator.dart';
+import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/services/remove_tag.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
@@ -161,42 +162,104 @@ class _CompanyState extends State<CompanyPage> {
                                         child: Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 5, top: 5),
-                                            child: FutureBuilder<
-                                                    Map<String, dynamic>>(
-                                                future: CompanyAndProductAPI()
-                                                    .getLikedCompanies(),
-                                                builder: (BuildContext context,
-                                                    snapshot) {
-                                                  // _fetchLanguage(context);
-                                                  if (!snapshot.hasData)
-                                                    return Container();
-                                                  else {
-                                                    List<dynamic>
-                                                        likedCompanies =
-                                                        snapshot.data[
-                                                            "liked_companies"];
-                                                    if (likedCompanies.contains(
-                                                        int.parse(
-                                                            companies[index]
-                                                                .id)))
-                                                      likedList[index] = true;
-                                                    else
-                                                      likedList[index] = false;
+                                            child: FutureBuilder<String>(
+                                                future: CollaborationsApi()
+                                                    .getLoginStatus(),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData &&
+                                                      snapshot.data == "true") {
+                                                    return FutureBuilder<
+                                                            Map<String,
+                                                                dynamic>>(
+                                                        future: CompanyAndProductAPI()
+                                                            .getLikedCompanies(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            snapshot) {
+                                                          // _fetchLanguage(context);
+                                                          if (!snapshot.hasData)
+                                                            return Container();
+                                                          else {
+                                                            List<dynamic>
+                                                                likedCompanies =
+                                                                snapshot.data[
+                                                                    "liked_companies"];
+                                                            if (likedCompanies
+                                                                .contains(int.parse(
+                                                                    companies[
+                                                                            index]
+                                                                        .id)))
+                                                              likedList[index] =
+                                                                  true;
+                                                            else
+                                                              likedList[index] =
+                                                                  false;
+                                                            return Container(
+                                                              height: 34,
+                                                              width: 34,
+                                                              decoration: BoxDecoration(
+                                                                  color: likedList[
+                                                                          index]
+                                                                      ? Color.fromRGBO(
+                                                                          230,
+                                                                          42,
+                                                                          114,
+                                                                          1)
+                                                                      : Colors
+                                                                          .black,
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                              child: IconButton(
+                                                                  icon: Icon(
+                                                                    FontAwesomeIcons
+                                                                        .heart,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await CompanyAndProductAPI()
+                                                                        .likeCompany(
+                                                                            companies[index]
+                                                                                .id,
+                                                                            likedList[index]
+                                                                                ? "dislike"
+                                                                                : "like")
+                                                                        .then(
+                                                                            (value) {
+                                                                      if (value[
+                                                                              "error"] ==
+                                                                          false)
+                                                                        setState(
+                                                                            () {
+                                                                          likedList[index] =
+                                                                              !likedList[index];
+                                                                        });
+                                                                    });
+                                                                  }),
+                                                            );
+                                                          }
+                                                        });
+                                                  } else
                                                     return Container(
-                                                      height: 34,
-                                                      width: 34,
-                                                      decoration: BoxDecoration(
-                                                          color: likedList[
-                                                                  index]
-                                                              ? Color.fromRGBO(
-                                                                  230,
-                                                                  42,
-                                                                  114,
-                                                                  1)
-                                                              : Colors.black,
-                                                          shape:
-                                                              BoxShape.circle),
-                                                      child: IconButton(
+                                                        height: 34,
+                                                        width: 34,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: likedList[
+                                                                        index]
+                                                                    ? Color
+                                                                        .fromRGBO(
+                                                                            230,
+                                                                            42,
+                                                                            114,
+                                                                            1)
+                                                                    : Colors
+                                                                        .black,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                        child: IconButton(
                                                           icon: Icon(
                                                             FontAwesomeIcons
                                                                 .heart,
@@ -204,29 +267,11 @@ class _CompanyState extends State<CompanyPage> {
                                                             color: Colors.white,
                                                           ),
                                                           onPressed: () async {
-                                                            await CompanyAndProductAPI()
-                                                                .likeCompany(
-                                                                    companies[
-                                                                            index]
-                                                                        .id,
-                                                                    likedList[
-                                                                            index]
-                                                                        ? "dislike"
-                                                                        : "like")
-                                                                .then((value) {
-                                                              if (value[
-                                                                      "error"] ==
-                                                                  false)
-                                                                setState(() {
-                                                                  likedList[
-                                                                          index] =
-                                                                      !likedList[
-                                                                          index];
-                                                                });
-                                                            });
-                                                          }),
-                                                    );
-                                                  }
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                "/login");
+                                                          },
+                                                        ));
                                                 })),
                                       ),
                                     ),
