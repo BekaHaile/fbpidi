@@ -71,11 +71,18 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor:
+              searchenabled ? Colors.white : Theme.of(context).primaryColor,
           leading: searchenabled
-              ? popIcon(() {})
+              ? popIcon(() {
+                  setState(() {
+                    searchenabled = false;
+                    searching = false;
+                  });
+                }, Colors.black)
               : popIcon(() {
                   Navigator.pop(context);
-                }),
+                }, Colors.white),
           title: searchenabled
               ? Container(
                   decoration: BoxDecoration(color: Colors.white),
@@ -89,39 +96,40 @@ class _ChatListState extends State<ChatList> {
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                     ),
                     onChanged: (srchstring) {
+                      setState(() {
+                        searching = true;
+                      });
                       searchChatUsers(srchstring);
                     },
                   ),
                 )
               : Text("Your Chats"),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      searchenabled = true;
-                    });
-                    showCupertinoDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (_) => userSearchDialog(context));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          actions: searchenabled
+              ? null
+              : [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.add,
-                        color: Colors.white,
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            searchenabled = true;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text("search user"),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
                       )
                     ],
-                  ),
-                  // icon: Icon(Icons.search)
-                )
-              ],
-            )
-          ]),
+                  )
+                ]),
       body: _loading
           ? Center(
               child: Container(
@@ -130,153 +138,74 @@ class _ChatListState extends State<ChatList> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : ListView.builder(
-              itemCount: _chats.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () async {
-                    Navigator.pushNamed(context, "/chats_detail", arguments: {
-                      'chat_name': userid == _chats[index].senderid.toString()
-                          ? _chats[index].receivername
-                          : _chats[index].sendername,
-                      'token': token,
-                    });
-                  },
-                  leading: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(userid ==
-                              _chats[index].senderid.toString()
-                          ? ChatService.baseUrl + _chats[index].receiverimage
-                          : ChatService.baseUrl + _chats[index].senderimage)),
-                  title: Text(userid == _chats[index].senderid.toString()
-                      ? _chats[index].receiverfullname
-                      : _chats[index].senderfullname),
-                  subtitle: Row(
-                    children: [
-                      Icon(
-                        _chats[index].seen ? Icons.done_all : Icons.done,
-                        color: Colors.lightBlue,
+          : searching
+              ? ListView.builder(
+                  itemCount: _chatusers.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, "/chats_detail",
+                            arguments: {
+                              'chat_name': _chatusers[index].username,
+                              'token': token,
+                            });
+                      },
+                      leading: CircleAvatar(
+                        foregroundImage: NetworkImage(
+                            ChatService.baseUrl + _chatusers[index].pimage),
                       ),
-                      SizedBox(width: 10),
-                      Text(_chats[index]
-                          .message
-                          .substring(0, min(_chats[index].message.length, 10)))
-                    ],
-                  ),
-                  trailing: Text(formatedDate(_chats[index].time)),
-                );
-              }),
+                      title: Text(_chatusers[index].firstname +
+                          " " +
+                          _chatusers[index].lastname),
+                      subtitle: Text(_chatusers[index].email),
+                    );
+                  })
+              : ListView.builder(
+                  itemCount: _chats.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () async {
+                        Navigator.pushNamed(context, "/chats_detail",
+                            arguments: {
+                              'chat_name':
+                                  userid == _chats[index].senderid.toString()
+                                      ? _chats[index].receivername
+                                      : _chats[index].sendername,
+                              'token': token,
+                            });
+                      },
+                      leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(
+                              userid == _chats[index].senderid.toString()
+                                  ? ChatService.baseUrl +
+                                      _chats[index].receiverimage
+                                  : ChatService.baseUrl +
+                                      _chats[index].senderimage)),
+                      title: Text(userid == _chats[index].senderid.toString()
+                          ? _chats[index].receiverfullname
+                          : _chats[index].senderfullname),
+                      subtitle: Row(
+                        children: [
+                          Icon(
+                            _chats[index].seen ? Icons.done_all : Icons.done,
+                            color: Colors.lightBlue,
+                          ),
+                          SizedBox(width: 10),
+                          Text(_chats[index].message.substring(
+                              0, min(_chats[index].message.length, 10)))
+                        ],
+                      ),
+                      trailing: Text(formatedDate(_chats[index].time)),
+                    );
+                  }),
     );
   }
 
-  IconButton popIcon(Function press) => IconButton(
+  IconButton popIcon(Function press, Color color) => IconButton(
       onPressed: () {
         press();
       },
-      icon: Icon(Icons.arrow_back));
-
-  AlertDialog userSearchDialog(BuildContext context) {
-    return AlertDialog(
-      elevation: 24.0,
-      backgroundColor: Colors.white,
-      title: Container(
-        margin: EdgeInsets.all(10),
-        height: 50,
-        child: TextField(
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            hintText: "Write Username Here",
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-          ),
-          onChanged: (srchstring) {
-            searchChatUsers(srchstring);
-          },
-        ),
-      ),
-      titlePadding: EdgeInsets.only(left: 5, right: 5, top: 5),
-      content: Container(
-        child: ListView.builder(
-            itemCount: _chatusers.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, "/chats_detail", arguments: {
-                    'chat_name': _chatusers[index].username,
-                    'token': token,
-                  });
-                },
-                leading: CircleAvatar(
-                  foregroundImage: NetworkImage(
-                      ChatService.baseUrl + _chatusers[index].pimage),
-                ),
-                title: Text(_chatusers[index].firstname +
-                    " " +
-                    _chatusers[index].lastname),
-                subtitle: Text(_chatusers[index].email),
-              );
-            }),
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Close")),
-      ],
-    );
-  }
+      icon: Icon(Icons.arrow_back, color: color));
 }
-
-
-// FutureBuilder(
-//         future: ChatService.getChatList(token),
-//         builder: (context, futureresult) {
-//           if (!futureresult.hasData)
-//             return Center(
-//               child: Container(
-//                 height: 60,
-//                 width: 60,
-//                 child: CircularProgressIndicator(),
-//               ),
-//             );
-//           else {
-//             _chats = futureresult.data['chats_list'];
-//             return ListView.builder(
-//                 itemCount: _chats.length,
-//                 itemBuilder: (context, index) {
-//                   return ListTile(
-//                     onTap: () async {
-//                       Navigator.pushNamed(context, "/chats_detail", arguments: {
-//                         'chat_name': userid == _chats[index].senderid.toString()
-//                             ? _chats[index].receivername
-//                             : _chats[index].sendername,
-//                         'token': token,
-//                       });
-//                     },
-//                     leading: CircleAvatar(
-//                         radius: 30,
-//                         backgroundImage: NetworkImage(userid ==
-//                                 _chats[index].senderid.toString()
-//                             ? ChatService.baseUrl + _chats[index].receiverimage
-//                             : ChatService.baseUrl + _chats[index].senderimage)),
-//                     title: Text(userid == _chats[index].senderid.toString()
-//                         ? _chats[index].receiverfullname
-//                         : _chats[index].senderfullname),
-//                     subtitle: Row(
-//                       children: [
-//                         Icon(
-//                           _chats[index].seen ? Icons.done_all : Icons.done,
-//                           color: Colors.lightBlue,
-//                         ),
-//                         SizedBox(width: 10),
-//                         Text(_chats[index].message.substring(
-//                             0, min(_chats[index].message.length, 10)))
-//                       ],
-//                     ),
-//                     trailing: Text(formatedDate(_chats[index].time)),
-//                   );
-//                 });
-//           }
-//         },
-//       ),
