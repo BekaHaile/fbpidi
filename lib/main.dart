@@ -33,7 +33,9 @@ import 'package:fbpidi/widgets/screens/credential/signUp.dart';
 import 'package:fbpidi/widgets/screens/home_menu.dart';
 import 'package:fbpidi/widgets/screens/inquiry/inquiry_form.dart';
 import 'package:fbpidi/widgets/screens/products_page.dart';
+import 'package:fbpidi/widgets/screens/profile/chat_detail.dart';
 import 'package:fbpidi/widgets/screens/profile/profile.dart';
+import 'package:fbpidi/widgets/screens/profile/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -51,7 +53,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'FBPIDI',
         theme: ThemeData(
           scaffoldBackgroundColor: Color.fromRGBO(235, 240, 243, 1),
           primaryColor: Color.fromRGBO(16, 70, 176, 1),
@@ -107,6 +110,7 @@ class MyApp extends StatelessWidget {
           '/addResearch': (BuildContext context) => AddResearch(),
           '/profile': (BuildContext context) => Profile(),
           '/faqs': (BuildContext context) => Faqs(),
+          '/chats': (BuildContext context) => ChatList(),
         },
         onGenerateRoute: (RouteSettings settings) {
           final requests = settings.arguments;
@@ -238,6 +242,8 @@ class MyApp extends StatelessWidget {
                   builder: (_) => AddForum(
                         requests,
                       ));
+            case '/chats_detail':
+              return MaterialPageRoute(builder: (_) => ChatDetail(requests));
             default:
               return null;
           }

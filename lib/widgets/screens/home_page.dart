@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fbpidi/models/product.dart';
 import 'package:fbpidi/models/company.dart';
 import 'package:fbpidi/models/project.dart';
+import 'package:fbpidi/services/chats.dart';
 import 'package:fbpidi/services/collaborations_api.dart';
 import 'package:fbpidi/services/company_and_product_api.dart';
 import 'package:fbpidi/widgets/components/fbpidi_drawer.dart';
+import 'package:fbpidi/widgets/components/icon_button_with_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,6 +30,22 @@ class _HomePageState extends State<HomePage> {
 
   List<Product> products, searchedProducts = [];
   bool isBeingSearhced = false;
+  final storage = FlutterSecureStorage();
+  String loginStatus;
+  String token = "";
+  int _unreadmessage;
+
+  @override
+  void initState() {
+    super.initState();
+    storage.read(key: "token").then((value) {
+      if (value != null) {
+        token = value;
+      } else {
+        token = null;
+      }
+    });
+  }
 
   void searchCallback(String searchValue) {
     searchedProducts.clear();
@@ -87,6 +108,32 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                  future: ChatService().getUnreadMessage(token),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData)
+                      return IconBtnWithCounter(
+                          buttonicon: Icon(Icons.chat_outlined),
+                          numOfItems: 0,
+                          press: () {
+                            Navigator.pushNamed(context, "/login",
+                                arguments: {'route': '/chats'});
+                          });
+                    else {
+                      _unreadmessage = snapshot.data;
+                      return IconBtnWithCounter(
+                          buttonicon: Icon(Icons.chat_outlined),
+                          numOfItems: _unreadmessage,
+                          press: () {
+                            Navigator.pushNamed(context, "/chats");
+                          });
+                    }
+                  }),
+            ),
+          ],
         ),
         body: SafeArea(
             child: ListView(

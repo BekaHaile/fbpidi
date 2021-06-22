@@ -375,6 +375,7 @@ class _LoginSevenPageState extends State<LoginPage> {
             key: 'name', value: "${user.firstName} ${user.lastName}");
         await storage.write(key: 'id', value: user.id);
         await storage.write(key: 'email', value: "${user.email}");
+        await storage.write(key: 'username', value: "${user.username}");
         await storage.write(key: 'token', value: response['token']);
         await storage.write(key: 'loginStatus', value: 'true');
         if (widget.data != null && widget.data["route"] == "inquire") {
