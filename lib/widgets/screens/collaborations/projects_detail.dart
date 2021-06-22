@@ -29,15 +29,15 @@ class ProjectDetial extends StatelessWidget {
   }
 
   Widget _buildProjectList(context) {
-    return FutureBuilder<Map<String, dynamic>>(
-        future: CollaborationsApi().getProjects(),
+    return FutureBuilder<Project>(
+        future: CollaborationsApi().getProject(data["id"]),
         builder: (BuildContext context, snapshot) {
           if (!snapshot.hasData)
             return Center(
               child: CircularProgressIndicator(),
             );
           else {
-            List<Project> project = snapshot.data["projects"];
+            Project project = snapshot.data;
             return Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * 0.95,
@@ -58,7 +58,7 @@ class ProjectDetial extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.95,
                               child: Text(
                                 RemoveTag()
-                                    .removeAllHtmlTags(project[0].projectName),
+                                    .removeAllHtmlTags(project.projectName),
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontSize: 24,
@@ -74,8 +74,7 @@ class ProjectDetial extends StatelessWidget {
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.network(
-                                  CollaborationsApi().baseUrl +
-                                      project[0].image,
+                                  CollaborationsApi().baseUrl + project.image,
                                 ),
                               ),
                             ),
@@ -97,7 +96,7 @@ class ProjectDetial extends StatelessWidget {
                                     width: 5.0,
                                   ),
                                   Text(
-                                    project[0].createdDate.substring(0, 10),
+                                    project.createdDate.substring(0, 10),
                                     style: TextStyle(
                                         fontSize: 17.0, color: Colors.black87),
                                     textAlign: TextAlign.justify,
@@ -122,14 +121,25 @@ class ProjectDetial extends StatelessWidget {
                                   SizedBox(
                                     width: 5.0,
                                   ),
-                                  Text(
-                                    project[0].contactPerson["first_name"] +
-                                        " " +
-                                        project[0].contactPerson["last_name"],
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
-                                  ),
+                                  project.company != null
+                                      ? Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.33,
+                                          child: Text(
+                                            project.company.contactPerson[
+                                                    "first_name"] +
+                                                " " +
+                                                project.company
+                                                    .contactPerson["last_name"],
+                                            style: TextStyle(
+                                                fontSize: 17.0,
+                                                color: Colors.black87),
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                        )
+                                      : Container(),
                                   SizedBox(
                                     width: 5.0,
                                   ),
@@ -141,13 +151,15 @@ class ProjectDetial extends StatelessWidget {
                                   SizedBox(
                                     width: 5.0,
                                   ),
-                                  Text(
-                                    project[0].contactPerson["first_name"] +
-                                        " " +
-                                        project[0].contactPerson["last_name"],
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.37,
+                                    child: Text(
+                                      project.company.companyAddress["email"],
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Colors.black87),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 5.0,
@@ -172,11 +184,17 @@ class ProjectDetial extends StatelessWidget {
                                   SizedBox(
                                     width: 5.0,
                                   ),
-                                  Text(
-                                    project[0].contactPerson["first_name"],
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    child: Text(
+                                      project.company
+                                          .companyAddress["phone_number"],
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Colors.black87),
+                                      textAlign: TextAlign.justify,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 5.0,
@@ -189,11 +207,15 @@ class ProjectDetial extends StatelessWidget {
                                   SizedBox(
                                     width: 5.0,
                                   ),
-                                  Text(
-                                    project[0].siteLocationName,
-                                    style: TextStyle(
-                                        fontSize: 17.0, color: Colors.black87),
-                                    textAlign: TextAlign.justify,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    child: Text(
+                                      project.siteLocationName,
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Colors.black87),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -209,7 +231,7 @@ class ProjectDetial extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.95,
                               child: Text(
                                 RemoveTag()
-                                    .removeAllHtmlTags(project[0].description),
+                                    .removeAllHtmlTags(project.description),
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 20,
